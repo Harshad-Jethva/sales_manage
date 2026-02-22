@@ -66,7 +66,7 @@ function healClients($conn) {
     } catch (Exception $e) { /* silent fail */ }
 }
 
-healClients($conn);
+// healClients($conn);
 
 $method = $_SERVER['REQUEST_METHOD'];
 

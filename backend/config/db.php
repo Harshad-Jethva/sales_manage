@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $host = "localhost";
 $db_name = "sales_manage";
 $username = "postgres";
-$password = "postgres"; // Change as per your local postgres setup
+$password = "Harshad@2005"; // Change as per your local postgres setup
 
 try {
     $conn = new PDO("pgsql:host=$host;dbname=$db_name", $username, $password);

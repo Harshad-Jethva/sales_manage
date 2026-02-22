@@ -27,11 +27,11 @@ function healUsers($conn) {
     try {
         logDebug("Healing users table...");
         $sql = "CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+            id SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
             username VARCHAR(50) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
-            role ENUM('admin', 'cashier', 'manager') DEFAULT 'cashier',
+            role VARCHAR(20) CHECK (role IN ('admin', 'cashier', 'manager', 'accountant')) DEFAULT 'cashier',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )";
         $conn->exec($sql);
@@ -52,6 +52,11 @@ function healUsers($conn) {
                 'name' => 'Account Manager',
                 'pass' => 'accountant123',
                 'role' => 'accountant'
+            ],
+            'dev' => [
+                'name' => 'Developer',
+                'pass' => 'dev123',
+                'role' => 'admin'
             ]
         ];
 

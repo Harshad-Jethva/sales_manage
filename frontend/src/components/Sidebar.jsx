@@ -71,6 +71,7 @@ const Sidebar = () => {
       ]
     },
     { icon: ShoppingCart, label: 'POS / Billing', path: '/pos', roles: ['admin', 'cashier'] },
+    { icon: Receipt, label: 'History', path: '/history', roles: ['admin', 'cashier', 'accountant'] },
     { icon: BarChart3, label: 'Reports', path: '/reports', roles: ['admin', 'accountant'] },
   ];
 

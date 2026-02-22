@@ -14,6 +14,7 @@ import Stores from './pages/Stores';
 import Accounts from './pages/Accounts';
 import Reports from './pages/Reports';
 import POS from './pages/POS';
+import BillHistory from './pages/BillHistory';
 
 import AddClient from './pages/clients/AddClient';
 import UpdateClient from './pages/clients/UpdateClient';
@@ -88,8 +89,9 @@ function App() {
           <Route element={<MainLayout />}>
 
             {/* POS -- Accessible by Admin & Cashier */}
-            <Route element={<ProtectedRoute allowedRoles={['admin', 'cashier']} />}>
+            <Route element={<ProtectedRoute allowedRoles={['admin', 'cashier', 'accountant']} />}>
               <Route path="/pos" element={<POS />} />
+              <Route path="/history" element={<BillHistory />} />
             </Route>
 
             {/* Dashboard & Management -- For Admin & Accountant */}

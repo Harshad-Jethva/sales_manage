@@ -39,7 +39,7 @@ function healProducts($conn) {
     } catch (Exception $e) { /* silent fail */ }
 }
 
-healProducts($conn);
+// healProducts($conn);
 
 switch($method) {
     case 'GET':

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Maximize2, Minimize2, Home, RotateCcw, Save, Trash2, Printer } from 'lucide-react';
+import { Maximize2, Minimize2, Home, RotateCcw, Save, Trash2, Printer, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 // Import New Components
@@ -156,10 +156,21 @@ const POS = () => {
             if (res.data.success || res.status === 200) {
                 setLastTendered(paymentDetails.paidAmount);
                 setShowPaymentModal(false);
-                setCart([]);
-                setBillNo(`INV-${Date.now().toString().slice(-6)}`);
+
                 if (paymentDetails.printInvoice) {
-                    setTimeout(() => window.print(), 500);
+                    setTimeout(() => {
+                        window.print();
+                        // Delay clearing the cart slightly more to let print dialog grab DOM
+                        setTimeout(() => {
+                            setCart([]);
+                            setSelectedClient(null);
+                            setBillNo(`INV-${Date.now().toString().slice(-6)}`);
+                        }, 1000);
+                    }, 500);
+                } else {
+                    setCart([]);
+                    setSelectedClient(null);
+                    setBillNo(`INV-${Date.now().toString().slice(-6)}`);
                 }
             }
         } catch (err) {
@@ -173,19 +184,18 @@ const POS = () => {
             {/* 1. Top Toolbar */}
             <div className="h-12 bg-gray-900 border-b border-gray-700 flex items-center justify-between px-4">
                 <div className="flex items-center gap-4">
-                    <button onClick={() => navigate('/')} title="Exit" className="toolbar-btn text-red-400 hover:text-red-300">
+                    <button onClick={() => navigate('/')} title="Exit" className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded transition-colors flex items-center justify-center text-red-400 hover:text-red-300">
                         <Home size={18} />
                         <span className="text-xs font-bold uppercase ml-1">Exit</span>
                     </button>
                     <div className="h-6 w-px bg-gray-700 mx-2"></div>
-                    <button title="New Bill" onClick={() => setCart([])} className="toolbar-btn">
+                    <button title="New Bill" onClick={() => setCart([])} className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded transition-colors flex items-center justify-center">
                         <RotateCcw size={18} />
                     </button>
-                    <button title="Print Last Bill" onClick={() => window.print()} className="toolbar-btn">
+                    <button title="Print Last Bill" onClick={() => window.print()} className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded transition-colors flex items-center justify-center">
                         <Printer size={18} />
                     </button>
                     <div className="h-6 w-px bg-gray-700 mx-2"></div>
-
                 </div>
 
                 <div className="flex items-center gap-4 text-xs font-mono text-gray-500">
@@ -266,18 +276,13 @@ const POS = () => {
                         onClose={() => setShowPaymentModal(false)}
                         total={totals.finalTotal}
                         onConfirm={handlePaymentConfirm}
+                        selectedClient={selectedClient}
                     />
                 )}
             </AnimatePresence>
 
             {/* Print Template */}
-            <InvoiceTemplate bill={{ ...totals, billNo, cart }} />
-
-            <style jsx>{`
-        .toolbar-btn {
-          @apply p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded transition-colors flex items-center justify-center;
-        }
-      `}</style>
+            <InvoiceTemplate bill={{ ...totals, billNo, cart, selectedClient, cashier: user?.name }} />
         </div>
     );
 };

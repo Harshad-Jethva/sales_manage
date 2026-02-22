@@ -42,7 +42,7 @@ if ($method == 'GET') {
             $sql = "
                 SELECT c.name, SUM(b.total_amount) as total_revenue
                 FROM bills b
-                JOIN customers c ON b.customer_id = c.id
+                JOIN clients c ON b.customer_id = c.id
                 WHERE b.bill_type = 'sale'
                 GROUP BY b.customer_id
                 ORDER BY total_revenue DESC
@@ -83,7 +83,7 @@ if ($method == 'GET') {
                     SUM(b.paid_amount) as total_paid,
                     (SUM(b.total_amount) - SUM(b.paid_amount)) as total_remaining
                 FROM bills b
-                JOIN customers c ON b.customer_id = c.id
+                JOIN clients c ON b.customer_id = c.id
                 WHERE b.bill_type = 'sale' 
                 GROUP BY b.customer_id
                 HAVING total_remaining > 0

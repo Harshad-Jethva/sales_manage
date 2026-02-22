@@ -80,7 +80,7 @@ function healBillsTable($conn) {
     }
 }
 
-healBillsTable($conn);
+// healBillsTable($conn);
 
 switch($method) {
     case 'GET':
@@ -88,9 +88,14 @@ switch($method) {
             $id = $_GET['id'];
             $stmt = $conn->prepare("SELECT b.*, 
                              c.name as customer_name, 
+                             c.shop_name,
+                             c.phone as customer_phone,
+                             c.gstin as customer_gstin,
+                             c.address as customer_address,
+                             c.city as customer_city,
                              s.supplier_name 
                       FROM bills b 
-                      LEFT JOIN customers c ON b.customer_id = c.id 
+                      LEFT JOIN clients c ON b.customer_id = c.id 
                       LEFT JOIN suppliers s ON b.supplier_id = s.id 
                       WHERE b.id = ?");
             $stmt->execute([$id]);
@@ -114,9 +119,10 @@ switch($method) {
 
             $query = "SELECT b.*, 
                              c.name as customer_name, 
+                             c.shop_name,
                              s.supplier_name 
                       FROM bills b 
-                      LEFT JOIN customers c ON b.customer_id = c.id 
+                      LEFT JOIN clients c ON b.customer_id = c.id 
                       LEFT JOIN suppliers s ON b.supplier_id = s.id 
                       $whereClause
                       ORDER BY b.bill_date DESC";

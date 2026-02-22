@@ -3,7 +3,7 @@ require_once 'backend/config/db.php';
 
 try {
     $conn->exec("CREATE TABLE IF NOT EXISTS bank_accounts (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         bank_name VARCHAR(255) NOT NULL,
         account_number VARCHAR(50),
         account_holder VARCHAR(255),
@@ -12,9 +12,9 @@ try {
     )");
 
     $conn->exec("CREATE TABLE IF NOT EXISTS bank_transactions (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         account_id INT NOT NULL,
-        type ENUM('credit', 'debit') NOT NULL,
+        type VARCHAR(10) CHECK (type IN ('credit', 'debit')) NOT NULL,
         amount DECIMAL(15,2) NOT NULL,
         description TEXT,
         transaction_date DATE NOT NULL,

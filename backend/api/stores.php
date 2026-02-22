@@ -16,7 +16,7 @@ function healSuppliers($conn) {
     $conn->exec($sql);
 }
 
-healSuppliers($conn);
+// healSuppliers($conn);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
