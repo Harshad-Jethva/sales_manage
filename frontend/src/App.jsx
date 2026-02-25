@@ -1,131 +1,114 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { CursorProvider } from './context/CursorContext';
+import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import Sidebar from './components/Sidebar';
-import ThreeBackground from './components/ThreeBackground';
+import MainLayout from './components/MainLayout';
+import ThreeDCursor from './components/common/ThreeDCursor';
+import ThreeDBackground from './components/common/ThreeDBackground';
+import PageTransition from './components/common/PageTransition';
+import { HelmetProvider } from 'react-helmet-async';
 
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Clients from './pages/Clients';
-import Bills from './pages/Bills';
-import Stores from './pages/Stores';
-import Accounts from './pages/Accounts';
-import Reports from './pages/Reports';
-import POS from './pages/POS';
-import BillHistory from './pages/BillHistory';
+// Lazy load pages for performance optimization (Code Splitting)
+const Login = lazy(() => import('./pages/Login'));
+const Dashboard = lazy(() => import('./pages/account/Dashboard'));
+const Clients = lazy(() => import('./pages/account/Clients'));
+const Bills = lazy(() => import('./pages/account/Bills'));
+const Stores = lazy(() => import('./pages/account/Stores'));
+const Accounts = lazy(() => import('./pages/account/Accounts'));
+const Reports = lazy(() => import('./pages/account/Reports'));
+const POS = lazy(() => import('./pages/cashier/POS'));
+const BillHistory = lazy(() => import('./pages/cashier/BillHistory'));
 
-import AddClient from './pages/clients/AddClient';
-import UpdateClient from './pages/clients/UpdateClient';
-import DeleteClient from './pages/clients/DeleteClient';
-import ClientProfile from './pages/clients/ClientProfile';
+const AddClient = lazy(() => import('./pages/account/clients/AddClient'));
+const UpdateClient = lazy(() => import('./pages/account/clients/UpdateClient'));
+const DeleteClient = lazy(() => import('./pages/account/clients/DeleteClient'));
+const ClientProfile = lazy(() => import('./pages/account/clients/ClientProfile'));
 
-import AddStore from './pages/stores/AddStore';
-import UpdateStore from './pages/stores/UpdateStore';
-import DeleteStore from './pages/stores/DeleteStore';
-import StoreDetails from './pages/stores/StoreDetails';
+const AddStore = lazy(() => import('./pages/account/stores/AddStore'));
+const UpdateStore = lazy(() => import('./pages/account/stores/UpdateStore'));
+const DeleteStore = lazy(() => import('./pages/account/stores/DeleteStore'));
+const StoreDetails = lazy(() => import('./pages/account/stores/StoreDetails'));
 
-import AddAccount from './pages/accounts/AddAccount';
-import UpdateAccount from './pages/accounts/UpdateAccount';
-import DeleteAccount from './pages/accounts/DeleteAccount';
-import AccountDetails from './pages/accounts/AccountDetails';
+const AddAccount = lazy(() => import('./pages/account/accounts/AddAccount'));
+const UpdateAccount = lazy(() => import('./pages/account/accounts/UpdateAccount'));
+const DeleteAccount = lazy(() => import('./pages/account/accounts/DeleteAccount'));
+const AccountDetails = lazy(() => import('./pages/account/accounts/AccountDetails'));
 
-// Layout Component
-const MainLayout = () => {
-  const location = useLocation();
-  // Hide background and sidebar for POS if desired, but user asked for panels. 
-  // We'll keep them consistent but maybe adjust styles if needed.
-  // Actually POS.jsx has its own background color style that might conflict with transparent main-content.
-  // Let's force POS to be overlay or handle it gracefully.
-  // POS.jsx sets background: #0f172a.
-
-  return (
-    <div className="app-container">
-      <ThreeBackground />
-      <Sidebar />
-      <main className="main-content">
-        <Outlet />
-      </main>
-
-      <style jsx>{`
-        .app-container {
-          display: flex;
-          min-height: 100vh;
-          background-color: transparent;
-          position: relative;
-          z-index: 1;
-        }
-
-        .main-content {
-          flex: 1;
-          margin-left: 260px;
-          padding: 2.5rem;
-          max-width: calc(100vw - 260px);
-          overflow-x: hidden;
-        }
-
-        @media (max-width: 1024px) {
-          .main-content {
-            margin-left: 0;
-            max-width: 100vw;
-            padding-top: 4rem;
-          }
-        }
-      `}</style>
+// Global Loader Component
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-[400px] w-full">
+    <div className="relative w-16 h-16">
+      <div className="absolute inset-0 border-4 border-indigo-500/20 rounded-full"></div>
+      <div className="absolute inset-0 border-4 border-indigo-500 rounded-full border-t-transparent animate-spin"></div>
     </div>
-  );
-};
+  </div>
+);
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          {/* Public Route */}
-          <Route path="/login" element={<Login />} />
+    <HelmetProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <CursorProvider>
+            <Router>
+              <ThreeDBackground />
+              <ThreeDCursor />
+              <Suspense fallback={<PageLoader />}>
+                <PageTransition>
+                  <Routes>
+                    {/* Public Route */}
+                    <Route path="/login" element={<Login />} />
 
-          {/* Protected Routes */}
-          <Route element={<MainLayout />}>
+                    {/* Protected Routes */}
+                    <Route element={<MainLayout />}>
 
-            {/* POS -- Accessible by Admin & Cashier */}
-            <Route element={<ProtectedRoute allowedRoles={['admin', 'cashier', 'accountant']} />}>
-              <Route path="/pos" element={<POS />} />
-              <Route path="/history" element={<BillHistory />} />
-            </Route>
+                      {/* POS -- Accessible by Admin & Cashier */}
+                      <Route element={<ProtectedRoute allowedRoles={['admin', 'cashier', 'accountant']} />}>
+                        <Route path="/pos" element={<POS />} />
+                        <Route path="/history" element={<BillHistory />} />
+                      </Route>
 
-            {/* Dashboard & Management -- For Admin & Accountant */}
-            <Route element={<ProtectedRoute allowedRoles={['admin', 'accountant']} />}>
-              <Route path="/" element={<Dashboard />} />
+                      {/* Dashboard & Management -- For Admin & Accountant */}
+                      <Route element={<ProtectedRoute allowedRoles={['admin', 'accountant']} />}>
+                        <Route path="/" element={<Dashboard />} />
 
-              <Route path="/clients" element={<Clients />} />
-              <Route path="/clients/view" element={<ClientProfile />} />
-              <Route path="/clients/add" element={<AddClient />} />
-              <Route path="/clients/update" element={<UpdateClient />} />
-              <Route path="/clients/delete" element={<DeleteClient />} />
+                        <Route path="/clients" element={<Clients />} />
+                        <Route path="/clients/view" element={<ClientProfile />} />
+                        <Route path="/clients/add" element={<AddClient />} />
+                        <Route path="/clients/update" element={<UpdateClient />} />
+                        <Route path="/clients/delete" element={<DeleteClient />} />
 
-              <Route path="/bills" element={<Bills />} />
+                        <Route path="/bills" element={<Bills />} />
 
-              <Route path="/stores" element={<Stores />} />
-              <Route path="/stores/add" element={<AddStore />} />
-              <Route path="/stores/update" element={<UpdateStore />} />
-              <Route path="/stores/delete" element={<DeleteStore />} />
-              <Route path="/stores/view" element={<StoreDetails />} />
+                        <Route path="/stores" element={<Stores />} />
+                        <Route path="/stores/add" element={<AddStore />} />
+                        <Route path="/stores/update" element={<UpdateStore />} />
+                        <Route path="/stores/delete" element={<DeleteStore />} />
+                        <Route path="/stores/view" element={<StoreDetails />} />
 
-              <Route path="/accounts" element={<Accounts />} />
-              <Route path="/accounts/add" element={<AddAccount />} />
-              <Route path="/accounts/update" element={<UpdateAccount />} />
-              <Route path="/accounts/delete" element={<DeleteAccount />} />
-              <Route path="/accounts/view" element={<AccountDetails />} />
+                        <Route path="/accounts" element={<Accounts />} />
+                        <Route path="/accounts/add" element={<AddAccount />} />
+                        <Route path="/accounts/update" element={<UpdateAccount />} />
+                        <Route path="/accounts/delete" element={<DeleteAccount />} />
+                        <Route path="/accounts/view" element={<AccountDetails />} />
 
-              <Route path="/reports" element={<Reports />} />
-            </Route>
+                        <Route path="/reports" element={<Reports />} />
+                      </Route>
 
-          </Route>
-        </Routes>
-      </Router>
-    </AuthProvider>
+                    </Route>
+                  </Routes>
+                </PageTransition>
+              </Suspense>
+            </Router>
+          </CursorProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
 export default App;
+

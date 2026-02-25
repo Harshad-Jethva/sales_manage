@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, Minimize2, Home, RotateCcw, Save, Trash2, Printer, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 // Import New Components
-import TransactionTable from '../components/pos/TransactionTable';
-import CustomerDetailsPanel from '../components/pos/CustomerDetailsPanel';
-import ShippingDetailsPanel from '../components/pos/ShippingDetailsPanel';
-import FooterTotals from '../components/pos/FooterTotals';
-import PaymentModal from '../components/pos/PaymentModal';
-import InvoiceTemplate from '../components/pos/InvoiceTemplate';
+import TransactionTable from '../../components/pos/TransactionTable';
+import CustomerDetailsPanel from '../../components/pos/CustomerDetailsPanel';
+import ShippingDetailsPanel from '../../components/pos/ShippingDetailsPanel';
+import FooterTotals from '../../components/pos/FooterTotals';
+import PaymentModal from '../../components/pos/PaymentModal';
+import InvoiceTemplate from '../../components/pos/InvoiceTemplate';
+import gsap from 'gsap';
+import SEO from '../../components/common/SEO';
 
 const POS = () => {
     const { user } = useAuth();
@@ -39,6 +41,7 @@ const POS = () => {
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState(''); // Global Product Search
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const containerRef = useRef(null);
 
     // Fetch Data
     useEffect(() => {
@@ -58,6 +61,16 @@ const POS = () => {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        if (!loading && containerRef.current) {
+            gsap.fromTo(
+                gsap.utils.toArray('.pos-anim-el', containerRef.current),
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, stagger: 0.1, duration: 0.6, ease: "power2.out" }
+            );
+        }
+    }, [loading]);
 
     // Update Totals whenever Cart changes
     useEffect(() => {
@@ -179,10 +192,10 @@ const POS = () => {
     };
 
     return (
-        <div className="flex flex-col h-screen w-full bg-[#111827] text-gray-300 font-sans overflow-hidden">
-
+        <div className="flex flex-col h-screen w-full bg-[#111827] text-gray-300 font-sans overflow-hidden animate-fade-in" ref={containerRef}>
+            <SEO title="Point of Sale" description="Fast and easy retail point of sale module." />
             {/* 1. Top Toolbar */}
-            <div className="h-12 bg-gray-900 border-b border-gray-700 flex items-center justify-between px-4">
+            <div className="h-12 bg-gray-900 border-b border-gray-700 flex items-center justify-between px-4 pos-anim-el">
                 <div className="flex items-center gap-4">
                     <button onClick={() => navigate('/')} title="Exit" className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded transition-colors flex items-center justify-center text-red-400 hover:text-red-300">
                         <Home size={18} />
@@ -206,7 +219,7 @@ const POS = () => {
             </div>
 
             {/* 2. Info Panels (Customer, Shipping, Meta) */}
-            <div className="h-auto min-h-[12rem] shrink-0 grid grid-cols-12 gap-1 p-1 bg-gray-900 border-b border-gray-700">
+            <div className="h-auto min-h-[12rem] shrink-0 grid grid-cols-12 gap-1 p-1 bg-gray-900 border-b border-gray-700 pos-anim-el">
 
                 {/* Customer - Left / Center Left */}
                 <div className="col-span-4 h-full">
@@ -245,7 +258,7 @@ const POS = () => {
             </div>
 
             {/* 3. Transaction Grid (Main) */}
-            <div className="flex-1 flex overflow-hidden p-2 gap-2">
+            <div className="flex-1 flex overflow-hidden p-2 gap-2 pos-anim-el">
                 {/* Table takes 9 columns */}
                 <div className="flex-1 h-full flex flex-col">
                     <TransactionTable

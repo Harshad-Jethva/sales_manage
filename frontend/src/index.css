@@ -1,164 +1,410 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --secondary: #ec4899;
-  --bg-dark: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.7);
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border: rgba(255, 255, 255, 0.1);
-  --glass: rgba(255, 255, 255, 0.05);
-  --success: #22c55e;
+  /* Core Brand Colors */
+  --primary: #4f46e5;
+  /* Indigo 600 */
+  --primary-hover: #4338ca;
+  /* Indigo 700 */
+  --primary-light: rgba(79, 70, 229, 0.15);
+
+  --secondary: #64748b;
+  /* Slate 500 */
+  --secondary-hover: #475569;
+  /* Slate 600 */
+
+  --accent: #3b82f6;
+  /* Blue 500 */
+  --accent-gradient: linear-gradient(135deg, #4f46e5, #3b82f6);
+  --enterprise-gradient: linear-gradient(135deg, #1e1b4b, #312e81, #4338ca);
+
+  /* Semantic Colors */
+  --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.1);
   --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.1);
   --danger: #ef4444;
+  --danger-bg: rgba(239, 68, 68, 0.1);
+  --info: #0ea5e9;
+  --info-bg: rgba(14, 165, 233, 0.1);
+
+  /* Backgrounds (Dark Mode First Enterprise) */
+  --bg-main: #0B0F19;
+  /* Very dark rich background */
+  --bg-surface: #131B2C;
+  /* Slightly lighter surface */
+  --bg-surface-hover: #1A2438;
+  --bg-card: rgba(19, 27, 44, 0.7);
+  /* Glass base */
+
+  /* Text */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+
+  /* Borders & Effects */
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --glass-border: 1px solid var(--border-light);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+  --glow-shadow: 0 0 20px rgba(79, 70, 229, 0.2);
+
+  /* Layout */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 80px;
+  --topbar-height: 72px;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
+/* Light Mode Variations (Enterprise Light) */
+[data-theme='light'] {
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f1f5f9;
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.15);
+  --glass-border: 1px solid var(--border-light);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+  --glow-shadow: 0 0 20px rgba(79, 70, 229, 0.1);
+  --primary-light: rgba(79, 70, 229, 0.05);
+}
+
+/* Reset & Base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
-  background-color: var(--bg-dark);
-  color: var(--text-main);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.glass-card {
+/* Typography Hierarchy */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* --- Reusable ERP Component System --- */
+
+/* 1. Cards */
+.erp-card {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: var(--glass-border);
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--glass-shadow);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
 }
 
-.glass-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+.erp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45), var(--glow-shadow);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
-.btn {
-  padding: 0.75rem 1.5rem;
+/* 2. Buttons */
+.erp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-  color: white;
-}
-
-.btn-primary:hover {
-  filter: brightness(1.1);
-  transform: scale(1.02);
-}
-
-.btn-secondary {
-  background: var(--glass);
-  border: 1px solid var(--border);
-  color: var(--text-main);
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.input-group {
-  margin-bottom: 1.25rem;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--text-muted);
-  font-size: 0.875rem;
-}
-
-.input-control {
-  width: 100%;
-  padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: white;
+  transition: var(--transition-smooth);
   outline: none;
-  transition: border-color 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
-.input-control:focus {
-  border-color: var(--primary);
+.erp-button:active {
+  transform: scale(0.97);
 }
 
-.badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 500;
+.erp-button-primary {
+  background: var(--accent-gradient);
+  color: white;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
 }
 
-.badge-pending {
-  background: rgba(245, 158, 11, 0.1);
-  color: var(--warning);
-  border: 1px solid var(--warning);
+.erp-button-primary:hover {
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+  filter: brightness(1.1);
 }
 
-.badge-paid {
-  background: rgba(34, 197, 94, 0.1);
-  color: var(--success);
-  border: 1px solid var(--success);
+.erp-button-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
 }
 
-.badge-partial {
-  background: rgba(99, 102, 241, 0.1);
+.erp-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--text-secondary);
+}
+
+.erp-button-outline {
+  background: transparent;
   color: var(--primary);
   border: 1px solid var(--primary);
 }
 
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-  border-radius: 12px;
-  border: 1px solid var(--border);
+.erp-button-outline:hover {
+  background: var(--primary-light);
 }
 
-table {
+.erp-button-danger {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.erp-button-danger:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* 3. Forms & Inputs */
+.erp-form-group {
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.erp-form-group label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  transition: var(--transition-smooth);
+}
+
+.erp-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: var(--transition-smooth);
+  outline: none;
+}
+
+.erp-input::placeholder {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+.erp-input:focus {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.erp-input:focus+label {
+  color: var(--primary);
+}
+
+/* Floating Label Variant */
+.erp-floating-input {
+  position: relative;
+}
+
+.erp-floating-input input {
+  padding: 1.25rem 1rem 0.5rem;
+}
+
+.erp-floating-input label {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  pointer-events: none;
+  transition: 0.2s ease all;
+  margin: 0;
+}
+
+.erp-floating-input input:focus~label,
+.erp-floating-input input:not(:placeholder-shown)~label {
+  top: 0.5rem;
+  font-size: 0.65rem;
+  color: var(--primary);
+  transform: translateY(0);
+}
+
+/* 4. Tables */
+.erp-table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: var(--bg-surface);
+  border-radius: 12px;
+  border: var(--glass-border);
+}
+
+.erp-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
 
-th {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 1rem;
-  color: var(--text-muted);
-  font-weight: 600;
-  font-size: 0.875rem;
-}
-
-td {
-  padding: 1rem;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.9375rem;
-}
-
-tr:hover td {
+.erp-table th {
   background: rgba(255, 255, 255, 0.02);
+  padding: 1rem 1.25rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: var(--glass-border);
+  white-space: nowrap;
+}
+
+.erp-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.erp-table tbody tr {
+  transition: var(--transition-smooth);
+}
+
+.erp-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* 5. Badges / Status Indicators */
+.erp-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+}
+
+.badge-success {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badge-danger {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.badge-info {
+  background: var(--info-bg);
+  color: var(--info);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.badge-neutral {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+}
+
+/* 6. Layout Utility Classes */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: var(--glass-border);
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: linear-gradient(to right, #ffffff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* 7. Skeletons & Loading */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Animations */
@@ -174,25 +420,63 @@ tr:hover td {
   }
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease forwards;
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(79, 70, 229, 0.7);
+  }
 }
 
-/* Custom Scrollbar for Webkit */
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Custom Grid Utility */
+.erp-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.erp-grid-cards {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }

@@ -1,0 +1,130 @@
+.celestial-cursor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 999999;
+    overflow: hidden;
+}
+
+.cursor-aura {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(72, 202, 228, 0.15) 0%, rgba(72, 202, 228, 0) 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: screen;
+}
+
+.cursor-core {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+        0 0 15px rgba(255, 255, 255, 0.8),
+        0 0 30px rgba(72, 202, 228, 0.6),
+        0 0 60px rgba(72, 202, 228, 0.3);
+    z-index: 10;
+}
+
+.cursor-ring {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(2px);
+    z-index: 5;
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+.star-particle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 8;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.cursor-label {
+    position: absolute;
+    transform: translate(24px, 10px);
+    padding: 4px 12px;
+    background: rgba(3, 4, 94, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    z-index: 20;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations for loading state */
+.cursor-ring.loading {
+    border-top-color: #00b4d8;
+    animation: cursor-spin 1s linear infinite;
+}
+
+@keyframes cursor-spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Module based colors could be added here if needed, 
+   mimicking the previous CustomCursor.css logic */
+
+[data-module="Finance"] .cursor-aura {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 70%);
+}
+
+[data-module="Finance"] .cursor-core {
+    box-shadow: 0 0 15px white, 0 0 30px rgba(16, 185, 129, 0.6);
+}
+
+[data-module="Inventory"] .cursor-aura {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0) 70%);
+}
+
+[data-module="Inventory"] .cursor-core {
+    box-shadow: 0 0 15px white, 0 0 30px rgba(245, 158, 11, 0.6);
+}
+
+[data-module="Admin"] .cursor-aura {
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0) 70%);
+}
+
+[data-module="Admin"] .cursor-core {
+    box-shadow: 0 0 15px white, 0 0 30px rgba(239, 68, 68, 0.6);
+}
+
+/* Global reset to hide real cursor */
+body,
+a,
+button,
+input,
+select,
+textarea,
+[role="button"] {
+    cursor: none !important;
+}

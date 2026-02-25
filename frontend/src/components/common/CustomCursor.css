@@ -1,0 +1,206 @@
+.cursor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 99999;
+    /* mix-blend-mode: difference; Removed for better color visualization */
+}
+
+.cursor-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100001;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px var(--cursor-primary);
+}
+
+.cursor-ring {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100000;
+    transform: translate(-50%, -50%);
+    transition:
+        width 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+        height 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+        border-color 0.3s ease,
+        background-color 0.3s ease,
+        border-radius 0.3s ease,
+        box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom States */
+.cursor-ring.pointer {
+    width: 65px;
+    height: 65px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--cursor-primary);
+    box-shadow: 0 0 20px rgba(var(--cursor-primary-rgb), 0.3);
+}
+
+.cursor-ring.text {
+    width: 2px;
+    height: 28px;
+    border-radius: 2px;
+    background-color: white;
+    border: none;
+    box-shadow: 0 0 10px var(--cursor-primary);
+}
+
+.cursor-ring.loading {
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--cursor-primary);
+    width: 50px;
+    height: 50px;
+    animation: cursor-spin 0.8s linear infinite;
+}
+
+.cursor-ring.disabled {
+    border-color: #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.1);
+    width: 30px;
+    height: 30px;
+}
+
+.cursor-ring.drag {
+    border-style: dashed;
+    width: 50px;
+    height: 50px;
+}
+
+.cursor-ring.resize {
+    width: 30px;
+    height: 30px;
+    border-radius: 0;
+    border-width: 2px;
+}
+
+.cursor-ring.clicking {
+    width: 35px;
+    height: 35px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    transition: width 0.1s, height 0.1s;
+}
+
+/* Context Indicator */
+.cursor-context {
+    position: absolute;
+    font-size: 16px;
+    font-weight: 900;
+    color: white;
+    pointer-events: none;
+    left: 30px;
+    top: -30px;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cursor-primary);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4),
+        0 0 10px var(--cursor-primary);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+
+@keyframes cursor-spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+}
+
+/* Hide default cursor globally */
+body,
+a,
+button,
+input,
+select,
+textarea,
+[role="button"],
+label {
+    cursor: none !important;
+}
+
+/* Fallback for performance/accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .cursor-container {
+        display: none;
+    }
+
+    body,
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    [role="button"] {
+        cursor: auto !important;
+    }
+}
+
+/* Module colors via CSS variables */
+:root {
+    --cursor-primary: #00b4d8;
+    --cursor-primary-rgb: 0, 180, 216;
+}
+
+[data-module="Finance"] {
+    --cursor-primary: #10b981;
+    --cursor-primary-rgb: 16, 185, 129;
+}
+
+[data-module="HR"] {
+    --cursor-primary: #8b5cf6;
+    --cursor-primary-rgb: 139, 92, 246;
+}
+
+[data-module="Inventory"] {
+    --cursor-primary: #f59e0b;
+    --cursor-primary-rgb: 245, 158, 11;
+}
+
+[data-module="Sales"] {
+    --cursor-primary: #00b4d8;
+    --cursor-primary-rgb: 0, 180, 216;
+}
+
+[data-module="Admin"] {
+    --cursor-primary: #ef4444;
+    --cursor-primary-rgb: 239, 68, 68;
+}

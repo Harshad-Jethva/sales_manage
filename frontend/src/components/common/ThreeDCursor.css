@@ -1,0 +1,228 @@
+.erp-3d-cursor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 99999;
+    overflow: hidden;
+}
+
+/* Base cursor styling */
+.cursor-core-system {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    transform-origin: center center;
+    z-index: 100000;
+}
+
+.core-dot {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 30px var(--primary, #4f46e5);
+}
+
+/* Light Flare Effect */
+.cursor-light-flare {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, rgba(79, 70, 229, 0) 70%);
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 99997;
+    mix-blend-mode: screen;
+}
+
+/* Star Particles - Sparkle Design */
+.cursor-star-particle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    /* Star/Diamond hybrid */
+    transition: opacity 0.1s ease-out;
+}
+
+/* 3D Trailing System */
+.cursor-3d-trail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 44px;
+    height: 44px;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    z-index: 99999;
+}
+
+.trail-layers {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: translate(-50%, -50%);
+}
+
+.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.layer-glow {
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.3) 0%, rgba(79, 70, 229, 0) 70%);
+    transform: translateZ(-15px) scale(1.6);
+}
+
+.layer-frame {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    transform: translateZ(0);
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.glass-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+.layer-content {
+    transform: translateZ(25px);
+}
+
+/* Cursor States */
+.cursor-3d-trail.pointer .layer-frame {
+    width: 54px;
+    height: 54px;
+    top: -5px;
+    left: -5px;
+    border-color: rgba(79, 70, 229, 0.5);
+    background: rgba(79, 70, 229, 0.08);
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.2);
+}
+
+.cursor-3d-trail.text .layer-frame {
+    width: 2px;
+    height: 24px;
+    top: 10px;
+    left: 21px;
+    border-radius: 1px;
+    background: #ffffff;
+    border: none;
+    box-shadow: 0 0 15px var(--primary, #4f46e5);
+}
+
+.cursor-3d-trail.clicking .layer-frame {
+    transform: scale(0.85);
+    background: rgba(255, 255, 255, 0.15);
+    border-width: 1.5px;
+}
+
+.cursor-3d-trail.loading .layer-frame {
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    border-top-color: var(--primary, #4f46e5);
+    animation: cursor-spin-3d 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+/* Icons & Indicators */
+.context-icon {
+    width: 26px;
+    height: 26px;
+    background: var(--enterprise-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform-style: preserve-3d;
+}
+
+.context-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.spinner-3d {
+    width: 24px;
+    height: 24px;
+    border: 2px solid transparent;
+    border-top-color: var(--primary, #4f46e5);
+    border-radius: 50%;
+    animation: cursor-spin-3d 0.8s linear infinite;
+}
+
+.cursor-ripple {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 99998;
+}
+
+@keyframes cursor-spin-3d {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Hide default cursor globally */
+body,
+a,
+button,
+input,
+select,
+textarea,
+[role="button"],
+label {
+    cursor: none !important;
+}
+
+/* Fallback for performance/accessibility */
+@media (prefers-reduced-motion: reduce),
+(max-width: 1024px) {
+    .erp-3d-cursor-container {
+        display: none !important;
+    }
+
+    body,
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    [role="button"] {
+        cursor: auto !important;
+    }
+}

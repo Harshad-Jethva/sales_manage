@@ -3,17 +3,18 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Users, Receipt, Building2, Wallet,
   BarChart3, ShoppingCart, ChevronDown, ChevronRight,
-  UserPlus, UserCog, UserMinus, List, Menu, X, LogOut, Plus, Edit, Trash2
+  UserPlus, UserCog, UserMinus, List, Menu, X, LogOut, Plus, Edit, Trash2,
+  ChevronLeft
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useAuth } from '../context/AuthContext';
 
-const Sidebar = () => {
+const Sidebar = ({ mobileOpen, setMobileOpen }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const [openSubmenu, setOpenSubmenu] = useState('Clients');
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState('');
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   // Handle Resize
@@ -21,16 +22,30 @@ const Sidebar = () => {
     const handleResize = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
-      if (!mobile) setIsMobileOpen(false);
+      if (!mobile) setMobileOpen(false);
+      // Automatically collapse on smaller desktop screens
+      if (!mobile && window.innerWidth < 1280) {
+        setIsCollapsed(true);
+      } else if (!mobile) {
+        setIsCollapsed(false);
+      }
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [setMobileOpen]);
 
+  // Update layout CSS variable when collapsed state changes
   useEffect(() => {
-    if (isMobile) setIsMobileOpen(false);
-  }, [location, isMobile]);
+    if (!isMobile) {
+      document.documentElement.style.setProperty(
+        '--sidebar-width',
+        isCollapsed ? '80px' : '260px'
+      );
+    } else {
+      document.documentElement.style.setProperty('--sidebar-width', '0px');
+    }
+  }, [isCollapsed, isMobile]);
 
   const allMenuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/', roles: ['admin', 'accountant'] },
@@ -80,6 +95,7 @@ const Sidebar = () => {
   );
 
   const toggleSubmenu = (label) => {
+    if (isCollapsed) setIsCollapsed(false); // Auto-expand when clicking a submenu parent
     setOpenSubmenu(openSubmenu === label ? null : label);
   };
 
@@ -88,54 +104,92 @@ const Sidebar = () => {
     return item.path && location.pathname.startsWith(item.path);
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
+  };
+
   const SidebarContent = () => (
     <>
       <div className="sidebar-header">
         <div className="logo-box">
           <span className="logo-icon">S</span>
         </div>
-        <div className="logo-text">
-          <h2>SalesPro</h2>
-          <span className="badge">v2.0</span>
-        </div>
+        {!isCollapsed && (
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            className="logo-text"
+          >
+            <h2>SalesPro</h2>
+            <span className="badge">v2.0</span>
+          </motion.div>
+        )}
+
         {isMobile && (
-          <button className="btn-close-mobile" onClick={() => setIsMobileOpen(false)}>
+          <button className="btn-close-mobile" onClick={() => setMobileOpen(false)}>
             <X size={20} />
+          </button>
+        )}
+
+        {!isMobile && (
+          <button
+            className={`collapse-toggle ${isCollapsed ? 'collapsed' : ''}`}
+            onClick={() => setIsCollapsed(!isCollapsed)}
+          >
+            <ChevronLeft size={16} />
           </button>
         )}
       </div>
 
-      <div className="sidebar-scroll">
-        <nav className="nav-list">
+      <div className="sidebar-scroll custom-scrollbar">
+        <motion.nav
+          className="nav-list"
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+        >
           {menuItems.map((item) => {
             const hasSub = item.subItems && item.subItems.length > 0;
             const isActive = isParentActive(item);
-            const isOpen = openSubmenu === item.label;
+            const isOpen = openSubmenu === item.label && !isCollapsed;
 
             return (
-              <div key={item.label} className="nav-group">
+              <motion.div key={item.label} className="nav-group" variants={itemVariants}>
                 {hasSub ? (
                   <>
                     <motion.div
-                      className={`nav-item parent ${isActive ? 'active' : ''}`}
+                      className={`nav-item parent ${isActive ? 'active' : ''} ${isCollapsed ? 'collapsed' : ''}`}
                       onClick={() => toggleSubmenu(item.label)}
-                      whileHover={{ x: 4 }}
+                      whileHover={{ x: isCollapsed ? 0 : 4 }}
                       whileTap={{ scale: 0.98 }}
+                      title={isCollapsed ? item.label : ""}
                     >
                       <div className="nav-label">
-                        <item.icon className="nav-icon" size={20} />
-                        <span>{item.label}</span>
+                        <item.icon className={`nav-icon ${isActive ? 'active-icon' : ''}`} size={22} />
+                        {!isCollapsed && <span>{item.label}</span>}
                       </div>
-                      <motion.div
-                        animate={{ rotate: isOpen ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ChevronDown size={16} />
-                      </motion.div>
+                      {!isCollapsed && (
+                        <motion.div
+                          animate={{ rotate: isOpen ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <ChevronDown size={16} />
+                        </motion.div>
+                      )}
                     </motion.div>
 
                     <AnimatePresence>
-                      {isOpen && (
+                      {isOpen && !isCollapsed && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
@@ -160,29 +214,36 @@ const Sidebar = () => {
                 ) : (
                   <NavLink
                     to={item.path}
-                    className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                    className={({ isActive }) => `nav-item ${isActive ? 'active' : ''} ${isCollapsed ? 'collapsed' : ''}`}
+                    title={isCollapsed ? item.label : ""}
                   >
-                    <motion.div className="nav-label" whileHover={{ x: 4 }}>
-                      <item.icon className="nav-icon" size={20} />
-                      <span>{item.label}</span>
+                    <motion.div className="nav-label" whileHover={{ x: isCollapsed ? 0 : 4 }}>
+                      <item.icon className={`nav-icon ${isActive ? 'active-icon' : ''}`} size={22} />
+                      {!isCollapsed && <span>{item.label}</span>}
                     </motion.div>
-                    {isActive && <motion.div layoutId="active-indicator" className="active-indicator" />}
+                    {isActive && !isCollapsed && <motion.div layoutId="active-indicator" className="active-indicator" />}
                   </NavLink>
                 )}
-              </div>
+              </motion.div>
             );
           })}
-        </nav>
+        </motion.nav>
       </div>
 
       <div className="sidebar-footer">
-        <div className="user-card">
+        <div className={`user-card ${isCollapsed ? 'collapsed' : ''}`}>
           <div className="user-avatar">{user?.name?.charAt(0) || 'U'}</div>
-          <div className="user-info">
-            <h4>{user?.name || 'User'}</h4>
-            <p>{user?.role || 'Guest'}</p>
-          </div>
-          <button className="btn-logout" onClick={logout}><LogOut size={16} /></button>
+          {!isCollapsed && (
+            <div className="user-info">
+              <h4>{user?.name || 'User'}</h4>
+              <p>{user?.role || 'Guest'}</p>
+            </div>
+          )}
+          {!isCollapsed && (
+            <button className="btn-logout" onClick={logout} title="Logout">
+              <LogOut size={16} />
+            </button>
+          )}
         </div>
       </div>
     </>
@@ -190,29 +251,21 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
-      <button
-        className={`mobile-toggle ${isMobileOpen ? 'hidden' : ''}`}
-        onClick={() => setIsMobileOpen(true)}
-      >
-        <Menu size={24} color="white" />
-      </button>
-
       {/* Desktop Sidebar */}
-      <aside className={`sidebar-desktop ${isMobile ? 'hidden' : ''}`}>
+      <aside className={`sidebar-desktop ${isMobile ? 'hidden' : ''} ${isCollapsed ? 'collapsed' : ''}`}>
         <SidebarContent />
       </aside>
 
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
-        {isMobile && isMobileOpen && (
+        {isMobile && mobileOpen && (
           <>
             <motion.div
               className="mobile-backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsMobileOpen(false)}
+              onClick={() => setMobileOpen(false)}
             />
             <motion.aside
               className="sidebar-mobile"
@@ -228,181 +281,261 @@ const Sidebar = () => {
       </AnimatePresence>
 
       <style jsx>{`
-        /* --- VARIABLES --- */
-        :root {
-          --sidebar-width: 280px;
-          --sidebar-bg: rgba(15, 23, 42, 0.85);
-          --sidebar-border: rgba(255, 255, 255, 0.08);
-          --primary-color: #6366f1;
-        }
-
         /* --- DESKTOP SIDEBAR --- */
         .sidebar-desktop {
-          width: var(--sidebar-width);
+          width: 260px;
           height: 100vh;
           position: fixed;
           left: 0;
           top: 0;
-          background: var(--sidebar-bg);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-right: 1px solid var(--sidebar-border);
+          background: rgba(11, 15, 25, 0.7); /* Deep Sea Base */
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          border-right: 1px solid rgba(255, 255, 255, 0.08);
           display: flex;
           flex-direction: column;
           z-index: 50;
+          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 4px 0 24px rgba(0,0,0,0.2);
+        }
+
+        .sidebar-desktop.collapsed {
+          width: 80px;
         }
 
         .sidebar-desktop.hidden { display: none; }
 
         /* --- MOBILE SIDEBAR --- */
-        .mobile-toggle {
-          position: fixed;
-          top: 1rem;
-          left: 1rem;
-          z-index: 60;
-          background: rgba(30, 41, 59, 0.8);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255,255,255,0.1);
-          padding: 0.6rem;
-          border-radius: 8px;
-          cursor: pointer;
-          display: none;
-        }
-        .mobile-toggle.hidden { opacity: 0; pointer-events: none; }
-
         .mobile-backdrop {
           position: fixed; inset: 0;
           background: rgba(0,0,0,0.6);
-          backdrop-filter: blur(3px);
+          backdrop-filter: blur(4px);
           z-index: 90;
         }
 
         .sidebar-mobile {
           position: fixed;
           top: 0; left: 0;
-          width: var(--sidebar-width);
+          width: 280px;
           height: 100vh;
-          background: #0f172a; /* Solid color for mobile performance */
+          background: #0B0F19; /* Solid color for mobile */
           z-index: 100;
           display: flex;
           flex-direction: column;
-          box-shadow: 10px 0 30px rgba(0,0,0,0.5);
-        }
-
-        @media (max-width: 1024px) {
-          .mobile-toggle { display: block; }
+          box-shadow: 10px 0 30px rgba(0,0,0,0.6);
         }
 
         /* --- CONTENT STYLES --- */
         .sidebar-header {
-          padding: 2rem 1.5rem;
-          display: flex; align-items: center; gap: 1rem;
-          border-bottom: 1px solid var(--sidebar-border);
+          padding: 1.5rem;
+          display: flex; 
+          align-items: center; 
+          gap: 1rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          position: relative;
+          min-height: 72px; /* Topbar sync */
+        }
+        
+        .sidebar-desktop.collapsed .sidebar-header {
+          justify-content: center;
+          padding: 1.5rem 0;
         }
         
         .logo-box {
-          width: 42px; height: 42px;
-          background: linear-gradient(135deg, #4f46e5, #ec4899);
-          border-radius: 12px;
+          width: 38px; height: 38px;
+          background: var(--enterprise-gradient);
+          border-radius: 10px;
           display: flex; align-items: center; justify-content: center;
-          font-weight: 800; font-size: 1.5rem; color: white;
-          box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
+          font-weight: 800; font-size: 1.25rem; color: white;
+          box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+          flex-shrink: 0;
         }
 
-        .logo-text h2 { margin: 0; font-size: 1.25rem; font-weight: 800; background: linear-gradient(to right, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-text { overflow: hidden; white-space: nowrap; }
+        .logo-text h2 { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
         .badge { font-size: 0.65rem; background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; color: #94a3b8; font-weight: 600; }
         
+        .collapse-toggle {
+          position: absolute;
+          right: -12px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 24px;
+          height: 24px;
+          background: var(--bg-surface);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--text-secondary);
+          cursor: pointer;
+          transition: 0.3s;
+          z-index: 10;
+        }
+        
+        .collapse-toggle:hover {
+          color: white;
+          background: var(--primary);
+          border-color: var(--primary);
+        }
+        
+        .collapse-toggle.collapsed {
+          transform: translateY(-50%) rotate(180deg);
+        }
+
         .btn-close-mobile {
           margin-left: auto; background: none; border: none; color: #94a3b8; cursor: pointer;
         }
 
-        .sidebar-scroll { flex: 1; overflow-y: auto; padding: 1.5rem 1rem; }
-        .sidebar-scroll::-webkit-scrollbar { width: 0; }
+        .sidebar-scroll { flex: 1; overflow-y: auto; padding: 1.5rem 1rem; overflow-x: hidden; }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.8);
+        }
+        
+        .sidebar-desktop.collapsed .sidebar-scroll {
+          padding: 1.5rem 0.5rem;
+        }
 
-        .nav-group { margin-bottom: 0.5rem; }
+        .nav-group { margin-bottom: 0.5rem; width: 100%; }
 
         .nav-item {
           display: flex; align-items: center; justify-content: space-between;
-          padding: 0.9rem 1rem;
-          border-radius: 12px;
-          color: #94a3b8;
+          padding: 0.85rem 1rem;
+          border-radius: 10px;
+          color: var(--text-secondary);
           text-decoration: none;
           cursor: pointer;
-          transition: all 0.3s;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           background: transparent;
+          border: 1px solid transparent;
         }
 
-        .nav-item:hover { color: white; background: rgba(255,255,255,0.03); }
+        .nav-item.collapsed {
+          justify-content: center;
+          padding: 0.85rem 0;
+        }
+
+        .nav-item:hover { 
+          color: white; 
+          background: rgba(255,255,255,0.03); 
+          box-shadow: 0 0 15px rgba(255,255,255,0.02);
+          transform: translateX(4px);
+        }
 
         .nav-item.active {
-          background: linear-gradient(90deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.05));
+          background: rgba(79, 70, 229, 0.1);
           color: white;
+          border-color: rgba(79, 70, 229, 0.2);
+          box-shadow: inset 0 0 20px rgba(79, 70, 229, 0.05), 0 0 15px rgba(79, 70, 229, 0.1);
         }
 
-        .nav-label { display: flex; align-items: center; gap: 0.8rem; font-weight: 500; font-size: 0.95rem; }
+        .nav-label { 
+          display: flex; align-items: center; gap: 0.8rem; font-weight: 500; font-size: 0.95rem; 
+          white-space: nowrap;
+        }
+        
+        .nav-item.collapsed .nav-label {
+          margin: 0;
+        }
+        
+        .nav-icon {
+          color: var(--text-secondary);
+          transition: color 0.3s;
+        }
+        
+        .nav-item.active .nav-icon {
+          color: var(--primary);
+        }
         
         .active-indicator {
           position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-          width: 4px; height: 20px;
-          background: #6366f1;
+          width: 4px; height: 18px;
+          background: var(--primary);
           border-radius: 4px 0 0 4px;
-          box-shadow: -2px 0 10px rgba(99, 102, 241, 0.5);
+          box-shadow: -2px 0 10px rgba(79, 70, 229, 0.5);
         }
 
         .submenu-container {
           margin-left: 1.5rem;
           padding: 0.5rem 0 0.5rem 0.8rem;
-          border-left: 1px solid rgba(255,255,255,0.1);
+          border-left: 1px solid rgba(255,255,255,0.08);
           overflow: hidden;
         }
 
         .sub-item {
           display: flex; align-items: center; gap: 0.8rem;
           padding: 0.6rem 1rem;
-          color: #94a3b8;
+          color: var(--text-secondary);
           text-decoration: none;
-          font-size: 0.9rem;
+          font-size: 0.875rem;
           border-radius: 8px;
           transition: 0.2s;
         }
 
-        .sub-item:hover { color: white; background: rgba(255,255,255,0.05); }
-        .sub-item .dot { width: 5px; height: 5px; background: #64748b; border-radius: 50%; transition: 0.2s; }
-        .sub-item.active .dot { background: #6366f1; box-shadow: 0 0 8px #6366f1; }
-        .sub-item.active { color: white; background: rgba(99, 102, 241, 0.1); }
+        .sub-item:hover { color: white; background: rgba(255,255,255,0.03); }
+        .sub-item .dot { width: 5px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.2s; }
+        .sub-item.active .dot { background: var(--primary); box-shadow: 0 0 8px var(--primary); }
+        .sub-item.active { color: white; background: rgba(79, 70, 229, 0.1); }
 
-        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--sidebar-border); }
+        .sidebar-footer { padding: 1.5rem 1rem; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+        
+        .sidebar-desktop.collapsed .sidebar-footer {
+          padding: 1.5rem 0.5rem;
+        }
+        
         .user-card {
           display: flex; align-items: center; gap: 1rem;
-          background: rgba(255,255,255,0.03);
-          padding: 0.8rem;
+          background: rgba(255,255,255,0.02);
+          padding: 0.75rem;
           border-radius: 12px;
           border: 1px solid rgba(255,255,255,0.05);
+          overflow: hidden;
+          transition: 0.3s;
+        }
+        
+        .user-card.collapsed {
+          padding: 0.5rem;
+          justify-content: center;
+          background: transparent;
+          border-color: transparent;
         }
         
         .user-avatar {
           width: 40px; height: 40px;
           border-radius: 10px;
-          background: linear-gradient(135deg, #10b981, #3b82f6);
+          background: var(--enterprise-gradient);
           display: flex; align-items: center; justify-content: center;
-          font-weight: 700; color: white;
+          font-weight: 700; color: white; flex-shrink: 0;
         }
 
-        .user-info h4 { margin: 0; font-size: 0.9rem; color: white; }
-        .user-info p { margin: 0; font-size: 0.75rem; color: #94a3b8; }
+        .user-info { min-width: 0; }
+        .user-info h4 { margin: 0; font-size: 0.875rem; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-info p { margin: 0; font-size: 0.75rem; color: var(--text-secondary); text-transform: capitalize; }
         
         .btn-logout {
           margin-left: auto;
           background: none; border: none;
-          color: #f87171;
+          color: var(--danger);
           opacity: 0.7;
           cursor: pointer;
           padding: 0.4rem;
           border-radius: 6px;
           transition: 0.2s;
         }
-        .btn-logout:hover { opacity: 1; background: rgba(248, 113, 113, 0.1); }
+        .btn-logout:hover { opacity: 1; background: rgba(239, 68, 68, 0.1); }
 
       `}</style>
     </>

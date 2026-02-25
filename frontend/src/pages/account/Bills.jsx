@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {
     Plus,
@@ -17,6 +17,8 @@ import {
     Package
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import SEO from '../../components/common/SEO';
 
 // Error Boundary Fallback for UI
 const ErrorFallback = ({ error }) => (
@@ -68,10 +70,21 @@ const Bills = () => {
     const [prodData, setProdData] = useState({
         name: '', sku: '', mrp: '', sale_price: '', purchase_price: '', stock_quantity: '0', unit: 'pcs'
     });
+    const containerRef = useRef(null);
 
     useEffect(() => {
         fetchAllData();
     }, []);
+
+    useEffect(() => {
+        if (containerRef.current) {
+            gsap.fromTo(
+                gsap.utils.toArray('.bill-anim-el', containerRef.current),
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, stagger: 0.1, duration: 0.6, ease: "power2.out" }
+            );
+        }
+    }, [activeTab]);
 
     const fetchAllData = async () => {
         try {
@@ -207,8 +220,9 @@ const Bills = () => {
 
     try {
         return (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pos-hub">
-                <header className="page-header">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pos-hub" ref={containerRef}>
+                <SEO title="Vendor Billing" description="Record stock inward and manage supplier invoices." />
+                <header className="page-header bill-anim-el">
                     <div>
                         <motion.h1 initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }}>Vendor Billing & Inventory</motion.h1>
                         <motion.p initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.1 }} className="text-muted">
@@ -244,7 +258,7 @@ const Bills = () => {
                     </div>
                 </header>
 
-                <div className="stats-header-grid">
+                <div className="stats-header-grid bill-anim-el">
                     <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="glass-card stat-wide">
                         <div className="stat-content">
                             <p>Total Stock Inward</p>
@@ -268,7 +282,7 @@ const Bills = () => {
                     </motion.div>
                 </div>
 
-                <div className="main-tabs">
+                <div className="main-tabs bill-anim-el">
                     <button className={`tab-link ${activeTab === 'invoices' ? 'active' : ''}`} onClick={() => setActiveTab('invoices')}>
                         <History size={18} /> Purchase Register
                     </button>
@@ -277,7 +291,7 @@ const Bills = () => {
                     </button>
                 </div>
 
-                <div className="tab-body">
+                <div className="tab-body bill-anim-el">
                     <AnimatePresence mode="wait">
                         {activeTab === 'invoices' ? (
                             <motion.div key="invoices" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="glass-card full-table">
