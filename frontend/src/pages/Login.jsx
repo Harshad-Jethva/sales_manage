@@ -9,7 +9,7 @@ import './Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, user } = useAuth();
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -19,6 +19,14 @@ const Login = () => {
     const welcomeRef = useRef(null);
     const brandRef = useRef(null);
     const inputRefs = useRef([]);
+
+    useEffect(() => {
+        if (user) {
+            if (user.role === 'cashier') navigate('/pos', { replace: true });
+            else if (user.role === 'salesman') navigate('/salesman/dashboard', { replace: true });
+            else navigate('/', { replace: true });
+        }
+    }, [user, navigate]);
 
     useEffect(() => {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
@@ -42,6 +50,8 @@ const Login = () => {
                 login(res.data.user, res.data.token);
                 if (res.data.user.role === 'cashier') {
                     navigate('/pos');
+                } else if (res.data.user.role === 'salesman') {
+                    navigate('/salesman/dashboard');
                 } else {
                     navigate('/');
                 }
@@ -57,13 +67,13 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <SEO title="Login | inSpace ERP" description="Login to your ERP dashboard" />
+            <SEO title="Login | HAB ERP" description="Login to your ERP dashboard" />
 
             <div className="login-form-side" ref={formRef}>
                 <div className="login-logo-circle" ref={logoRef}></div>
 
                 <h3 className="welcome-text" ref={welcomeRef}>Welcome to</h3>
-                <h1 className="brand-text" ref={brandRef}>inSpace</h1>
+                <h1 className="brand-text" ref={brandRef}>HAB CREATION</h1>
 
                 {error && (
                     <div className="error-message mb-6 text-red-500 text-sm font-medium animate-pulse">

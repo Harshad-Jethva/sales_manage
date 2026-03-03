@@ -62,7 +62,7 @@ const LoginForm = ({ formData, setFormData, handleSubmit, loading, error }) => {
                     </div>
                     <h2 className="text-xs font-bold text-violet-500 uppercase tracking-[0.3em] mb-3">Gateway to</h2>
                     <h1 ref={titleRef} className="text-6xl font-black text-slate-900 tracking-tight perspective-1000">
-                        SalesPro
+                        HAB CREATION
                     </h1>
                 </div>
 

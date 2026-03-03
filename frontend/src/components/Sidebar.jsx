@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, Receipt, Building2, Wallet,
   BarChart3, ShoppingCart, ChevronDown, ChevronRight,
   UserPlus, UserCog, UserMinus, List, Menu, X, LogOut, Plus, Edit, Trash2,
-  ChevronLeft
+  ChevronLeft, ShoppingBag
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -85,9 +85,16 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
         { icon: Trash2, label: 'Delete Account', path: '/accounts/delete' },
       ]
     },
-    { icon: ShoppingCart, label: 'POS / Billing', path: '/pos', roles: ['admin', 'cashier'] },
-    { icon: Receipt, label: 'History', path: '/history', roles: ['admin', 'cashier', 'accountant'] },
+
+    // Salesman Specific Menu
+    { icon: LayoutDashboard, label: 'Salesman Home', path: '/salesman/dashboard', roles: ['admin', 'salesman'] },
+    { icon: Plus, label: 'Place Order', path: '/salesman/place-order', roles: ['admin', 'salesman'] },
+    { icon: Receipt, label: 'My Orders', path: '/salesman/order-history', roles: ['admin', 'salesman'] },
+    { icon: Users, label: 'Client History', path: '/salesman/client-history', roles: ['admin', 'salesman'] },
+    { icon: ShoppingBag, label: 'Products', path: '/salesman/products', roles: ['admin', 'salesman'] },
+
     { icon: BarChart3, label: 'Reports', path: '/reports', roles: ['admin', 'accountant'] },
+
   ];
 
   const menuItems = allMenuItems.filter(item =>
@@ -130,7 +137,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
             exit={{ opacity: 0, x: -10 }}
             className="logo-text"
           >
-            <h2>SalesPro</h2>
+            <h2>HAB CREATION</h2>
             <span className="badge">v2.0</span>
           </motion.div>
         )}

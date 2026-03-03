@@ -1,0 +1,1521 @@
+2026/03/01-18:58:29.579 4d28 Reusing MANIFEST E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/03/01-18:58:29.600 4d28 Recovering log #1822
+2026/03/01-18:58:29.632 4d28 Reusing old log E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/001822.log 
+2026/03/01-18:58:29.633 4d28 Delete type=2 #1440
+2026/03/01-18:58:29.633 4d28 Delete type=2 #1441
+2026/03/01-18:58:29.634 4d28 Delete type=2 #1442
+2026/03/01-18:58:29.634 4d28 Delete type=2 #1814
+2026/03/01-18:58:29.634 4d28 Delete type=2 #1815
+2026/03/01-18:58:29.634 4d28 Delete type=2 #1825
+2026/03/01-18:58:44.846 3fec Level-0 table #1841: started
+2026/03/01-18:58:44.883 3fec Level-0 table #1841: 1440154 bytes OK
+2026/03/01-18:58:44.884 3fec Delete type=0 #1822
+2026/03/01-18:58:45.093 3fec Compacting 1@0 + 0@1 files
+2026/03/01-18:58:45.121 3fec Generated table #1842@0: 11898 keys, 208433 bytes
+2026/03/01-18:58:45.137 3fec Generated table #1843@0: 4235 keys, 242355 bytes
+2026/03/01-18:58:45.145 3fec Generated table #1844@0: 215 keys, 11292 bytes
+2026/03/01-18:58:45.146 3fec Compacted 1@0 + 0@1 files => 462080 bytes
+2026/03/01-18:58:45.146 3fec compacted to: files[ 0 4 47 0 0 0 0 ]
+2026/03/01-18:58:45.269 3fec Compacting 1@1 + 7@2 files
+2026/03/01-18:58:45.298 3fec Generated table #1845@1: 866 keys, 2130509 bytes
+2026/03/01-18:58:45.351 3fec Generated table #1846@1: 1134 keys, 2139800 bytes
+2026/03/01-18:58:45.419 3fec Generated table #1847@1: 2160 keys, 2146877 bytes
+2026/03/01-18:58:45.516 3fec Generated table #1848@1: 21051 keys, 2235492 bytes
+2026/03/01-18:58:45.635 3fec Generated table #1849@1: 23172 keys, 2285360 bytes
+2026/03/01-18:58:45.759 3fec Generated table #1850@1: 29156 keys, 2195337 bytes
+2026/03/01-18:58:45.820 3fec Generated table #1851@1: 18618 keys, 1713191 bytes
+2026/03/01-18:58:45.820 3fec Compacted 1@1 + 7@2 files => 14846566 bytes
+2026/03/01-18:58:45.822 3fec compacted to: files[ 0 3 47 0 0 0 0 ]
+2026/03/01-18:58:46.180 3fec Compacting 1@1 + 22@2 files
+2026/03/01-18:58:46.288 3fec Generated table #1852@1: 64138 keys, 2247708 bytes
+2026/03/01-18:58:46.368 3fec Generated table #1853@1: 25502 keys, 2178550 bytes
+2026/03/01-18:58:46.546 3fec Generated table #1854@1: 72014 keys, 2236625 bytes
+2026/03/01-18:58:46.683 3fec Generated table #1855@1: 57511 keys, 2226849 bytes
+2026/03/01-18:58:46.784 3fec Generated table #1856@1: 29570 keys, 2198208 bytes
+2026/03/01-18:58:46.862 3fec Generated table #1857@1: 653 keys, 2130053 bytes
+2026/03/01-18:58:46.886 3fec Generated table #1858@1: 649 keys, 2126383 bytes
+2026/03/01-18:58:46.903 3fec Generated table #1859@1: 588 keys, 1055642 bytes
+2026/03/01-18:58:46.903 3fec Compacted 1@1 + 22@2 files => 16400018 bytes
+2026/03/01-18:58:46.904 3fec compacted to: files[ 0 2 33 0 0 0 0 ]
+2026/03/01-18:58:46.906 3fec Delete type=2 #1843
+2026/03/01-18:58:47.776 3fec Expanding@1 1+2 (11292+2804212 bytes) to 2+2 (76931+2804212 bytes)
+2026/03/01-18:58:47.776 3fec Compacting 2@1 + 2@2 files
+2026/03/01-18:58:47.919 3fec Level-0 table #1862: started
+2026/03/01-18:58:47.951 3fec Level-0 table #1862: 1157564 bytes OK
+2026/03/01-18:58:47.952 3fec Delete type=0 #1840
+2026/03/01-18:58:47.952 3fec Delete type=2 #1842
+2026/03/01-18:58:48.015 3fec Generated table #1860@1: 98780 keys, 2250644 bytes
+2026/03/01-18:58:48.045 3fec Generated table #1863@1: 10949 keys, 627510 bytes
+2026/03/01-18:58:48.045 3fec Compacted 2@1 + 2@2 files => 2878154 bytes
+2026/03/01-18:58:48.046 3fec compacted to: files[ 1 0 33 0 0 0 0 ]
+2026/03/01-18:58:48.048 3fec Delete type=2 #1844
+2026/03/01-18:58:48.271 2588 Compacting 1@0 + 0@1 files
+2026/03/01-18:58:48.303 2588 Generated table #1864@0: 21565 keys, 696627 bytes
+2026/03/01-18:58:48.331 2588 Generated table #1865@0: 6309 keys, 435258 bytes
+2026/03/01-18:58:48.335 2588 Generated table #1866@0: 584 keys, 22471 bytes
+2026/03/01-18:58:48.336 2588 Compacted 1@0 + 0@1 files => 1154356 bytes
+2026/03/01-18:58:48.336 2588 compacted to: files[ 0 3 33 0 0 0 0 ]
+2026/03/01-18:58:48.432 2588 Compacting 1@1 + 5@2 files
+2026/03/01-18:58:48.481 2588 Generated table #1867@1: 2156 keys, 2147244 bytes
+2026/03/01-18:58:48.573 2588 Generated table #1868@1: 21009 keys, 2235125 bytes
+2026/03/01-18:58:48.686 2588 Generated table #1869@1: 23187 keys, 2285648 bytes
+2026/03/01-18:58:48.768 2588 Generated table #1870@1: 28811 keys, 2195238 bytes
+2026/03/01-18:58:48.854 2588 Generated table #1871@1: 25289 keys, 2052832 bytes
+2026/03/01-18:58:48.855 2588 Compacted 1@1 + 5@2 files => 10916087 bytes
+2026/03/01-18:58:48.860 2588 compacted to: files[ 0 2 33 0 0 0 0 ]
+2026/03/01-18:58:48.886 3fec Compacting 1@1 + 1@2 files
+2026/03/01-18:58:48.985 3fec Generated table #1872@1: 77141 keys, 2243569 bytes
+2026/03/01-18:58:49.015 3fec Generated table #1873@1: 8516 keys, 698928 bytes
+2026/03/01-18:58:49.015 3fec Compacted 1@1 + 1@2 files => 2942497 bytes
+2026/03/01-18:58:49.016 3fec compacted to: files[ 0 1 34 0 0 0 0 ]
+2026/03/01-18:58:49.017 3fec Delete type=2 #1847
+2026/03/01-18:58:49.017 3fec Delete type=2 #1848
+2026/03/01-18:58:49.017 3fec Delete type=2 #1849
+2026/03/01-18:58:49.017 3fec Delete type=2 #1850
+2026/03/01-18:58:49.017 3fec Delete type=2 #1851
+2026/03/01-18:58:49.017 3fec Delete type=2 #1852
+2026/03/01-18:58:49.017 3fec Delete type=2 #1862
+2026/03/01-18:58:49.018 3fec Delete type=2 #1864
+2026/03/01-18:58:49.018 3fec Delete type=2 #1865
+2026/03/01-18:58:50.298 3fec Compacting 1@1 + 2@2 files
+2026/03/01-18:58:50.413 3fec Generated table #1874@1: 98791 keys, 2250413 bytes
+2026/03/01-18:58:50.435 3fec Generated table #1875@1: 11516 keys, 648654 bytes
+2026/03/01-18:58:50.435 3fec Compacted 1@1 + 2@2 files => 2899067 bytes
+2026/03/01-18:58:50.436 3fec compacted to: files[ 0 0 34 0 0 0 0 ]
+2026/03/01-18:58:54.415 2588 Level-0 table #1877: started
+2026/03/01-18:58:54.453 2588 Level-0 table #1877: 1116383 bytes OK
+2026/03/01-18:58:54.454 2588 Delete type=2 #1860
+2026/03/01-18:58:54.455 2588 Delete type=0 #1861
+2026/03/01-18:58:54.455 2588 Delete type=2 #1863
+2026/03/01-18:58:54.455 2588 Delete type=2 #1866
+2026/03/01-18:58:54.464 3fec Compacting 1@0 + 0@1 files
+2026/03/01-18:58:54.497 3fec Generated table #1878@0: 25600 keys, 770035 bytes
+2026/03/01-18:58:54.513 3fec Generated table #1879@0: 5617 keys, 332069 bytes
+2026/03/01-18:58:54.516 3fec Generated table #1880@0: 147 keys, 15028 bytes
+2026/03/01-18:58:54.516 3fec Compacted 1@0 + 0@1 files => 1117132 bytes
+2026/03/01-18:58:54.517 3fec compacted to: files[ 0 3 34 0 0 0 0 ]
+2026/03/01-18:58:54.517 3fec Delete type=2 #1877
+2026/03/01-18:58:54.943 3fec Compacting 1@1 + 15@2 files
+2026/03/01-18:58:55.065 3fec Generated table #1881@1: 31011 keys, 2195719 bytes
+2026/03/01-18:58:55.136 3fec Generated table #1882@1: 28591 keys, 2208784 bytes
+2026/03/01-18:58:55.202 3fec Generated table #1883@1: 2164 keys, 2117094 bytes
+2026/03/01-18:58:55.255 3fec Generated table #1884@1: 2085 keys, 2121744 bytes
+2026/03/01-18:58:55.408 3fec Generated table #1885@1: 85129 keys, 2231383 bytes
+2026/03/01-18:58:55.550 3fec Generated table #1886@1: 98768 keys, 2249000 bytes
+2026/03/01-18:58:55.653 3fec Generated table #1887@1: 98910 keys, 2247864 bytes
+2026/03/01-18:58:55.764 3fec Generated table #1888@1: 98515 keys, 2248080 bytes
+2026/03/01-18:58:55.867 3fec Generated table #1889@1: 98516 keys, 2247523 bytes
+2026/03/01-18:58:56.003 3fec Generated table #1890@1: 98981 keys, 2250198 bytes
+2026/03/01-18:58:56.039 3fec Generated table #1891@1: 13133 keys, 304055 bytes
+2026/03/01-18:58:56.039 3fec Compacted 1@1 + 15@2 files => 22421444 bytes
+2026/03/01-18:58:56.047 3fec compacted to: files[ 0 2 30 0 0 0 0 ]
+2026/03/01-18:58:56.048 3fec Delete type=2 #1151
+2026/03/01-18:58:56.048 3fec Delete type=2 #1152
+2026/03/01-18:58:56.048 3fec Delete type=2 #1157
+2026/03/01-18:58:56.048 3fec Delete type=2 #1158
+2026/03/01-18:58:56.048 3fec Delete type=2 #1175
+2026/03/01-18:58:56.048 3fec Delete type=2 #1207
+2026/03/01-18:58:56.048 3fec Delete type=2 #1217
+2026/03/01-18:58:56.048 3fec Delete type=2 #1252
+2026/03/01-18:58:56.048 3fec Delete type=2 #1262
+2026/03/01-18:58:56.048 3fec Delete type=2 #1383
+2026/03/01-18:58:56.049 3fec Delete type=2 #1434
+2026/03/01-18:58:56.049 3fec Delete type=2 #1689
+2026/03/01-18:58:56.049 3fec Delete type=2 #1708
+2026/03/01-18:58:56.049 3fec Delete type=2 #1728
+2026/03/01-18:58:56.049 3fec Delete type=2 #1742
+2026/03/01-18:58:56.049 3fec Delete type=2 #1752
+2026/03/01-18:58:56.049 3fec Delete type=2 #1765
+2026/03/01-18:58:56.049 3fec Delete type=2 #1780
+2026/03/01-18:58:56.049 3fec Delete type=2 #1784
+2026/03/01-18:58:56.049 3fec Delete type=2 #1795
+2026/03/01-18:58:56.049 3fec Delete type=2 #1805
+2026/03/01-18:58:56.049 3fec Delete type=2 #1826
+2026/03/01-18:58:56.049 3fec Delete type=2 #1827
+2026/03/01-18:58:56.049 3fec Delete type=2 #1828
+2026/03/01-18:58:56.049 3fec Delete type=2 #1829
+2026/03/01-18:58:56.050 3fec Delete type=2 #1830
+2026/03/01-18:58:56.050 3fec Delete type=2 #1831
+2026/03/01-18:58:56.050 3fec Delete type=2 #1833
+2026/03/01-18:58:56.050 3fec Delete type=2 #1834
+2026/03/01-18:58:56.050 3fec Delete type=2 #1835
+2026/03/01-18:58:56.050 3fec Delete type=2 #1836
+2026/03/01-18:58:56.050 3fec Delete type=2 #1837
+2026/03/01-18:58:56.050 3fec Delete type=2 #1841
+2026/03/01-18:58:56.079 3fec Compacting 1@1 + 6@2 files
+2026/03/01-18:58:56.185 3fec Generated table #1892@1: 65670 keys, 2243817 bytes
+2026/03/01-18:58:56.300 3fec Generated table #1893@1: 25238 keys, 2184418 bytes
+2026/03/01-18:58:56.403 3fec Generated table #1894@1: 69532 keys, 2233051 bytes
+2026/03/01-18:58:56.513 3fec Generated table #1895@1: 59079 keys, 2228203 bytes
+2026/03/01-18:58:56.614 3fec Generated table #1896@1: 32654 keys, 2192399 bytes
+2026/03/01-18:58:56.620 3fec Generated table #1897@1: 42 keys, 150714 bytes
+2026/03/01-18:58:56.621 3fec Compacted 1@1 + 6@2 files => 11232602 bytes
+2026/03/01-18:58:56.623 3fec compacted to: files[ 0 1 30 0 0 0 0 ]
+2026/03/01-18:58:56.627 3fec Delete type=2 #1745
+2026/03/01-18:58:56.627 3fec Delete type=2 #1746
+2026/03/01-18:58:56.628 3fec Delete type=2 #1747
+2026/03/01-18:58:56.628 3fec Delete type=2 #1748
+2026/03/01-18:58:56.628 3fec Delete type=2 #1749
+2026/03/01-18:58:56.628 3fec Delete type=2 #1750
+2026/03/01-18:58:56.628 3fec Delete type=2 #1751
+2026/03/01-18:58:56.628 3fec Delete type=2 #1768
+2026/03/01-18:58:56.628 3fec Delete type=2 #1783
+2026/03/01-18:58:56.629 3fec Delete type=2 #1808
+2026/03/01-18:58:56.629 3fec Delete type=2 #1816
+2026/03/01-18:58:56.629 3fec Delete type=2 #1838
+2026/03/01-18:58:56.629 3fec Delete type=2 #1870
+2026/03/01-18:58:56.629 3fec Delete type=2 #1871
+2026/03/01-18:58:56.629 3fec Delete type=2 #1874
+2026/03/01-18:58:56.629 3fec Delete type=2 #1879
+2026/03/01-18:58:56.937 3fec Level-0 table #1899: started
+2026/03/01-18:58:56.969 3fec Level-0 table #1899: 1867820 bytes OK
+2026/03/01-18:58:56.972 3fec Delete type=2 #1853
+2026/03/01-18:58:56.972 3fec Delete type=2 #1854
+2026/03/01-18:58:56.972 3fec Delete type=2 #1855
+2026/03/01-18:58:56.972 3fec Delete type=2 #1856
+2026/03/01-18:58:56.972 3fec Delete type=2 #1872
+2026/03/01-18:58:56.972 3fec Delete type=2 #1873
+2026/03/01-18:58:56.972 3fec Delete type=0 #1876
+2026/03/01-18:58:56.972 3fec Delete type=2 #1878
+2026/03/01-18:58:56.980 3fec Compacting 1@0 + 1@1 files
+2026/03/01-18:58:57.001 3fec Generated table #1900@0: 12271 keys, 391242 bytes
+2026/03/01-18:58:57.020 3fec Generated table #1901@0: 3003 keys, 754784 bytes
+2026/03/01-18:58:57.028 3fec Generated table #1902@0: 526 keys, 36314 bytes
+2026/03/01-18:58:57.028 3fec Compacted 1@0 + 1@1 files => 1182340 bytes
+2026/03/01-18:58:57.030 3fec compacted to: files[ 0 3 30 0 0 0 0 ]
+2026/03/01-18:58:57.033 3fec Compacting 1@1 + 12@2 files
+2026/03/01-18:58:57.104 3fec Generated table #1903@1: 66790 keys, 2244142 bytes
+2026/03/01-18:58:57.171 3fec Generated table #1904@1: 25430 keys, 2185034 bytes
+2026/03/01-18:58:57.296 3fec Generated table #1905@1: 69099 keys, 2232812 bytes
+2026/03/01-18:58:57.393 3fec Generated table #1906@1: 59341 keys, 2229905 bytes
+2026/03/01-18:58:57.466 3fec Generated table #1907@1: 33540 keys, 2191091 bytes
+2026/03/01-18:58:57.492 3fec Generated table #1908@1: 689 keys, 2129671 bytes
+2026/03/01-18:58:57.527 3fec Generated table #1909@1: 555 keys, 2134707 bytes
+2026/03/01-18:58:57.542 3fec Generated table #1910@1: 893 keys, 2133678 bytes
+2026/03/01-18:58:57.555 3fec Generated table #1911@1: 303 keys, 2123312 bytes
+2026/03/01-18:58:57.582 3fec Generated table #1912@1: 691 keys, 2128864 bytes
+2026/03/01-18:58:57.595 3fec Generated table #1913@1: 490 keys, 1364036 bytes
+2026/03/01-18:58:57.595 3fec Compacted 1@1 + 12@2 files => 23097252 bytes
+2026/03/01-18:58:57.596 3fec compacted to: files[ 0 2 29 0 0 0 0 ]
+2026/03/01-18:58:57.597 3fec Delete type=2 #1880
+2026/03/01-18:58:57.597 3fec Delete type=2 #1899
+2026/03/01-18:58:57.599 3fec Compacting 1@1 + 10@2 files
+2026/03/01-18:58:57.617 3fec Generated table #1914@1: 867 keys, 2131667 bytes
+2026/03/01-18:58:57.655 3fec Generated table #1915@1: 1139 keys, 2142501 bytes
+2026/03/01-18:58:57.679 3fec Generated table #1916@1: 2111 keys, 2147178 bytes
+2026/03/01-18:58:57.781 3fec Generated table #1917@1: 20093 keys, 2229830 bytes
+2026/03/01-18:58:57.883 3fec Generated table #1918@1: 23375 keys, 2285640 bytes
+2026/03/01-18:58:57.968 3fec Generated table #1919@1: 25723 keys, 2199708 bytes
+2026/03/01-18:58:58.035 3fec Generated table #1920@1: 23618 keys, 2191355 bytes
+2026/03/01-18:58:58.089 3fec Generated table #1921@1: 2314 keys, 2121892 bytes
+2026/03/01-18:58:58.140 3fec Generated table #1922@1: 2169 keys, 2120476 bytes
+2026/03/01-18:58:58.242 3fec Generated table #1923@1: 84817 keys, 1934866 bytes
+2026/03/01-18:58:58.244 3fec Compacted 1@1 + 10@2 files => 21505113 bytes
+2026/03/01-18:58:58.248 3fec compacted to: files[ 0 1 29 0 0 0 0 ]
+2026/03/01-18:58:58.249 3fec Delete type=2 #1153
+2026/03/01-18:58:58.249 3fec Delete type=2 #1154
+2026/03/01-18:58:58.249 3fec Delete type=2 #1155
+2026/03/01-18:58:58.249 3fec Delete type=2 #1857
+2026/03/01-18:58:58.249 3fec Delete type=2 #1858
+2026/03/01-18:58:58.249 3fec Delete type=2 #1859
+2026/03/01-18:58:58.249 3fec Delete type=2 #1892
+2026/03/01-18:58:58.249 3fec Delete type=2 #1893
+2026/03/01-18:58:58.250 3fec Delete type=2 #1894
+2026/03/01-18:58:58.250 3fec Delete type=2 #1895
+2026/03/01-18:58:58.250 3fec Delete type=2 #1896
+2026/03/01-18:58:58.250 3fec Delete type=2 #1897
+2026/03/01-18:58:58.250 3fec Delete type=2 #1900
+2026/03/01-18:58:58.297 3fec Compacting 1@1 + 2@2 files
+2026/03/01-18:58:58.350 3fec Generated table #1924@1: 24372 keys, 962651 bytes
+2026/03/01-18:58:58.350 3fec Compacted 1@1 + 2@2 files => 962651 bytes
+2026/03/01-18:58:58.352 3fec compacted to: files[ 0 0 28 0 0 0 0 ]
+2026/03/01-18:58:58.353 3fec Delete type=2 #1845
+2026/03/01-18:58:58.353 3fec Delete type=2 #1846
+2026/03/01-18:58:58.353 3fec Delete type=2 #1867
+2026/03/01-18:58:58.353 3fec Delete type=2 #1868
+2026/03/01-18:58:58.353 3fec Delete type=2 #1869
+2026/03/01-18:58:58.354 3fec Delete type=2 #1881
+2026/03/01-18:58:58.354 3fec Delete type=2 #1882
+2026/03/01-18:58:58.354 3fec Delete type=2 #1883
+2026/03/01-18:58:58.354 3fec Delete type=2 #1884
+2026/03/01-18:58:58.354 3fec Delete type=2 #1885
+2026/03/01-18:58:58.354 3fec Delete type=2 #1901
+2026/03/01-18:59:01.400 3fec Level-0 table #1926: started
+2026/03/01-18:59:01.420 3fec Level-0 table #1926: 1295523 bytes OK
+2026/03/01-18:59:01.422 3fec Delete type=2 #1875
+2026/03/01-18:59:01.422 3fec Delete type=2 #1891
+2026/03/01-18:59:01.422 3fec Delete type=0 #1898
+2026/03/01-18:59:01.422 3fec Delete type=2 #1902
+2026/03/01-18:59:02.626 3fec Compacting 1@0 + 0@1 files
+2026/03/01-18:59:02.646 3fec Generated table #1927@0: 25895 keys, 625223 bytes
+2026/03/01-18:59:02.651 3fec Generated table #1928@0: 3139 keys, 162991 bytes
+2026/03/01-18:59:02.654 3fec Generated table #1929@0: 1310 keys, 23092 bytes
+2026/03/01-18:59:02.654 3fec Compacted 1@0 + 0@1 files => 811306 bytes
+2026/03/01-18:59:02.655 3fec compacted to: files[ 0 3 28 0 0 0 0 ]
+2026/03/01-18:59:02.655 3fec Delete type=2 #1926
+2026/03/01-18:59:03.289 3fec Compacting 1@1 + 10@2 files
+2026/03/01-18:59:03.306 3fec Generated table #1930@1: 2124 keys, 2150146 bytes
+2026/03/01-18:59:03.341 3fec Generated table #1931@1: 20496 keys, 2231943 bytes
+2026/03/01-18:59:03.379 3fec Generated table #1932@1: 23311 keys, 2285340 bytes
+2026/03/01-18:59:03.415 3fec Generated table #1933@1: 26813 keys, 2197784 bytes
+2026/03/01-18:59:03.441 3fec Generated table #1934@1: 22135 keys, 2188549 bytes
+2026/03/01-18:59:03.458 3fec Generated table #1935@1: 2323 keys, 2119767 bytes
+2026/03/01-18:59:03.474 3fec Generated table #1936@1: 2208 keys, 2120213 bytes
+2026/03/01-18:59:03.521 3fec Generated table #1937@1: 99374 keys, 2250634 bytes
+2026/03/01-18:59:03.570 3fec Generated table #1938@1: 98768 keys, 2249417 bytes
+2026/03/01-18:59:03.609 3fec Generated table #1939@1: 85455 keys, 1945900 bytes
+2026/03/01-18:59:03.609 3fec Compacted 1@1 + 10@2 files => 21739693 bytes
+2026/03/01-18:59:03.610 3fec compacted to: files[ 0 2 28 0 0 0 0 ]
+2026/03/01-18:59:03.611 3fec Delete type=2 #1886
+2026/03/01-18:59:03.611 3fec Delete type=2 #1887
+2026/03/01-18:59:03.611 3fec Delete type=2 #1916
+2026/03/01-18:59:03.611 3fec Delete type=2 #1917
+2026/03/01-18:59:03.611 3fec Delete type=2 #1918
+2026/03/01-18:59:03.611 3fec Delete type=2 #1919
+2026/03/01-18:59:03.611 3fec Delete type=2 #1920
+2026/03/01-18:59:03.611 3fec Delete type=2 #1921
+2026/03/01-18:59:03.611 3fec Delete type=2 #1922
+2026/03/01-18:59:03.611 3fec Delete type=2 #1923
+2026/03/01-18:59:03.611 3fec Delete type=2 #1928
+2026/03/01-18:59:04.381 2588 Level-0 table #1941: started
+2026/03/01-18:59:04.396 2588 Level-0 table #1941: 1168144 bytes OK
+2026/03/01-18:59:04.398 2588 Delete type=0 #1925
+2026/03/01-18:59:04.407 3fec Compacting 1@0 + 2@1 files
+2026/03/01-18:59:04.430 3fec Generated table #1942@0: 33580 keys, 621036 bytes
+2026/03/01-18:59:04.440 3fec Generated table #1943@0: 6006 keys, 395337 bytes
+2026/03/01-18:59:04.442 3fec Generated table #1944@0: 107 keys, 5836 bytes
+2026/03/01-18:59:04.442 3fec Compacted 1@0 + 2@1 files => 1022209 bytes
+2026/03/01-18:59:04.443 3fec compacted to: files[ 0 3 28 0 0 0 0 ]
+2026/03/01-18:59:04.471 3fec Compacting 1@1 + 10@2 files
+2026/03/01-18:59:04.512 3fec Generated table #1945@1: 26904 keys, 2199773 bytes
+2026/03/01-18:59:04.531 3fec Level-0 table #1948: started
+2026/03/01-18:59:04.547 3fec Level-0 table #1948: 1199949 bytes OK
+2026/03/01-18:59:04.547 3fec Delete type=2 #1927
+2026/03/01-18:59:04.547 3fec Delete type=2 #1929
+2026/03/01-18:59:04.547 3fec Delete type=0 #1940
+2026/03/01-18:59:04.547 3fec Delete type=2 #1941
+2026/03/01-18:59:04.557 3fec Generated table #1946@1: 22044 keys, 2185822 bytes
+2026/03/01-18:59:04.576 3fec Generated table #1949@1: 2323 keys, 2119767 bytes
+2026/03/01-18:59:04.593 3fec Generated table #1950@1: 2208 keys, 2120213 bytes
+2026/03/01-18:59:04.645 3fec Generated table #1951@1: 99374 keys, 2250634 bytes
+2026/03/01-18:59:04.699 3fec Generated table #1952@1: 98768 keys, 2249417 bytes
+2026/03/01-18:59:04.759 3fec Generated table #1953@1: 98763 keys, 2249662 bytes
+2026/03/01-18:59:04.815 3fec Generated table #1954@1: 98424 keys, 2248689 bytes
+2026/03/01-18:59:04.867 3fec Generated table #1955@1: 98768 keys, 2249664 bytes
+2026/03/01-18:59:04.913 3fec Generated table #1956@1: 86752 keys, 1972821 bytes
+2026/03/01-18:59:04.913 3fec Compacted 1@1 + 10@2 files => 21846462 bytes
+2026/03/01-18:59:04.915 3fec compacted to: files[ 1 2 28 0 0 0 0 ]
+2026/03/01-18:59:04.917 4d28 Compacting 1@0 + 1@1 files
+2026/03/01-18:59:04.952 4d28 Generated table #1957@0: 42561 keys, 1150558 bytes
+2026/03/01-18:59:04.963 4d28 Generated table #1958@0: 7857 keys, 575937 bytes
+2026/03/01-18:59:04.963 4d28 Compacted 1@0 + 1@1 files => 1726495 bytes
+2026/03/01-18:59:04.964 4d28 compacted to: files[ 0 3 28 0 0 0 0 ]
+2026/03/01-18:59:04.964 4d28 Delete type=2 #1888
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1889
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1890
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1933
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1934
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1935
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1936
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1937
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1938
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1939
+2026/03/01-18:59:04.965 4d28 Delete type=2 #1943
+2026/03/01-18:59:05.011 3fec Compacting 1@1 + 1@2 files
+2026/03/01-18:59:05.029 3fec Generated table #1959@1: 24465 keys, 966353 bytes
+2026/03/01-18:59:05.029 3fec Compacted 1@1 + 1@2 files => 966353 bytes
+2026/03/01-18:59:05.030 3fec compacted to: files[ 0 2 28 0 0 0 0 ]
+2026/03/01-18:59:05.030 3fec Delete type=2 #1942
+2026/03/01-18:59:05.030 3fec Delete type=2 #1948
+2026/03/01-18:59:05.671 3fec Compacting 1@1 + 5@2 files
+2026/03/01-18:59:05.724 3fec Generated table #1960@1: 68446 keys, 2228901 bytes
+2026/03/01-18:59:05.761 3fec Generated table #1961@1: 22584 keys, 2194981 bytes
+2026/03/01-18:59:05.825 3fec Generated table #1962@1: 62067 keys, 2224630 bytes
+2026/03/01-18:59:05.904 3fec Generated table #1963@1: 63664 keys, 2232884 bytes
+2026/03/01-18:59:05.955 3fec Generated table #1964@1: 46592 keys, 2213277 bytes
+2026/03/01-18:59:05.982 3fec Generated table #1965@1: 1579 keys, 653799 bytes
+2026/03/01-18:59:05.982 3fec Compacted 1@1 + 5@2 files => 11748472 bytes
+2026/03/01-18:59:05.983 3fec compacted to: files[ 0 1 29 0 0 0 0 ]
+2026/03/01-18:59:05.984 3fec Delete type=2 #1924
+2026/03/01-18:59:05.984 3fec Delete type=2 #1944
+2026/03/01-18:59:16.752 4d28 Compacting 1@1 + 2@2 files
+2026/03/01-18:59:16.876 4d28 Generated table #1966@1: 26608 keys, 2197778 bytes
+2026/03/01-18:59:16.898 4d28 Level-0 table #1969: started
+2026/03/01-18:59:16.932 4d28 Level-0 table #1969: 1168257 bytes OK
+2026/03/01-18:59:16.934 4d28 Delete type=2 #1903
+2026/03/01-18:59:16.934 4d28 Delete type=2 #1904
+2026/03/01-18:59:16.934 4d28 Delete type=2 #1905
+2026/03/01-18:59:16.934 4d28 Delete type=2 #1906
+2026/03/01-18:59:16.934 4d28 Delete type=2 #1907
+2026/03/01-18:59:16.934 4d28 Delete type=0 #1947
+2026/03/01-18:59:16.934 4d28 Delete type=2 #1957
+2026/03/01-18:59:17.031 4d28 Generated table #1967@1: 22451 keys, 2187834 bytes
+2026/03/01-18:59:17.035 4d28 Generated table #1970@1: 1 keys, 8859 bytes
+2026/03/01-18:59:17.035 4d28 Compacted 1@1 + 2@2 files => 4394471 bytes
+2026/03/01-18:59:17.036 4d28 compacted to: files[ 1 0 30 0 0 0 0 ]
+2026/03/01-18:59:17.038 4d28 Delete type=2 #1945
+2026/03/01-18:59:17.041 4d28 Delete type=2 #1946
+2026/03/01-18:59:17.041 4d28 Delete type=2 #1958
+2026/03/01-18:59:21.597 3fec Compacting 1@0 + 0@1 files
+2026/03/01-18:59:21.628 3fec Generated table #1971@0: 19011 keys, 291451 bytes
+2026/03/01-18:59:21.644 3fec Generated table #1972@0: 5762 keys, 414944 bytes
+2026/03/01-18:59:21.648 3fec Generated table #1973@0: 377 keys, 9623 bytes
+2026/03/01-18:59:21.648 3fec Compacted 1@0 + 0@1 files => 716018 bytes
+2026/03/01-18:59:21.649 3fec compacted to: files[ 0 3 30 0 0 0 0 ]
+2026/03/01-18:59:21.649 3fec Delete type=2 #1969
+2026/03/01-18:59:22.016 3fec Compacting 1@1 + 6@2 files
+2026/03/01-18:59:22.141 3fec Generated table #1974@1: 67615 keys, 2246269 bytes
+2026/03/01-18:59:22.232 3fec Generated table #1975@1: 24962 keys, 2187061 bytes
+2026/03/01-18:59:22.317 3fec Generated table #1976@1: 68042 keys, 2232193 bytes
+2026/03/01-18:59:22.450 3fec Generated table #1977@1: 60236 keys, 2229345 bytes
+2026/03/01-18:59:22.535 3fec Generated table #1978@1: 37990 keys, 2206683 bytes
+2026/03/01-18:59:22.544 3fec Generated table #1979@1: 68 keys, 195043 bytes
+2026/03/01-18:59:22.544 3fec Compacted 1@1 + 6@2 files => 11296594 bytes
+2026/03/01-18:59:22.545 3fec compacted to: files[ 0 2 30 0 0 0 0 ]
+2026/03/01-18:59:22.545 3fec Delete type=2 #1960
+2026/03/01-18:59:22.545 3fec Delete type=2 #1961
+2026/03/01-18:59:22.545 3fec Delete type=2 #1962
+2026/03/01-18:59:22.545 3fec Delete type=2 #1963
+2026/03/01-18:59:22.545 3fec Delete type=2 #1964
+2026/03/01-18:59:22.545 3fec Delete type=2 #1965
+2026/03/01-18:59:22.546 3fec Delete type=2 #1971
+2026/03/01-18:59:24.583 3fec Level-0 table #1981: started
+2026/03/01-18:59:24.624 3fec Level-0 table #1981: 1459269 bytes OK
+2026/03/01-18:59:24.628 3fec Delete type=0 #1968
+2026/03/01-18:59:24.632 3fec Compacting 1@0 + 2@1 files
+2026/03/01-18:59:24.667 3fec Generated table #1982@0: 26611 keys, 486009 bytes
+2026/03/01-18:59:24.721 3fec Generated table #1983@0: 17275 keys, 894585 bytes
+2026/03/01-18:59:24.754 3fec Generated table #1984@0: 12967 keys, 282948 bytes
+2026/03/01-18:59:24.754 3fec Compacted 1@0 + 2@1 files => 1663542 bytes
+2026/03/01-18:59:24.755 3fec compacted to: files[ 0 3 30 0 0 0 0 ]
+2026/03/01-18:59:24.757 3fec Compacting 1@1 + 11@2 files
+2026/03/01-18:59:24.817 3fec Generated table #1985@1: 2104 keys, 2150141 bytes
+2026/03/01-18:59:24.914 3fec Generated table #1986@1: 20102 keys, 2229364 bytes
+2026/03/01-18:59:25.006 3fec Generated table #1987@1: 23379 keys, 2285922 bytes
+2026/03/01-18:59:25.109 3fec Generated table #1988@1: 25721 keys, 2199751 bytes
+2026/03/01-18:59:25.232 3fec Generated table #1989@1: 23706 keys, 2193391 bytes
+2026/03/01-18:59:25.290 3fec Generated table #1990@1: 2309 keys, 2119443 bytes
+2026/03/01-18:59:25.357 3fec Generated table #1991@1: 2159 keys, 2119818 bytes
+2026/03/01-18:59:25.501 3fec Generated table #1992@1: 87040 keys, 2233443 bytes
+2026/03/01-18:59:25.699 3fec Generated table #1993@1: 98078 keys, 2247744 bytes
+2026/03/01-18:59:25.840 3fec Generated table #1994@1: 98619 keys, 2249525 bytes
+2026/03/01-18:59:25.866 3fec Generated table #1995@1: 24719 keys, 567131 bytes
+2026/03/01-18:59:25.867 3fec Compacted 1@1 + 11@2 files => 22595673 bytes
+2026/03/01-18:59:25.868 3fec compacted to: files[ 0 2 30 0 0 0 0 ]
+2026/03/01-18:59:25.869 3fec Delete type=2 #1930
+2026/03/01-18:59:25.869 3fec Delete type=2 #1931
+2026/03/01-18:59:25.869 3fec Delete type=2 #1932
+2026/03/01-18:59:25.869 3fec Delete type=2 #1949
+2026/03/01-18:59:25.869 3fec Delete type=2 #1950
+2026/03/01-18:59:25.869 3fec Delete type=2 #1951
+2026/03/01-18:59:25.870 3fec Delete type=2 #1952
+2026/03/01-18:59:25.871 3fec Delete type=2 #1953
+2026/03/01-18:59:25.871 3fec Delete type=2 #1966
+2026/03/01-18:59:25.871 3fec Delete type=2 #1967
+2026/03/01-18:59:25.871 3fec Delete type=2 #1970
+2026/03/01-18:59:25.871 3fec Delete type=2 #1972
+2026/03/01-18:59:25.871 3fec Delete type=2 #1973
+2026/03/01-18:59:25.871 3fec Delete type=2 #1981
+2026/03/01-18:59:25.871 3fec Delete type=2 #1983
+2026/03/01-18:59:26.166 3fec Compacting 1@1 + 4@2 files
+2026/03/01-18:59:26.298 3fec Generated table #1996@1: 97959 keys, 2248095 bytes
+2026/03/01-18:59:26.377 3fec Generated table #1997@1: 97979 keys, 2249310 bytes
+2026/03/01-18:59:26.456 3fec Generated table #1998@1: 98450 keys, 2248113 bytes
+2026/03/01-18:59:26.498 3fec Generated table #1999@1: 26104 keys, 1004620 bytes
+2026/03/01-18:59:26.498 3fec Compacted 1@1 + 4@2 files => 7750138 bytes
+2026/03/01-18:59:26.499 3fec compacted to: files[ 0 1 30 0 0 0 0 ]
+2026/03/01-18:59:26.499 3fec Delete type=2 #1954
+2026/03/01-18:59:26.499 3fec Delete type=2 #1955
+2026/03/01-18:59:26.499 3fec Delete type=2 #1956
+2026/03/01-18:59:26.499 3fec Delete type=2 #1959
+2026/03/01-18:59:26.499 3fec Delete type=2 #1984
+2026/03/01-18:59:50.482 3fec Compacting 1@1 + 5@2 files
+2026/03/01-18:59:50.564 3fec Generated table #2000@1: 87525 keys, 2261666 bytes
+2026/03/01-18:59:50.639 3fec Generated table #2001@1: 22459 keys, 2186879 bytes
+2026/03/01-18:59:50.721 3fec Generated table #2002@1: 63611 keys, 2226336 bytes
+2026/03/01-18:59:50.794 3fec Generated table #2003@1: 62627 keys, 2230707 bytes
+2026/03/01-18:59:50.853 3fec Generated table #2004@1: 45171 keys, 2212254 bytes
+2026/03/01-18:59:50.863 3fec Generated table #2005@1: 819 keys, 363766 bytes
+2026/03/01-18:59:50.863 3fec Compacted 1@1 + 5@2 files => 11481608 bytes
+2026/03/01-18:59:50.864 3fec compacted to: files[ 0 0 31 0 0 0 0 ]
+2026/03/01-18:59:50.865 3fec Delete type=2 #1974
+2026/03/01-18:59:50.865 3fec Delete type=2 #1975
+2026/03/01-18:59:50.865 3fec Delete type=2 #1976
+2026/03/01-18:59:50.865 3fec Delete type=2 #1977
+2026/03/01-18:59:50.865 3fec Delete type=2 #1978
+2026/03/01-18:59:50.865 3fec Delete type=2 #1982
+2026/03/01-19:00:23.780 4d28 Level-0 table #2007: started
+2026/03/01-19:00:23.823 4d28 Level-0 table #2007: 1158656 bytes OK
+2026/03/01-19:00:23.829 4d28 Delete type=0 #1980
+2026/03/01-19:03:52.191 4d28 Compacting 1@0 + 0@1 files
+2026/03/01-19:03:52.207 4d28 Generated table #2008@0: 36920 keys, 384285 bytes
+2026/03/01-19:03:52.213 4d28 Generated table #2009@0: 6131 keys, 307370 bytes
+2026/03/01-19:03:52.218 4d28 Generated table #2010@0: 6401 keys, 120808 bytes
+2026/03/01-19:03:52.219 4d28 Compacted 1@0 + 0@1 files => 812463 bytes
+2026/03/01-19:03:52.219 4d28 compacted to: files[ 0 3 31 0 0 0 0 ]
+2026/03/01-19:03:52.220 4d28 Delete type=2 #2007
+2026/03/01-19:04:16.256 3fec Compacting 1@1 + 10@2 files
+2026/03/01-19:04:16.273 3fec Generated table #2011@1: 2104 keys, 2150139 bytes
+2026/03/01-19:04:16.309 3fec Generated table #2012@1: 20102 keys, 2229372 bytes
+2026/03/01-19:04:16.353 3fec Generated table #2013@1: 23379 keys, 2285943 bytes
+2026/03/01-19:04:16.387 3fec Generated table #2014@1: 25706 keys, 2198646 bytes
+2026/03/01-19:04:16.415 3fec Generated table #2015@1: 23723 keys, 2194829 bytes
+2026/03/01-19:04:16.431 3fec Generated table #2016@1: 2309 keys, 2119443 bytes
+2026/03/01-19:04:16.447 3fec Generated table #2017@1: 2159 keys, 2119818 bytes
+2026/03/01-19:04:16.490 3fec Generated table #2018@1: 82313 keys, 2227144 bytes
+2026/03/01-19:04:16.538 3fec Generated table #2019@1: 97647 keys, 2246796 bytes
+2026/03/01-19:04:16.584 3fec Generated table #2020@1: 98244 keys, 2248895 bytes
+2026/03/01-19:04:16.591 3fec Generated table #2021@1: 10567 keys, 240206 bytes
+2026/03/01-19:04:16.592 3fec Compacted 1@1 + 10@2 files => 22261231 bytes
+2026/03/01-19:04:16.592 3fec compacted to: files[ 0 2 32 0 0 0 0 ]
+2026/03/01-19:04:16.593 3fec Delete type=2 #1985
+2026/03/01-19:04:16.593 3fec Delete type=2 #1986
+2026/03/01-19:04:16.593 3fec Delete type=2 #1987
+2026/03/01-19:04:16.593 3fec Delete type=2 #1988
+2026/03/01-19:04:16.593 3fec Delete type=2 #1989
+2026/03/01-19:04:16.593 3fec Delete type=2 #1990
+2026/03/01-19:04:16.593 3fec Delete type=2 #1991
+2026/03/01-19:04:16.593 3fec Delete type=2 #1992
+2026/03/01-19:04:16.593 3fec Delete type=2 #1993
+2026/03/01-19:04:16.593 3fec Delete type=2 #1994
+2026/03/01-19:04:16.593 3fec Delete type=2 #2009
+2026/03/01-19:05:13.784 3fec Compacting 1@1 + 1@2 files
+2026/03/01-19:05:13.845 3fec Generated table #2022@1: 64482 keys, 1899990 bytes
+2026/03/01-19:05:13.845 3fec Compacted 1@1 + 1@2 files => 1899990 bytes
+2026/03/01-19:05:13.846 3fec compacted to: files[ 0 1 32 0 0 0 0 ]
+2026/03/01-19:05:13.846 3fec Delete type=2 #2000
+2026/03/01-19:05:13.846 3fec Delete type=2 #2008
+2026/03/01-19:07:17.123 4d28 Level-0 table #2024: started
+2026/03/01-19:07:17.165 4d28 Level-0 table #2024: 1184059 bytes OK
+2026/03/01-19:07:17.171 4d28 Delete type=0 #2006
+2026/03/01-19:07:23.153 3fec Compacting 1@0 + 1@1 files
+2026/03/01-19:07:23.165 3fec Generated table #2025@0: 11098 keys, 132720 bytes
+2026/03/01-19:07:23.175 3fec Generated table #2026@0: 5496 keys, 386930 bytes
+2026/03/01-19:07:23.181 3fec Generated table #2027@0: 6430 keys, 121759 bytes
+2026/03/01-19:07:23.181 3fec Compacted 1@0 + 1@1 files => 641409 bytes
+2026/03/01-19:07:23.181 3fec compacted to: files[ 0 3 32 0 0 0 0 ]
+2026/03/01-19:07:23.182 3fec Delete type=2 #2010
+2026/03/01-19:07:23.182 3fec Delete type=2 #2024
+2026/03/01-19:07:23.484 3fec Compacting 1@1 + 9@2 files
+2026/03/01-19:07:23.536 3fec Generated table #2028@1: 67825 keys, 2251115 bytes
+2026/03/01-19:07:23.577 3fec Generated table #2029@1: 25286 keys, 2185602 bytes
+2026/03/01-19:07:23.633 3fec Generated table #2030@1: 68597 keys, 2232645 bytes
+2026/03/01-19:07:23.692 3fec Generated table #2031@1: 59950 keys, 2229565 bytes
+2026/03/01-19:07:23.729 3fec Generated table #2032@1: 36987 keys, 2198194 bytes
+2026/03/01-19:07:23.741 3fec Generated table #2033@1: 726 keys, 2137997 bytes
+2026/03/01-19:07:23.751 3fec Generated table #2034@1: 530 keys, 2125896 bytes
+2026/03/01-19:07:23.753 3fec Generated table #2035@1: 41 keys, 167029 bytes
+2026/03/01-19:07:23.754 3fec Compacted 1@1 + 9@2 files => 15528043 bytes
+2026/03/01-19:07:23.754 3fec compacted to: files[ 0 2 31 0 0 0 0 ]
+2026/03/01-19:07:23.754 3fec Delete type=2 #1908
+2026/03/01-19:07:23.755 3fec Delete type=2 #1909
+2026/03/01-19:07:23.755 3fec Delete type=2 #1979
+2026/03/01-19:07:23.755 3fec Delete type=2 #2001
+2026/03/01-19:07:23.755 3fec Delete type=2 #2002
+2026/03/01-19:07:23.755 3fec Delete type=2 #2003
+2026/03/01-19:07:23.755 3fec Delete type=2 #2004
+2026/03/01-19:07:23.755 3fec Delete type=2 #2005
+2026/03/01-19:07:23.755 3fec Delete type=2 #2022
+2026/03/01-19:07:23.755 3fec Delete type=2 #2025
+2026/03/01-19:08:36.387 3fec Compacting 1@1 + 6@2 files
+2026/03/01-19:08:36.404 3fec Generated table #2036@1: 1141 keys, 2141016 bytes
+2026/03/01-19:08:36.424 3fec Generated table #2037@1: 2103 keys, 2147079 bytes
+2026/03/01-19:08:36.466 3fec Generated table #2038@1: 20135 keys, 2229440 bytes
+2026/03/01-19:08:36.510 3fec Generated table #2039@1: 23368 keys, 2285192 bytes
+2026/03/01-19:08:36.551 3fec Generated table #2040@1: 25716 keys, 2199519 bytes
+2026/03/01-19:08:36.582 3fec Generated table #2041@1: 23694 keys, 2191708 bytes
+2026/03/01-19:08:36.582 3fec Compacted 1@1 + 6@2 files => 13193954 bytes
+2026/03/01-19:08:36.583 3fec compacted to: files[ 0 1 31 0 0 0 0 ]
+2026/03/01-19:08:36.583 3fec Delete type=2 #1915
+2026/03/01-19:08:36.583 3fec Delete type=2 #2011
+2026/03/01-19:08:36.583 3fec Delete type=2 #2012
+2026/03/01-19:08:36.584 3fec Delete type=2 #2013
+2026/03/01-19:08:36.584 3fec Delete type=2 #2014
+2026/03/01-19:08:36.584 3fec Delete type=2 #2015
+2026/03/01-19:08:36.584 3fec Delete type=2 #2026
+2026/03/01-19:18:11.469 3fec Level-0 table #2043: started
+2026/03/01-19:18:11.485 3fec Level-0 table #2043: 1244204 bytes OK
+2026/03/01-19:18:11.487 3fec Delete type=0 #2023
+2026/03/01-19:18:43.381 3fec Compacting 1@0 + 1@1 files
+2026/03/01-19:18:43.393 3fec Generated table #2044@0: 10033 keys, 169754 bytes
+2026/03/01-19:18:43.403 3fec Generated table #2045@0: 6217 keys, 453969 bytes
+2026/03/01-19:18:43.408 3fec Generated table #2046@0: 6512 keys, 125538 bytes
+2026/03/01-19:18:43.408 3fec Compacted 1@0 + 1@1 files => 749261 bytes
+2026/03/01-19:18:43.409 3fec compacted to: files[ 0 3 31 0 0 0 0 ]
+2026/03/01-19:18:43.409 3fec Delete type=2 #2027
+2026/03/01-19:18:43.410 3fec Delete type=2 #2043
+2026/03/01-19:21:48.237 3fec Compacting 1@1 + 10@2 files
+2026/03/01-19:21:48.252 3fec Generated table #2047@1: 1139 keys, 2141608 bytes
+2026/03/01-19:21:48.267 3fec Generated table #2048@1: 2104 keys, 2150139 bytes
+2026/03/01-19:21:48.300 3fec Generated table #2049@1: 20107 keys, 2229475 bytes
+2026/03/01-19:21:48.345 3fec Generated table #2050@1: 23377 keys, 2286250 bytes
+2026/03/01-19:21:48.381 3fec Generated table #2051@1: 25720 keys, 2199951 bytes
+2026/03/01-19:21:48.411 3fec Generated table #2052@1: 23773 keys, 2188590 bytes
+2026/03/01-19:21:48.428 3fec Generated table #2053@1: 2303 keys, 2120443 bytes
+2026/03/01-19:21:48.446 3fec Generated table #2054@1: 2150 keys, 2119001 bytes
+2026/03/01-19:21:48.489 3fec Generated table #2055@1: 81580 keys, 2225360 bytes
+2026/03/01-19:21:48.536 3fec Generated table #2056@1: 97595 keys, 2247368 bytes
+2026/03/01-19:21:48.538 3fec Generated table #2057@1: 834 keys, 18954 bytes
+2026/03/01-19:21:48.539 3fec Compacted 1@1 + 10@2 files => 21927139 bytes
+2026/03/01-19:21:48.540 3fec compacted to: files[ 0 2 32 0 0 0 0 ]
+2026/03/01-19:21:48.540 3fec Delete type=2 #2016
+2026/03/01-19:21:48.540 3fec Delete type=2 #2017
+2026/03/01-19:21:48.540 3fec Delete type=2 #2018
+2026/03/01-19:21:48.540 3fec Delete type=2 #2019
+2026/03/01-19:21:48.540 3fec Delete type=2 #2036
+2026/03/01-19:21:48.540 3fec Delete type=2 #2037
+2026/03/01-19:21:48.541 3fec Delete type=2 #2038
+2026/03/01-19:21:48.541 3fec Delete type=2 #2039
+2026/03/01-19:21:48.541 3fec Delete type=2 #2040
+2026/03/01-19:21:48.541 3fec Delete type=2 #2041
+2026/03/01-19:21:48.541 3fec Delete type=2 #2045
+2026/03/01-19:24:30.294 4d28 Compacting 1@1 + 5@2 files
+2026/03/01-19:24:30.401 4d28 Generated table #2058@1: 68362 keys, 2248191 bytes
+2026/03/01-19:24:30.478 4d28 Generated table #2059@1: 24655 keys, 2187315 bytes
+2026/03/01-19:24:30.595 4d28 Generated table #2060@1: 67509 keys, 2230398 bytes
+2026/03/01-19:24:30.730 4d28 Generated table #2061@1: 60537 keys, 2230342 bytes
+2026/03/01-19:24:30.829 4d28 Generated table #2062@1: 38928 keys, 2211709 bytes
+2026/03/01-19:24:30.838 4d28 Generated table #2063@1: 25 keys, 77428 bytes
+2026/03/01-19:24:30.839 4d28 Compacted 1@1 + 5@2 files => 11185383 bytes
+2026/03/01-19:24:30.844 4d28 compacted to: files[ 0 1 33 0 0 0 0 ]
+2026/03/01-19:35:39.271 3fec Level-0 table #2065: started
+2026/03/01-19:35:39.316 3fec Level-0 table #2065: 1068276 bytes OK
+2026/03/01-19:35:39.321 3fec Delete type=2 #2028
+2026/03/01-19:35:39.321 3fec Delete type=2 #2029
+2026/03/01-19:35:39.321 3fec Delete type=2 #2030
+2026/03/01-19:35:39.321 3fec Delete type=2 #2031
+2026/03/01-19:35:39.322 3fec Delete type=2 #2032
+2026/03/01-19:35:39.322 3fec Delete type=0 #2042
+2026/03/01-19:35:39.322 3fec Delete type=2 #2044
+2026/03/01-19:36:57.468 3fec Compacting 1@0 + 1@1 files
+2026/03/01-19:36:57.478 3fec Generated table #2066@0: 9416 keys, 125279 bytes
+2026/03/01-19:36:57.487 3fec Generated table #2067@0: 3122 keys, 243425 bytes
+2026/03/01-19:36:57.493 3fec Generated table #2068@0: 6531 keys, 127410 bytes
+2026/03/01-19:36:57.493 3fec Compacted 1@0 + 1@1 files => 496114 bytes
+2026/03/01-19:36:57.493 3fec compacted to: files[ 0 3 33 0 0 0 0 ]
+2026/03/01-19:36:57.494 3fec Delete type=2 #2046
+2026/03/01-19:36:57.494 3fec Delete type=2 #2065
+2026/03/01-19:40:18.216 3fec Compacting 1@1 + 9@2 files
+2026/03/01-19:40:18.241 3fec Generated table #2069@1: 1142 keys, 2140948 bytes
+2026/03/01-19:40:18.259 3fec Generated table #2070@1: 2103 keys, 2148099 bytes
+2026/03/01-19:40:18.293 3fec Generated table #2071@1: 20130 keys, 2228568 bytes
+2026/03/01-19:40:18.333 3fec Generated table #2072@1: 23369 keys, 2285407 bytes
+2026/03/01-19:40:18.367 3fec Generated table #2073@1: 25709 keys, 2199755 bytes
+2026/03/01-19:40:18.395 3fec Generated table #2074@1: 23776 keys, 2188953 bytes
+2026/03/01-19:40:18.412 3fec Generated table #2075@1: 2301 keys, 2121663 bytes
+2026/03/01-19:40:18.429 3fec Generated table #2076@1: 2146 keys, 2120472 bytes
+2026/03/01-19:40:18.466 3fec Generated table #2077@1: 81331 keys, 2224490 bytes
+2026/03/01-19:40:18.469 3fec Generated table #2078@1: 252 keys, 6102 bytes
+2026/03/01-19:40:18.469 3fec Compacted 1@1 + 9@2 files => 19664457 bytes
+2026/03/01-19:40:18.470 3fec compacted to: files[ 0 2 34 0 0 0 0 ]
+2026/03/01-19:40:18.470 3fec Delete type=2 #2047
+2026/03/01-19:40:18.470 3fec Delete type=2 #2048
+2026/03/01-19:40:18.470 3fec Delete type=2 #2049
+2026/03/01-19:40:18.470 3fec Delete type=2 #2050
+2026/03/01-19:40:18.471 3fec Delete type=2 #2051
+2026/03/01-19:40:18.471 3fec Delete type=2 #2052
+2026/03/01-19:40:18.471 3fec Delete type=2 #2053
+2026/03/01-19:40:18.471 3fec Delete type=2 #2054
+2026/03/01-19:40:18.471 3fec Delete type=2 #2055
+2026/03/01-19:40:18.471 3fec Delete type=2 #2067
+2026/03/01-19:43:15.558 3fec Compacting 1@1 + 8@2 files
+2026/03/01-19:43:15.613 3fec Generated table #2079@1: 68462 keys, 2250775 bytes
+2026/03/01-19:43:15.646 3fec Generated table #2080@1: 24842 keys, 2186891 bytes
+2026/03/01-19:43:15.692 3fec Generated table #2081@1: 67853 keys, 2231052 bytes
+2026/03/01-19:43:15.737 3fec Generated table #2082@1: 60340 keys, 2229554 bytes
+2026/03/01-19:43:15.771 3fec Generated table #2083@1: 38317 keys, 2201378 bytes
+2026/03/01-19:43:15.782 3fec Generated table #2084@1: 736 keys, 2132578 bytes
+2026/03/01-19:43:15.792 3fec Generated table #2085@1: 516 keys, 2122065 bytes
+2026/03/01-19:43:15.795 3fec Generated table #2086@1: 22 keys, 68868 bytes
+2026/03/01-19:43:15.795 3fec Compacted 1@1 + 8@2 files => 15423161 bytes
+2026/03/01-19:43:15.796 3fec compacted to: files[ 0 1 34 0 0 0 0 ]
+2026/03/01-19:43:15.796 3fec Delete type=2 #2033
+2026/03/01-19:43:15.796 3fec Delete type=2 #2034
+2026/03/01-19:43:15.796 3fec Delete type=2 #2058
+2026/03/01-19:43:15.796 3fec Delete type=2 #2059
+2026/03/01-19:43:15.797 3fec Delete type=2 #2060
+2026/03/01-19:43:15.797 3fec Delete type=2 #2061
+2026/03/01-19:43:15.797 3fec Delete type=2 #2062
+2026/03/01-19:43:15.797 3fec Delete type=2 #2063
+2026/03/01-19:43:15.797 3fec Delete type=2 #2066
+2026/03/01-19:45:11.287 3fec Level-0 table #2088: started
+2026/03/01-19:45:11.308 3fec Level-0 table #2088: 1112216 bytes OK
+2026/03/01-19:45:11.309 3fec Delete type=0 #2064
+2026/03/01-19:45:11.313 3fec Compacting 1@0 + 0@1 files
+2026/03/01-19:45:11.343 3fec Generated table #2089@0: 8815 keys, 83772 bytes
+2026/03/01-19:45:11.356 3fec Generated table #2090@0: 4914 keys, 345910 bytes
+2026/03/01-19:45:11.356 3fec Compacted 1@0 + 0@1 files => 429682 bytes
+2026/03/01-19:45:11.356 3fec compacted to: files[ 0 3 34 0 0 0 0 ]
+2026/03/01-19:45:11.357 3fec Delete type=2 #2088
+2026/03/01-19:45:15.283 3fec Compacting 1@1 + 4@2 files
+2026/03/01-19:45:15.328 3fec Generated table #2091@1: 20132 keys, 2229173 bytes
+2026/03/01-19:45:15.370 3fec Generated table #2092@1: 23373 keys, 2285641 bytes
+2026/03/01-19:45:15.406 3fec Generated table #2093@1: 25727 keys, 2199881 bytes
+2026/03/01-19:45:15.435 3fec Generated table #2094@1: 23862 keys, 2188100 bytes
+2026/03/01-19:45:15.438 3fec Generated table #2095@1: 1 keys, 8537 bytes
+2026/03/01-19:45:15.439 3fec Compacted 1@1 + 4@2 files => 8911332 bytes
+2026/03/01-19:45:15.439 3fec compacted to: files[ 0 2 35 0 0 0 0 ]
+2026/03/01-19:45:15.440 3fec Delete type=2 #2071
+2026/03/01-19:45:15.440 3fec Delete type=2 #2072
+2026/03/01-19:45:15.440 3fec Delete type=2 #2073
+2026/03/01-19:45:15.440 3fec Delete type=2 #2074
+2026/03/01-19:45:15.440 3fec Delete type=2 #2090
+2026/03/01-19:50:20.480 3fec Compacting 1@1 + 7@2 files
+2026/03/01-19:50:20.598 3fec Generated table #2096@1: 68347 keys, 2252360 bytes
+2026/03/01-19:50:20.707 3fec Generated table #2097@1: 25126 keys, 2186338 bytes
+2026/03/01-19:50:20.889 3fec Generated table #2098@1: 68301 keys, 2232188 bytes
+2026/03/01-19:50:21.041 3fec Generated table #2099@1: 60122 keys, 2230405 bytes
+2026/03/01-19:50:21.179 3fec Generated table #2100@1: 37485 keys, 2198453 bytes
+2026/03/01-19:50:21.221 3fec Generated table #2101@1: 733 keys, 2129142 bytes
+2026/03/01-19:50:21.256 3fec Generated table #2102@1: 514 keys, 2093599 bytes
+2026/03/01-19:50:21.257 3fec Compacted 1@1 + 7@2 files => 15322485 bytes
+2026/03/01-19:50:21.260 3fec compacted to: files[ 0 1 35 0 0 0 0 ]
+2026/03/01-19:50:21.262 3fec Delete type=2 #2079
+2026/03/01-19:50:21.262 3fec Delete type=2 #2080
+2026/03/01-19:50:21.262 3fec Delete type=2 #2081
+2026/03/01-19:50:21.263 3fec Delete type=2 #2082
+2026/03/01-19:50:21.263 3fec Delete type=2 #2083
+2026/03/01-19:50:21.263 3fec Delete type=2 #2084
+2026/03/01-19:50:21.263 3fec Delete type=2 #2085
+2026/03/01-19:50:21.263 3fec Delete type=2 #2089
+2026/03/01-19:53:54.022 3fec Compacting 1@1 + 7@2 files
+2026/03/01-19:53:54.102 3fec Generated table #2103@1: 98245 keys, 2248917 bytes
+2026/03/01-19:53:54.173 3fec Level-0 table #2106: started
+2026/03/01-19:53:54.194 3fec Level-0 table #2106: 1374242 bytes OK
+2026/03/01-19:53:54.197 3fec Delete type=0 #2087
+2026/03/01-19:53:54.202 3fec Generated table #2104@1: 97733 keys, 2248790 bytes
+2026/03/01-19:53:54.257 3fec Generated table #2107@1: 97570 keys, 2247560 bytes
+2026/03/01-19:53:54.313 3fec Generated table #2108@1: 98247 keys, 2249496 bytes
+2026/03/01-19:53:54.357 3fec Generated table #2109@1: 68705 keys, 1983638 bytes
+2026/03/01-19:53:54.357 3fec Compacted 1@1 + 7@2 files => 10978401 bytes
+2026/03/01-19:53:54.358 3fec compacted to: files[ 1 0 33 0 0 0 0 ]
+2026/03/01-19:53:54.358 3fec Compacting 1@0 + 0@1 files
+2026/03/01-19:53:54.374 3fec Generated table #2110@0: 20102 keys, 417454 bytes
+2026/03/01-19:53:54.384 3fec Generated table #2111@0: 7000 keys, 472664 bytes
+2026/03/01-19:53:54.392 3fec Generated table #2112@0: 11016 keys, 212830 bytes
+2026/03/01-19:53:54.392 3fec Compacted 1@0 + 0@1 files => 1102948 bytes
+2026/03/01-19:53:54.392 3fec compacted to: files[ 0 3 33 0 0 0 0 ]
+2026/03/01-19:53:54.393 3fec Delete type=2 #1995
+2026/03/01-19:53:54.393 3fec Delete type=2 #1996
+2026/03/01-19:53:54.393 3fec Delete type=2 #1997
+2026/03/01-19:53:54.393 3fec Delete type=2 #1998
+2026/03/01-19:53:54.393 3fec Delete type=2 #1999
+2026/03/01-19:53:54.393 3fec Delete type=2 #2020
+2026/03/01-19:53:54.393 3fec Delete type=2 #2021
+2026/03/01-19:53:54.393 3fec Delete type=2 #2068
+2026/03/01-19:53:54.398 3fec Level-0 table #2114: started
+2026/03/01-19:53:54.418 3fec Level-0 table #2114: 1340839 bytes OK
+2026/03/01-19:53:54.419 3fec Delete type=0 #2105
+2026/03/01-19:53:54.419 3fec Delete type=2 #2106
+2026/03/01-19:53:54.420 3fec Compacting 1@0 + 3@1 files
+2026/03/01-19:53:54.444 3fec Generated table #2115@0: 48270 keys, 947407 bytes
+2026/03/01-19:53:54.459 3fec Generated table #2116@0: 14503 keys, 884717 bytes
+2026/03/01-19:53:54.482 3fec Generated table #2117@0: 31367 keys, 676810 bytes
+2026/03/01-19:53:54.482 3fec Compacted 1@0 + 3@1 files => 2508934 bytes
+2026/03/01-19:53:54.483 3fec compacted to: files[ 0 3 33 0 0 0 0 ]
+2026/03/01-19:53:54.483 3fec Delete type=2 #2110
+2026/03/01-19:53:54.483 3fec Delete type=2 #2111
+2026/03/01-19:53:54.483 3fec Delete type=2 #2112
+2026/03/01-19:53:54.483 3fec Delete type=2 #2114
+2026/03/01-19:53:54.484 3fec Compacting 1@1 + 12@2 files
+2026/03/01-19:53:54.502 3fec Generated table #2118@1: 1143 keys, 2141967 bytes
+2026/03/01-19:53:54.541 3fec Generated table #2119@1: 2104 keys, 2146667 bytes
+2026/03/01-19:53:54.590 3fec Generated table #2120@1: 20218 keys, 2230287 bytes
+2026/03/01-19:53:54.599 3fec Level-0 table #2123: started
+2026/03/01-19:53:54.621 3fec Level-0 table #2123: 970832 bytes OK
+2026/03/01-19:53:54.622 3fec Delete type=0 #2113
+2026/03/01-19:53:54.665 3fec Generated table #2121@1: 23353 keys, 2285480 bytes
+2026/03/01-19:53:54.707 3fec Generated table #2124@1: 25745 keys, 2200162 bytes
+2026/03/01-19:53:54.739 3fec Generated table #2125@1: 23835 keys, 2189453 bytes
+2026/03/01-19:53:54.757 3fec Generated table #2126@1: 2285 keys, 2118085 bytes
+2026/03/01-19:53:54.775 3fec Generated table #2127@1: 2122 keys, 2121195 bytes
+2026/03/01-19:53:54.814 3fec Generated table #2128@1: 61175 keys, 2197645 bytes
+2026/03/01-19:53:54.866 3fec Generated table #2129@1: 96612 keys, 2246714 bytes
+2026/03/01-19:53:54.886 3fec Generated table #2130@1: 32958 keys, 767875 bytes
+2026/03/01-19:53:54.886 3fec Compacted 1@1 + 12@2 files => 22645530 bytes
+2026/03/01-19:53:54.887 3fec compacted to: files[ 1 2 32 0 0 0 0 ]
+2026/03/01-19:53:54.887 3fec Delete type=2 #2056
+2026/03/01-19:53:54.887 3fec Delete type=2 #2069
+2026/03/01-19:53:54.887 3fec Delete type=2 #2070
+2026/03/01-19:53:54.887 3fec Delete type=2 #2075
+2026/03/01-19:53:54.887 3fec Delete type=2 #2076
+2026/03/01-19:53:54.887 3fec Delete type=2 #2077
+2026/03/01-19:53:54.887 3fec Delete type=2 #2078
+2026/03/01-19:53:54.887 3fec Delete type=2 #2091
+2026/03/01-19:53:54.888 3fec Delete type=2 #2092
+2026/03/01-19:53:54.888 3fec Delete type=2 #2093
+2026/03/01-19:53:54.888 3fec Delete type=2 #2094
+2026/03/01-19:53:54.888 3fec Delete type=2 #2095
+2026/03/01-19:53:54.888 3fec Delete type=2 #2116
+2026/03/01-19:54:00.907 3fec Compacting 1@1 + 6@2 files
+2026/03/01-19:54:01.003 3fec Generated table #2131@1: 97024 keys, 2248198 bytes
+2026/03/01-19:54:01.107 3fec Generated table #2132@1: 96460 keys, 2244990 bytes
+2026/03/01-19:54:01.190 3fec Generated table #2133@1: 96702 keys, 2247086 bytes
+2026/03/01-19:54:01.262 3fec Generated table #2134@1: 96907 keys, 2247408 bytes
+2026/03/01-19:54:01.323 3fec Generated table #2135@1: 95075 keys, 2245676 bytes
+2026/03/01-19:54:01.334 3fec Generated table #2136@1: 10518 keys, 610292 bytes
+2026/03/01-19:54:01.334 3fec Compacted 1@1 + 6@2 files => 11843650 bytes
+2026/03/01-19:54:01.335 3fec compacted to: files[ 1 1 32 0 0 0 0 ]
+2026/03/01-19:54:01.335 3fec Delete type=2 #2057
+2026/03/01-19:54:01.335 3fec Delete type=2 #2103
+2026/03/01-19:54:01.335 3fec Delete type=2 #2104
+2026/03/01-19:54:01.335 3fec Delete type=2 #2107
+2026/03/01-19:54:01.335 3fec Delete type=2 #2108
+2026/03/01-19:54:01.335 3fec Delete type=2 #2109
+2026/03/01-19:54:01.335 3fec Delete type=2 #2117
+2026/03/01-19:54:01.471 4d28 Compacting 1@0 + 1@1 files
+2026/03/01-19:54:01.513 4d28 Generated table #2137@0: 60267 keys, 590485 bytes
+2026/03/01-19:54:01.521 4d28 Generated table #2138@0: 11424 keys, 317056 bytes
+2026/03/01-19:54:01.521 4d28 Compacted 1@0 + 1@1 files => 907541 bytes
+2026/03/01-19:54:01.521 4d28 compacted to: files[ 0 2 32 0 0 0 0 ]
+2026/03/01-19:57:43.664 3fec Compacting 1@1 + 10@2 files
+2026/03/01-19:57:43.988 3fec Generated table #2139@1: 68853 keys, 2251148 bytes
+2026/03/01-19:57:44.179 3fec Generated table #2140@1: 24970 keys, 2186528 bytes
+2026/03/01-19:57:44.331 3fec Generated table #2141@1: 68021 keys, 2230884 bytes
+2026/03/01-19:57:44.456 3fec Generated table #2142@1: 60236 keys, 2229345 bytes
+2026/03/01-19:57:44.549 3fec Generated table #2143@1: 37990 keys, 2206803 bytes
+2026/03/01-19:57:44.587 3fec Generated table #2144@1: 737 keys, 2134310 bytes
+2026/03/01-19:57:44.617 3fec Generated table #2145@1: 527 keys, 2124465 bytes
+2026/03/01-19:57:44.654 3fec Generated table #2146@1: 899 keys, 2139754 bytes
+2026/03/01-19:57:44.666 3fec Generated table #2147@1: 49 keys, 277689 bytes
+2026/03/01-19:57:44.666 3fec Compacted 1@1 + 10@2 files => 17780926 bytes
+2026/03/01-19:57:44.669 3fec compacted to: files[ 0 1 31 0 0 0 0 ]
+2026/03/01-19:57:44.670 3fec Delete type=2 #2115
+2026/03/01-19:57:44.670 3fec Delete type=2 #2123
+2026/03/01-19:57:48.243 3fec Compacting 1@1 + 11@2 files
+2026/03/01-19:57:48.342 3fec Generated table #2148@1: 23831 keys, 2189499 bytes
+2026/03/01-19:57:48.381 3fec Generated table #2149@1: 2285 keys, 2118085 bytes
+2026/03/01-19:57:48.430 3fec Generated table #2150@1: 2122 keys, 2121195 bytes
+2026/03/01-19:57:48.529 3fec Generated table #2151@1: 56608 keys, 2190684 bytes
+2026/03/01-19:57:48.667 3fec Generated table #2152@1: 96154 keys, 2247301 bytes
+2026/03/01-19:57:48.795 3fec Generated table #2153@1: 96837 keys, 2247637 bytes
+2026/03/01-19:57:48.948 3fec Generated table #2154@1: 96545 keys, 2245752 bytes
+2026/03/01-19:57:49.093 3fec Generated table #2155@1: 96313 keys, 2247142 bytes
+2026/03/01-19:57:49.254 3fec Generated table #2156@1: 96222 keys, 2245410 bytes
+2026/03/01-19:57:49.416 3fec Generated table #2157@1: 96503 keys, 2246859 bytes
+2026/03/01-19:57:49.478 3fec Generated table #2158@1: 49128 keys, 1177861 bytes
+2026/03/01-19:57:49.478 3fec Compacted 1@1 + 11@2 files => 23277425 bytes
+2026/03/01-19:57:49.479 3fec compacted to: files[ 0 0 31 0 0 0 0 ]
+2026/03/01-19:57:49.480 3fec Delete type=2 #1910
+2026/03/01-19:57:49.481 3fec Delete type=2 #2035
+2026/03/01-19:57:49.481 3fec Delete type=2 #2086
+2026/03/01-19:57:49.481 3fec Delete type=2 #2096
+2026/03/01-19:57:49.481 3fec Delete type=2 #2097
+2026/03/01-19:57:49.481 3fec Delete type=2 #2098
+2026/03/01-19:57:49.481 3fec Delete type=2 #2099
+2026/03/01-19:57:49.481 3fec Delete type=2 #2100
+2026/03/01-19:57:49.481 3fec Delete type=2 #2101
+2026/03/01-19:57:49.481 3fec Delete type=2 #2102
+2026/03/01-19:57:49.481 3fec Delete type=2 #2125
+2026/03/01-19:57:49.481 3fec Delete type=2 #2126
+2026/03/01-19:57:49.482 3fec Delete type=2 #2127
+2026/03/01-19:57:49.482 3fec Delete type=2 #2128
+2026/03/01-19:57:49.482 3fec Delete type=2 #2129
+2026/03/01-19:57:49.482 3fec Delete type=2 #2130
+2026/03/01-19:57:49.482 3fec Delete type=2 #2131
+2026/03/01-19:57:49.482 3fec Delete type=2 #2132
+2026/03/01-19:57:49.482 3fec Delete type=2 #2133
+2026/03/01-19:57:49.482 3fec Delete type=2 #2134
+2026/03/01-19:57:49.482 3fec Delete type=2 #2135
+2026/03/01-19:57:49.482 3fec Delete type=2 #2137
+2026/03/01-19:57:49.482 3fec Delete type=2 #2138
+2026/03/01-19:58:01.188 3fec Level-0 table #2160: started
+2026/03/01-19:58:01.232 3fec Level-0 table #2160: 1243995 bytes OK
+2026/03/01-19:58:01.237 3fec Delete type=0 #2122
+2026/03/01-19:58:01.242 3fec Compacting 1@0 + 0@1 files
+2026/03/01-19:58:01.269 3fec Generated table #2161@0: 18223 keys, 318188 bytes
+2026/03/01-19:58:01.279 3fec Generated table #2162@0: 2380 keys, 210331 bytes
+2026/03/01-19:58:01.285 3fec Generated table #2163@0: 105 keys, 13733 bytes
+2026/03/01-19:58:01.285 3fec Compacted 1@0 + 0@1 files => 542252 bytes
+2026/03/01-19:58:01.286 3fec compacted to: files[ 0 3 31 0 0 0 0 ]
+2026/03/01-19:58:02.302 4d28 Compacting 1@1 + 5@2 files
+2026/03/01-19:58:02.444 4d28 Generated table #2164@1: 71108 keys, 2251837 bytes
+2026/03/01-19:58:02.535 4d28 Generated table #2165@1: 24750 keys, 2187373 bytes
+2026/03/01-19:58:02.657 4d28 Generated table #2166@1: 67368 keys, 2230350 bytes
+2026/03/01-19:58:02.773 4d28 Generated table #2167@1: 60623 keys, 2230742 bytes
+2026/03/01-19:58:02.898 4d28 Generated table #2168@1: 39179 keys, 2205652 bytes
+2026/03/01-19:58:02.904 4d28 Generated table #2169@1: 10 keys, 56646 bytes
+2026/03/01-19:58:02.905 4d28 Compacted 1@1 + 5@2 files => 11162600 bytes
+2026/03/01-19:58:02.907 4d28 compacted to: files[ 0 2 32 0 0 0 0 ]
+2026/03/01-19:58:02.909 4d28 Delete type=2 #2160
+2026/03/01-19:58:02.918 3fec Compacting 1@1 + 5@2 files
+2026/03/01-19:58:02.954 3fec Generated table #2170@1: 2085 keys, 2147490 bytes
+2026/03/01-19:58:03.042 3fec Generated table #2171@1: 19745 keys, 2226770 bytes
+2026/03/01-19:58:03.137 3fec Generated table #2172@1: 23475 keys, 2285516 bytes
+2026/03/01-19:58:03.235 3fec Generated table #2173@1: 25684 keys, 2202783 bytes
+2026/03/01-19:58:03.314 3fec Generated table #2174@1: 24553 keys, 2192397 bytes
+2026/03/01-19:58:03.321 3fec Generated table #2175@1: 8 keys, 69905 bytes
+2026/03/01-19:58:03.321 3fec Compacted 1@1 + 5@2 files => 11124861 bytes
+2026/03/01-19:58:03.322 3fec compacted to: files[ 0 1 33 0 0 0 0 ]
+2026/03/01-19:58:03.324 3fec Delete type=2 #2119
+2026/03/01-19:58:03.324 3fec Delete type=2 #2120
+2026/03/01-19:58:03.325 3fec Delete type=2 #2121
+2026/03/01-19:58:03.325 3fec Delete type=2 #2124
+2026/03/01-19:58:03.325 3fec Delete type=2 #2139
+2026/03/01-19:58:03.326 3fec Delete type=2 #2140
+2026/03/01-19:58:03.326 3fec Delete type=2 #2141
+2026/03/01-19:58:03.326 3fec Delete type=2 #2142
+2026/03/01-19:58:03.327 3fec Delete type=2 #2143
+2026/03/01-19:58:03.327 3fec Delete type=2 #2148
+2026/03/01-19:58:03.328 3fec Delete type=2 #2161
+2026/03/01-19:58:03.328 3fec Delete type=2 #2162
+2026/03/01-19:58:15.484 4d28 Compacting 1@1 + 2@2 files
+2026/03/01-19:58:15.576 4d28 Generated table #2176@1: 59741 keys, 1799918 bytes
+2026/03/01-19:58:15.577 4d28 Compacted 1@1 + 2@2 files => 1799918 bytes
+2026/03/01-19:58:15.579 4d28 compacted to: files[ 0 0 32 0 0 0 0 ]
+2026/03/01-19:58:15.579 4d28 Delete type=2 #2136
+2026/03/01-19:58:15.580 4d28 Delete type=2 #2158
+2026/03/01-19:58:15.580 4d28 Delete type=2 #2163
+2026/03/01-19:58:18.023 3fec Level-0 table #2178: started
+2026/03/01-19:58:18.078 3fec Level-0 table #2178: 1289696 bytes OK
+2026/03/01-19:58:18.081 3fec Delete type=0 #2159
+2026/03/01-19:58:18.378 3fec Compacting 1@0 + 0@1 files
+2026/03/01-19:58:18.419 3fec Generated table #2179@0: 22217 keys, 422012 bytes
+2026/03/01-19:58:18.432 3fec Generated table #2180@0: 1483 keys, 169475 bytes
+2026/03/01-19:58:18.437 3fec Generated table #2181@0: 97 keys, 14034 bytes
+2026/03/01-19:58:18.438 3fec Compacted 1@0 + 0@1 files => 605521 bytes
+2026/03/01-19:58:18.439 3fec compacted to: files[ 0 3 32 0 0 0 0 ]
+2026/03/01-19:58:19.185 4d28 Compacting 1@1 + 5@2 files
+2026/03/01-19:58:19.245 4d28 Generated table #2182@1: 2089 keys, 2147581 bytes
+2026/03/01-19:58:19.348 4d28 Generated table #2183@1: 19059 keys, 2221315 bytes
+2026/03/01-19:58:19.462 4d28 Generated table #2184@1: 23648 keys, 2285418 bytes
+2026/03/01-19:58:19.579 4d28 Generated table #2185@1: 25572 keys, 2207443 bytes
+2026/03/01-19:58:19.648 4d28 Generated table #2186@1: 25588 keys, 2194596 bytes
+2026/03/01-19:58:19.655 4d28 Generated table #2187@1: 13 keys, 102628 bytes
+2026/03/01-19:58:19.655 4d28 Compacted 1@1 + 5@2 files => 11158981 bytes
+2026/03/01-19:58:19.658 4d28 compacted to: files[ 0 2 33 0 0 0 0 ]
+2026/03/01-19:58:19.659 4d28 Delete type=2 #2170
+2026/03/01-19:58:19.659 4d28 Delete type=2 #2171
+2026/03/01-19:58:19.659 4d28 Delete type=2 #2172
+2026/03/01-19:58:19.659 4d28 Delete type=2 #2173
+2026/03/01-19:58:19.659 4d28 Delete type=2 #2174
+2026/03/01-19:58:19.659 4d28 Delete type=2 #2178
+2026/03/01-19:58:19.659 4d28 Delete type=2 #2180
+2026/03/01-19:58:19.742 3fec Compacting 1@1 + 5@2 files
+2026/03/01-19:58:19.813 3fec Generated table #2188@1: 73337 keys, 2251392 bytes
+2026/03/01-19:58:19.882 3fec Generated table #2189@1: 24922 keys, 2189396 bytes
+2026/03/01-19:58:19.947 3fec Generated table #2190@1: 66074 keys, 2229780 bytes
+2026/03/01-19:58:20.033 3fec Generated table #2191@1: 61293 keys, 2229563 bytes
+2026/03/01-19:58:20.108 3fec Generated table #2192@1: 41552 keys, 2208941 bytes
+2026/03/01-19:58:20.112 3fec Generated table #2193@1: 44 keys, 108709 bytes
+2026/03/01-19:58:20.112 3fec Compacted 1@1 + 5@2 files => 11217781 bytes
+2026/03/01-19:58:20.113 3fec compacted to: files[ 0 1 34 0 0 0 0 ]
+2026/03/01-19:58:20.115 3fec Delete type=2 #2164
+2026/03/01-19:58:20.115 3fec Delete type=2 #2165
+2026/03/01-19:58:20.115 3fec Delete type=2 #2166
+2026/03/01-19:58:20.115 3fec Delete type=2 #2167
+2026/03/01-19:58:20.115 3fec Delete type=2 #2168
+2026/03/01-19:58:20.115 3fec Delete type=2 #2179
+2026/03/01-19:59:35.940 3fec Compacting 1@1 + 1@2 files
+2026/03/01-19:59:35.945 3fec Level-0 table #2196: started
+2026/03/01-19:59:35.993 3fec Level-0 table #2196: 1353610 bytes OK
+2026/03/01-19:59:36.000 3fec Delete type=0 #2177
+2026/03/01-19:59:36.058 3fec Generated table #2194@1: 59810 keys, 1809533 bytes
+2026/03/01-19:59:36.059 3fec Compacted 1@1 + 1@2 files => 1809533 bytes
+2026/03/01-19:59:36.059 3fec compacted to: files[ 1 0 34 0 0 0 0 ]
+2026/03/01-19:59:36.060 3fec Delete type=2 #2176
+2026/03/01-19:59:36.060 3fec Delete type=2 #2181
+2026/03/01-19:59:36.469 4d28 Compacting 1@0 + 0@1 files
+2026/03/01-19:59:36.513 4d28 Generated table #2197@0: 19834 keys, 381993 bytes
+2026/03/01-19:59:36.522 4d28 Generated table #2198@0: 1534 keys, 202639 bytes
+2026/03/01-19:59:36.537 4d28 Generated table #2199@0: 88 keys, 11040 bytes
+2026/03/01-19:59:36.537 4d28 Compacted 1@0 + 0@1 files => 595672 bytes
+2026/03/01-19:59:36.538 4d28 compacted to: files[ 0 3 34 0 0 0 0 ]
+2026/03/01-19:59:36.539 4d28 Delete type=2 #2196
+2026/03/01-19:59:36.834 3fec Compacting 1@1 + 5@2 files
+2026/03/01-19:59:36.935 3fec Generated table #2200@1: 76785 keys, 2254210 bytes
+2026/03/01-19:59:37.040 3fec Generated table #2201@1: 23581 keys, 2188657 bytes
+2026/03/01-19:59:37.181 3fec Generated table #2202@1: 64792 keys, 2228455 bytes
+2026/03/01-19:59:37.338 3fec Generated table #2203@1: 61981 keys, 2230282 bytes
+2026/03/01-19:59:37.456 3fec Generated table #2204@1: 43812 keys, 2209467 bytes
+2026/03/01-19:59:37.460 3fec Generated table #2205@1: 38 keys, 105750 bytes
+2026/03/01-19:59:37.461 3fec Compacted 1@1 + 5@2 files => 11216821 bytes
+2026/03/01-19:59:37.464 3fec compacted to: files[ 0 2 35 0 0 0 0 ]
+2026/03/01-19:59:37.469 3fec Delete type=2 #2188
+2026/03/01-19:59:37.470 3fec Delete type=2 #2189
+2026/03/01-19:59:37.471 3fec Delete type=2 #2190
+2026/03/01-19:59:37.471 3fec Delete type=2 #2191
+2026/03/01-19:59:37.471 3fec Delete type=2 #2192
+2026/03/01-19:59:37.472 3fec Delete type=2 #2197
+2026/03/01-19:59:41.456 3fec Compacting 1@1 + 5@2 files
+2026/03/01-19:59:41.503 3fec Generated table #2206@1: 2113 keys, 2168591 bytes
+2026/03/01-19:59:41.599 3fec Generated table #2207@1: 18577 keys, 2217269 bytes
+2026/03/01-19:59:41.707 3fec Generated table #2208@1: 23678 keys, 2286075 bytes
+2026/03/01-19:59:41.809 3fec Generated table #2209@1: 25600 keys, 2210610 bytes
+2026/03/01-19:59:41.937 3fec Generated table #2210@1: 26340 keys, 2196338 bytes
+2026/03/01-19:59:41.964 3fec Generated table #2211@1: 69 keys, 80276 bytes
+2026/03/01-19:59:41.966 3fec Compacted 1@1 + 5@2 files => 11159159 bytes
+2026/03/01-19:59:41.974 3fec compacted to: files[ 0 1 36 0 0 0 0 ]
+2026/03/01-19:59:41.990 3fec Delete type=2 #2182
+2026/03/01-19:59:41.990 3fec Delete type=2 #2183
+2026/03/01-19:59:41.990 3fec Delete type=2 #2184
+2026/03/01-19:59:41.990 3fec Delete type=2 #2185
+2026/03/01-19:59:41.990 3fec Delete type=2 #2186
+2026/03/01-19:59:41.990 3fec Delete type=2 #2198
+2026/03/01-20:00:25.956 4d28 Compacting 1@1 + 1@2 files
+2026/03/01-20:00:26.013 4d28 Generated table #2212@1: 59840 keys, 1811426 bytes
+2026/03/01-20:00:26.013 4d28 Compacted 1@1 + 1@2 files => 1811426 bytes
+2026/03/01-20:00:26.014 4d28 compacted to: files[ 0 0 36 0 0 0 0 ]
+2026/03/01-20:00:26.015 4d28 Delete type=2 #2194
+2026/03/01-20:00:26.015 4d28 Delete type=2 #2199
+2026/03/01-20:00:29.906 3fec Level-0 table #2214: started
+2026/03/01-20:00:29.937 3fec Level-0 table #2214: 1407017 bytes OK
+2026/03/01-20:00:29.940 3fec Delete type=0 #2195
+2026/03/01-20:00:30.430 3fec Compacting 1@0 + 0@1 files
+2026/03/01-20:00:30.461 3fec Generated table #2215@0: 23829 keys, 484547 bytes
+2026/03/01-20:00:30.471 3fec Generated table #2216@0: 728 keys, 164044 bytes
+2026/03/01-20:00:30.474 3fec Generated table #2217@0: 107 keys, 13555 bytes
+2026/03/01-20:00:30.474 3fec Compacted 1@0 + 0@1 files => 662146 bytes
+2026/03/01-20:00:30.475 3fec compacted to: files[ 0 3 36 0 0 0 0 ]
+2026/03/01-20:00:30.475 3fec Delete type=2 #2214
+2026/03/01-20:00:30.945 3fec Compacting 1@1 + 14@2 files
+2026/03/01-20:00:31.029 3fec Generated table #2218@1: 81302 keys, 2260003 bytes
+2026/03/01-20:00:31.085 3fec Generated table #2219@1: 22497 keys, 2186851 bytes
+2026/03/01-20:00:31.156 3fec Generated table #2220@1: 62899 keys, 2225890 bytes
+2026/03/01-20:00:31.324 3fec Generated table #2221@1: 63123 keys, 2232440 bytes
+2026/03/01-20:00:31.403 3fec Generated table #2222@1: 45932 keys, 2213418 bytes
+2026/03/01-20:00:31.425 3fec Generated table #2223@1: 1689 keys, 2135842 bytes
+2026/03/01-20:00:31.439 3fec Generated table #2224@1: 439 keys, 2123155 bytes
+2026/03/01-20:00:31.459 3fec Generated table #2225@1: 953 keys, 2133814 bytes
+2026/03/01-20:00:31.477 3fec Generated table #2226@1: 362 keys, 2122442 bytes
+2026/03/01-20:00:31.492 3fec Generated table #2227@1: 533 keys, 2130335 bytes
+2026/03/01-20:00:31.500 3fec Generated table #2228@1: 241 keys, 689622 bytes
+2026/03/01-20:00:31.501 3fec Compacted 1@1 + 14@2 files => 22453812 bytes
+2026/03/01-20:00:31.502 3fec compacted to: files[ 0 2 33 0 0 0 0 ]
+2026/03/01-20:00:31.502 3fec Delete type=2 #1911
+2026/03/01-20:00:31.503 3fec Delete type=2 #1912
+2026/03/01-20:00:31.503 3fec Delete type=2 #2144
+2026/03/01-20:00:31.503 3fec Delete type=2 #2145
+2026/03/01-20:00:31.503 3fec Delete type=2 #2146
+2026/03/01-20:00:31.503 3fec Delete type=2 #2147
+2026/03/01-20:00:31.503 3fec Delete type=2 #2169
+2026/03/01-20:00:31.503 3fec Delete type=2 #2193
+2026/03/01-20:00:31.503 3fec Delete type=2 #2200
+2026/03/01-20:00:31.503 3fec Delete type=2 #2201
+2026/03/01-20:00:31.503 3fec Delete type=2 #2202
+2026/03/01-20:00:31.503 3fec Delete type=2 #2203
+2026/03/01-20:00:31.503 3fec Delete type=2 #2204
+2026/03/01-20:00:31.503 3fec Delete type=2 #2205
+2026/03/01-20:00:31.503 3fec Delete type=2 #2215
+2026/03/01-20:00:31.561 3fec Compacting 1@1 + 11@2 files
+2026/03/01-20:00:31.589 3fec Generated table #2229@1: 2113 keys, 2168542 bytes
+2026/03/01-20:00:31.636 3fec Generated table #2230@1: 17692 keys, 2211218 bytes
+2026/03/01-20:00:31.691 3fec Generated table #2231@1: 23761 keys, 2285216 bytes
+2026/03/01-20:00:31.751 3fec Generated table #2232@1: 25717 keys, 2216981 bytes
+2026/03/01-20:00:31.797 3fec Generated table #2233@1: 27415 keys, 2201163 bytes
+2026/03/01-20:00:31.815 3fec Generated table #2234@1: 2065 keys, 2118140 bytes
+2026/03/01-20:00:31.835 3fec Generated table #2235@1: 2243 keys, 2122348 bytes
+2026/03/01-20:00:31.874 3fec Generated table #2236@1: 40203 keys, 2167551 bytes
+2026/03/01-20:00:31.891 3fec Generated table #2237@1: 16705 keys, 387962 bytes
+2026/03/01-20:00:31.892 3fec Compacted 1@1 + 11@2 files => 17879121 bytes
+2026/03/01-20:00:31.892 3fec compacted to: files[ 0 1 31 0 0 0 0 ]
+2026/03/01-20:00:31.893 3fec Delete type=2 #2149
+2026/03/01-20:00:31.893 3fec Delete type=2 #2150
+2026/03/01-20:00:31.893 3fec Delete type=2 #2151
+2026/03/01-20:00:31.893 3fec Delete type=2 #2175
+2026/03/01-20:00:31.893 3fec Delete type=2 #2187
+2026/03/01-20:00:31.893 3fec Delete type=2 #2206
+2026/03/01-20:00:31.893 3fec Delete type=2 #2207
+2026/03/01-20:00:31.894 3fec Delete type=2 #2208
+2026/03/01-20:00:31.894 3fec Delete type=2 #2209
+2026/03/01-20:00:31.894 3fec Delete type=2 #2210
+2026/03/01-20:00:31.894 3fec Delete type=2 #2211
+2026/03/01-20:00:31.894 3fec Delete type=2 #2216
+2026/03/01-20:01:31.341 2588 Compacting 1@1 + 4@2 files
+2026/03/01-20:01:31.447 2588 Generated table #2238@1: 96315 keys, 2247198 bytes
+2026/03/01-20:01:31.564 2588 Generated table #2239@1: 96223 keys, 2245430 bytes
+2026/03/01-20:01:31.691 2588 Generated table #2240@1: 96503 keys, 2246859 bytes
+2026/03/01-20:01:31.794 2588 Generated table #2241@1: 59936 keys, 1825171 bytes
+2026/03/01-20:01:31.794 2588 Compacted 1@1 + 4@2 files => 8564658 bytes
+2026/03/01-20:01:31.795 2588 compacted to: files[ 0 0 31 0 0 0 0 ]
+2026/03/01-20:01:31.795 2588 Delete type=2 #2155
+2026/03/01-20:01:31.795 2588 Delete type=2 #2156
+2026/03/01-20:01:31.795 2588 Delete type=2 #2157
+2026/03/01-20:01:31.795 2588 Delete type=2 #2212
+2026/03/01-20:01:31.795 2588 Delete type=2 #2217
+2026/03/01-20:01:34.938 3fec Level-0 table #2243: started
+2026/03/01-20:01:35.019 3fec Level-0 table #2243: 1411052 bytes OK
+2026/03/01-20:01:35.033 3fec Delete type=0 #2213
+2026/03/01-20:01:35.107 4d28 Compacting 1@0 + 0@1 files
+2026/03/01-20:01:35.162 4d28 Generated table #2244@0: 25518 keys, 561771 bytes
+2026/03/01-20:01:35.174 4d28 Generated table #2245@0: 607 keys, 143954 bytes
+2026/03/01-20:01:35.178 4d28 Generated table #2246@0: 100 keys, 12619 bytes
+2026/03/01-20:01:35.178 4d28 Compacted 1@0 + 0@1 files => 718344 bytes
+2026/03/01-20:01:35.179 4d28 compacted to: files[ 0 3 31 0 0 0 0 ]
+2026/03/01-20:01:35.180 4d28 Delete type=2 #2243
+2026/03/01-20:01:35.939 2144 Compacting 1@1 + 6@2 files
+2026/03/01-20:01:35.966 2144 Generated table #2247@1: 1143 keys, 2141856 bytes
+2026/03/01-20:01:35.998 2144 Generated table #2248@1: 2115 keys, 2147892 bytes
+2026/03/01-20:01:36.151 2144 Generated table #2249@1: 16680 keys, 2202747 bytes
+2026/03/01-20:01:36.263 2144 Generated table #2250@1: 23729 keys, 2285958 bytes
+2026/03/01-20:01:36.350 2144 Generated table #2251@1: 25362 keys, 2220720 bytes
+2026/03/01-20:01:36.417 2144 Generated table #2252@1: 29142 keys, 2206426 bytes
+2026/03/01-20:01:36.423 2144 Generated table #2253@1: 99 keys, 132668 bytes
+2026/03/01-20:01:36.424 2144 Compacted 1@1 + 6@2 files => 13338267 bytes
+2026/03/01-20:01:36.425 2144 compacted to: files[ 0 2 32 0 0 0 0 ]
+2026/03/01-20:01:36.426 2144 Delete type=2 #2118
+2026/03/01-20:01:36.426 2144 Delete type=2 #2229
+2026/03/01-20:01:36.426 2144 Delete type=2 #2230
+2026/03/01-20:01:36.426 2144 Delete type=2 #2231
+2026/03/01-20:01:36.426 2144 Delete type=2 #2232
+2026/03/01-20:01:36.426 2144 Delete type=2 #2233
+2026/03/01-20:01:36.426 2144 Delete type=2 #2245
+2026/03/01-20:01:36.688 3fec Compacting 1@1 + 10@2 files
+2026/03/01-20:01:36.764 3fec Generated table #2254@1: 85527 keys, 2243638 bytes
+2026/03/01-20:01:36.804 3fec Generated table #2255@1: 22013 keys, 2209711 bytes
+2026/03/01-20:01:36.887 3fec Generated table #2256@1: 60677 keys, 2222698 bytes
+2026/03/01-20:01:36.978 3fec Generated table #2257@1: 64310 keys, 2234116 bytes
+2026/03/01-20:01:37.039 3fec Generated table #2258@1: 46641 keys, 2215076 bytes
+2026/03/01-20:01:37.060 3fec Generated table #2259@1: 3430 keys, 2139107 bytes
+2026/03/01-20:01:37.079 3fec Generated table #2260@1: 448 keys, 2120014 bytes
+2026/03/01-20:01:37.102 3fec Generated table #2261@1: 977 keys, 2135721 bytes
+2026/03/01-20:01:37.121 3fec Generated table #2262@1: 383 keys, 2118766 bytes
+2026/03/01-20:01:37.141 3fec Generated table #2263@1: 525 keys, 2127211 bytes
+2026/03/01-20:01:37.146 3fec Generated table #2264@1: 21 keys, 120196 bytes
+2026/03/01-20:01:37.146 3fec Compacted 1@1 + 10@2 files => 21886254 bytes
+2026/03/01-20:01:37.147 3fec compacted to: files[ 0 1 33 0 0 0 0 ]
+2026/03/01-20:01:40.948 3fec Compacting 1@1 + 1@2 files
+2026/03/01-20:01:41.017 3fec Generated table #2265@1: 60032 keys, 1837142 bytes
+2026/03/01-20:01:41.017 3fec Compacted 1@1 + 1@2 files => 1837142 bytes
+2026/03/01-20:01:41.018 3fec compacted to: files[ 0 0 33 0 0 0 0 ]
+2026/03/01-20:01:41.019 3fec Delete type=2 #2218
+2026/03/01-20:01:41.019 3fec Delete type=2 #2219
+2026/03/01-20:01:41.019 3fec Delete type=2 #2220
+2026/03/01-20:01:41.019 3fec Delete type=2 #2221
+2026/03/01-20:01:41.019 3fec Delete type=2 #2222
+2026/03/01-20:01:41.019 3fec Delete type=2 #2223
+2026/03/01-20:01:41.019 3fec Delete type=2 #2224
+2026/03/01-20:01:41.019 3fec Delete type=2 #2225
+2026/03/01-20:01:41.019 3fec Delete type=2 #2226
+2026/03/01-20:01:41.019 3fec Delete type=2 #2227
+2026/03/01-20:01:41.019 3fec Delete type=2 #2241
+2026/03/01-20:01:41.019 3fec Delete type=2 #2244
+2026/03/01-20:01:41.019 3fec Delete type=2 #2246
+2026/03/01-20:03:52.408 3fec Level-0 table #2267: started
+2026/03/01-20:03:52.430 3fec Level-0 table #2267: 1385240 bytes OK
+2026/03/01-20:03:52.432 3fec Delete type=0 #2242
+2026/03/01-20:05:23.816 3fec Compacting 1@0 + 0@1 files
+2026/03/01-20:05:23.860 3fec Generated table #2268@0: 21818 keys, 555707 bytes
+2026/03/01-20:05:23.868 3fec Generated table #2269@0: 1452 keys, 165228 bytes
+2026/03/01-20:05:23.872 3fec Generated table #2270@0: 85 keys, 10742 bytes
+2026/03/01-20:05:23.872 3fec Compacted 1@0 + 0@1 files => 731677 bytes
+2026/03/01-20:05:23.873 3fec compacted to: files[ 0 3 33 0 0 0 0 ]
+2026/03/01-20:05:23.874 3fec Delete type=2 #2267
+2026/03/01-20:05:43.391 3fec Compacting 1@1 + 5@2 files
+2026/03/01-20:05:43.432 3fec Generated table #2271@1: 2105 keys, 2148632 bytes
+2026/03/01-20:05:43.514 3fec Generated table #2272@1: 16105 keys, 2200366 bytes
+2026/03/01-20:05:43.602 3fec Generated table #2273@1: 23731 keys, 2284946 bytes
+2026/03/01-20:05:43.672 3fec Generated table #2274@1: 24613 keys, 2221476 bytes
+2026/03/01-20:05:43.793 3fec Generated table #2275@1: 30240 keys, 2205765 bytes
+2026/03/01-20:05:43.801 3fec Generated table #2276@1: 521 keys, 77379 bytes
+2026/03/01-20:05:43.801 3fec Compacted 1@1 + 5@2 files => 11138564 bytes
+2026/03/01-20:05:43.803 3fec compacted to: files[ 0 2 34 0 0 0 0 ]
+2026/03/01-20:05:43.804 3fec Delete type=2 #2248
+2026/03/01-20:05:43.805 3fec Delete type=2 #2249
+2026/03/01-20:05:43.805 3fec Delete type=2 #2250
+2026/03/01-20:05:43.805 3fec Delete type=2 #2251
+2026/03/01-20:05:43.805 3fec Delete type=2 #2252
+2026/03/01-20:05:43.805 3fec Delete type=2 #2269
+2026/03/01-20:07:53.416 3fec Compacting 1@1 + 10@2 files
+2026/03/01-20:07:53.532 3fec Generated table #2277@1: 83888 keys, 2231217 bytes
+2026/03/01-20:07:53.605 3fec Generated table #2278@1: 26388 keys, 2221319 bytes
+2026/03/01-20:07:53.687 3fec Generated table #2279@1: 57240 keys, 2216700 bytes
+2026/03/01-20:07:53.797 3fec Generated table #2280@1: 65836 keys, 2235685 bytes
+2026/03/01-20:07:53.879 3fec Generated table #2281@1: 46665 keys, 2215558 bytes
+2026/03/01-20:07:53.903 3fec Generated table #2282@1: 6631 keys, 2141288 bytes
+2026/03/01-20:07:53.918 3fec Generated table #2283@1: 487 keys, 2122580 bytes
+2026/03/01-20:07:53.953 3fec Generated table #2284@1: 1006 keys, 2136239 bytes
+2026/03/01-20:07:53.977 3fec Generated table #2285@1: 409 keys, 2121468 bytes
+2026/03/01-20:07:53.999 3fec Generated table #2286@1: 515 keys, 2123275 bytes
+2026/03/01-20:07:54.005 3fec Generated table #2287@1: 40 keys, 165001 bytes
+2026/03/01-20:07:54.005 3fec Compacted 1@1 + 10@2 files => 21930330 bytes
+2026/03/01-20:07:54.006 3fec compacted to: files[ 0 1 35 0 0 0 0 ]
+2026/03/01-20:07:54.006 3fec Delete type=2 #2254
+2026/03/01-20:07:54.006 3fec Delete type=2 #2255
+2026/03/01-20:07:54.006 3fec Delete type=2 #2256
+2026/03/01-20:07:54.007 3fec Delete type=2 #2257
+2026/03/01-20:07:54.007 3fec Delete type=2 #2258
+2026/03/01-20:07:54.007 3fec Delete type=2 #2259
+2026/03/01-20:07:54.007 3fec Delete type=2 #2260
+2026/03/01-20:07:54.007 3fec Delete type=2 #2261
+2026/03/01-20:07:54.007 3fec Delete type=2 #2262
+2026/03/01-20:07:54.007 3fec Delete type=2 #2263
+2026/03/01-20:07:54.007 3fec Delete type=2 #2268
+2026/03/01-20:16:14.242 3fec Level-0 table #2289: started
+2026/03/01-20:16:14.289 3fec Level-0 table #2289: 1553151 bytes OK
+2026/03/01-20:16:14.290 3fec Delete type=0 #2266
+2026/03/01-20:16:18.993 3fec Compacting 1@0 + 1@1 files
+2026/03/01-20:16:19.028 3fec Generated table #2290@0: 9661 keys, 233376 bytes
+2026/03/01-20:16:19.047 3fec Generated table #2291@0: 4510 keys, 569110 bytes
+2026/03/01-20:16:19.050 3fec Generated table #2292@0: 104 keys, 12617 bytes
+2026/03/01-20:16:19.051 3fec Compacted 1@0 + 1@1 files => 815103 bytes
+2026/03/01-20:16:19.052 3fec compacted to: files[ 0 3 35 0 0 0 0 ]
+2026/03/01-20:16:19.052 3fec Delete type=2 #2270
+2026/03/01-20:16:19.053 3fec Delete type=2 #2289
+2026/03/01-20:16:21.607 3fec Compacting 1@1 + 11@2 files
+2026/03/01-20:16:21.648 3fec Generated table #2293@1: 1147 keys, 2146641 bytes
+2026/03/01-20:16:21.686 3fec Generated table #2294@1: 2109 keys, 2148853 bytes
+2026/03/01-20:16:21.749 3fec Generated table #2295@1: 16307 keys, 2200293 bytes
+2026/03/01-20:16:21.856 3fec Generated table #2296@1: 23722 keys, 2286643 bytes
+2026/03/01-20:16:21.939 3fec Generated table #2297@1: 24765 keys, 2221490 bytes
+2026/03/01-20:16:22.011 3fec Generated table #2298@1: 30023 keys, 2205508 bytes
+2026/03/01-20:16:22.053 3fec Generated table #2299@1: 2361 keys, 2118708 bytes
+2026/03/01-20:16:22.099 3fec Generated table #2300@1: 2264 keys, 2120876 bytes
+2026/03/01-20:16:22.156 3fec Generated table #2301@1: 31495 keys, 2157790 bytes
+2026/03/01-20:16:22.178 3fec Generated table #2302@1: 8892 keys, 204654 bytes
+2026/03/01-20:16:22.178 3fec Compacted 1@1 + 11@2 files => 19811456 bytes
+2026/03/01-20:16:22.181 3fec compacted to: files[ 0 2 34 0 0 0 0 ]
+2026/03/01-20:16:22.182 3fec Delete type=2 #2234
+2026/03/01-20:16:22.182 3fec Delete type=2 #2235
+2026/03/01-20:16:22.182 3fec Delete type=2 #2236
+2026/03/01-20:16:22.182 3fec Delete type=2 #2247
+2026/03/01-20:16:22.182 3fec Delete type=2 #2253
+2026/03/01-20:16:22.183 3fec Delete type=2 #2271
+2026/03/01-20:16:22.183 3fec Delete type=2 #2272
+2026/03/01-20:16:22.183 3fec Delete type=2 #2273
+2026/03/01-20:16:22.183 3fec Delete type=2 #2274
+2026/03/01-20:16:22.183 3fec Delete type=2 #2275
+2026/03/01-20:16:22.183 3fec Delete type=2 #2276
+2026/03/01-20:16:22.184 3fec Delete type=2 #2291
+2026/03/01-20:16:22.321 3fec Compacting 1@1 + 8@2 files
+2026/03/01-20:16:22.511 3fec Generated table #2303@1: 82808 keys, 2230033 bytes
+2026/03/01-20:16:22.572 3fec Generated table #2304@1: 28258 keys, 2223343 bytes
+2026/03/01-20:16:22.702 3fec Generated table #2305@1: 56138 keys, 2215786 bytes
+2026/03/01-20:16:22.817 3fec Generated table #2306@1: 66317 keys, 2236408 bytes
+2026/03/01-20:16:22.901 3fec Generated table #2307@1: 46667 keys, 2215305 bytes
+2026/03/01-20:16:22.952 3fec Generated table #2308@1: 7713 keys, 2144679 bytes
+2026/03/01-20:16:22.988 3fec Generated table #2309@1: 487 keys, 2122997 bytes
+2026/03/01-20:16:23.018 3fec Generated table #2310@1: 985 keys, 2133439 bytes
+2026/03/01-20:16:23.029 3fec Generated table #2311@1: 39 keys, 64681 bytes
+2026/03/01-20:16:23.029 3fec Compacted 1@1 + 8@2 files => 17586671 bytes
+2026/03/01-20:16:23.032 3fec compacted to: files[ 0 1 35 0 0 0 0 ]
+2026/03/01-20:16:23.033 3fec Delete type=2 #2277
+2026/03/01-20:16:23.033 3fec Delete type=2 #2278
+2026/03/01-20:16:23.033 3fec Delete type=2 #2279
+2026/03/01-20:16:23.033 3fec Delete type=2 #2280
+2026/03/01-20:16:23.034 3fec Delete type=2 #2281
+2026/03/01-20:16:23.034 3fec Delete type=2 #2282
+2026/03/01-20:16:23.034 3fec Delete type=2 #2283
+2026/03/01-20:16:23.034 3fec Delete type=2 #2284
+2026/03/01-20:16:23.034 3fec Delete type=2 #2290
+2026/03/01-20:23:37.466 3fec Level-0 table #2313: started
+2026/03/01-20:23:37.486 3fec Level-0 table #2313: 1268813 bytes OK
+2026/03/01-20:23:37.490 3fec Delete type=0 #2288
+2026/03/01-20:25:00.323 2588 Compacting 1@0 + 1@1 files
+2026/03/01-20:25:00.386 2588 Generated table #2314@0: 11713 keys, 196605 bytes
+2026/03/01-20:25:00.434 2588 Generated table #2315@0: 5864 keys, 476784 bytes
+2026/03/01-20:25:00.441 2588 Generated table #2316@0: 141 keys, 14106 bytes
+2026/03/01-20:25:00.442 2588 Compacted 1@0 + 1@1 files => 687495 bytes
+2026/03/01-20:25:00.443 2588 compacted to: files[ 0 3 35 0 0 0 0 ]
+2026/03/01-20:25:00.515 3fec Compacting 1@1 + 10@2 files
+2026/03/01-20:25:00.561 3fec Generated table #2317@1: 869 keys, 2133198 bytes
+2026/03/01-20:25:00.622 3fec Generated table #2318@1: 1147 keys, 2146641 bytes
+2026/03/01-20:25:00.759 3fec Generated table #2319@1: 2109 keys, 2148872 bytes
+2026/03/01-20:25:00.942 3fec Generated table #2320@1: 16313 keys, 2200260 bytes
+2026/03/01-20:25:01.156 3fec Generated table #2321@1: 23732 keys, 2286628 bytes
+2026/03/01-20:25:01.346 3fec Generated table #2322@1: 24738 keys, 2222517 bytes
+2026/03/01-20:25:01.505 3fec Generated table #2323@1: 30102 keys, 2205725 bytes
+2026/03/01-20:25:01.568 3fec Generated table #2324@1: 2389 keys, 2120308 bytes
+2026/03/01-20:25:01.631 3fec Generated table #2325@1: 2305 keys, 2121902 bytes
+2026/03/01-20:25:01.722 3fec Generated table #2326@1: 31110 keys, 2154893 bytes
+2026/03/01-20:25:01.728 3fec Generated table #2327@1: 407 keys, 9701 bytes
+2026/03/01-20:25:01.728 3fec Compacted 1@1 + 10@2 files => 21750645 bytes
+2026/03/01-20:25:01.730 3fec compacted to: files[ 0 2 36 0 0 0 0 ]
+2026/03/01-20:25:01.731 3fec Delete type=2 #1914
+2026/03/01-20:25:01.731 3fec Delete type=2 #2292
+2026/03/01-20:25:01.731 3fec Delete type=2 #2293
+2026/03/01-20:25:01.731 3fec Delete type=2 #2294
+2026/03/01-20:25:01.731 3fec Delete type=2 #2295
+2026/03/01-20:25:01.732 3fec Delete type=2 #2296
+2026/03/01-20:25:01.732 3fec Delete type=2 #2297
+2026/03/01-20:25:01.732 3fec Delete type=2 #2298
+2026/03/01-20:25:01.732 3fec Delete type=2 #2299
+2026/03/01-20:25:01.732 3fec Delete type=2 #2300
+2026/03/01-20:25:01.732 3fec Delete type=2 #2301
+2026/03/01-20:25:01.732 3fec Delete type=2 #2313
+2026/03/01-20:25:01.732 3fec Delete type=2 #2315
+2026/03/01-20:25:04.152 3fec Compacting 1@1 + 8@2 files
+2026/03/01-20:25:04.371 3fec Generated table #2328@1: 84393 keys, 2231740 bytes
+2026/03/01-20:25:04.496 3fec Generated table #2329@1: 26710 keys, 2221934 bytes
+2026/03/01-20:25:04.685 3fec Generated table #2330@1: 57062 keys, 2216586 bytes
+2026/03/01-20:25:04.907 3fec Generated table #2331@1: 65914 keys, 2235718 bytes
+2026/03/01-20:25:05.102 3fec Generated table #2332@1: 46636 keys, 2214036 bytes
+2026/03/01-20:25:05.160 3fec Generated table #2333@1: 6843 keys, 2144988 bytes
+2026/03/01-20:25:05.192 3fec Generated table #2334@1: 488 keys, 2121407 bytes
+2026/03/01-20:25:05.236 3fec Generated table #2335@1: 971 keys, 2094927 bytes
+2026/03/01-20:25:05.236 3fec Compacted 1@1 + 8@2 files => 17481336 bytes
+2026/03/01-20:25:05.237 3fec compacted to: files[ 0 1 36 0 0 0 0 ]
+2026/03/01-20:25:05.239 3fec Delete type=2 #2303
+2026/03/01-20:25:05.239 3fec Delete type=2 #2304
+2026/03/01-20:25:05.240 3fec Delete type=2 #2305
+2026/03/01-20:25:05.240 3fec Delete type=2 #2306
+2026/03/01-20:25:05.240 3fec Delete type=2 #2307
+2026/03/01-20:25:05.240 3fec Delete type=2 #2308
+2026/03/01-20:25:05.240 3fec Delete type=2 #2309
+2026/03/01-20:25:05.240 3fec Delete type=2 #2310
+2026/03/01-20:25:05.240 3fec Delete type=2 #2314
+2026/03/01-20:34:16.839 3fec Level-0 table #2337: started
+2026/03/01-20:34:16.874 3fec Level-0 table #2337: 1335760 bytes OK
+2026/03/01-20:34:16.875 3fec Delete type=0 #2312
+2026/03/01-20:34:16.886 3fec Compacting 1@0 + 1@1 files
+2026/03/01-20:34:16.901 3fec Generated table #2338@0: 10119 keys, 117259 bytes
+2026/03/01-20:34:16.911 3fec Generated table #2339@0: 5208 keys, 479779 bytes
+2026/03/01-20:34:16.914 3fec Generated table #2340@0: 139 keys, 14680 bytes
+2026/03/01-20:34:16.915 3fec Compacted 1@0 + 1@1 files => 611718 bytes
+2026/03/01-20:34:16.916 3fec compacted to: files[ 0 3 36 0 0 0 0 ]
+2026/03/01-20:34:16.918 3fec Delete type=2 #2316
+2026/03/01-20:34:16.918 3fec Delete type=2 #2337
+2026/03/01-20:36:28.413 3fec Compacting 1@1 + 2@2 files
+2026/03/01-20:36:28.512 3fec Generated table #2341@1: 86934 keys, 2235405 bytes
+2026/03/01-20:36:28.550 3fec Generated table #2342@1: 23853 keys, 2158471 bytes
+2026/03/01-20:36:28.550 3fec Compacted 1@1 + 2@2 files => 4393876 bytes
+2026/03/01-20:36:28.551 3fec compacted to: files[ 0 2 36 0 0 0 0 ]
+2026/03/01-20:36:28.552 3fec Delete type=2 #2328
+2026/03/01-20:36:28.552 3fec Delete type=2 #2329
+2026/03/01-20:36:28.552 3fec Delete type=2 #2338
+2026/03/01-20:36:41.007 3fec Compacting 1@1 + 13@2 files
+2026/03/01-20:36:41.024 3fec Level-0 table #2345: started
+2026/03/01-20:36:41.044 3fec Level-0 table #2345: 1064128 bytes OK
+2026/03/01-20:36:41.047 3fec Delete type=0 #2336
+2026/03/01-20:36:41.058 3fec Generated table #2343@1: 2108 keys, 2149249 bytes
+2026/03/01-20:36:41.094 3fec Generated table #2346@1: 16201 keys, 2199290 bytes
+2026/03/01-20:36:41.156 3fec Generated table #2347@1: 23731 keys, 2285292 bytes
+2026/03/01-20:36:41.206 3fec Generated table #2348@1: 24478 keys, 2223030 bytes
+2026/03/01-20:36:41.246 3fec Generated table #2349@1: 30308 keys, 2202947 bytes
+2026/03/01-20:36:41.270 3fec Generated table #2350@1: 2685 keys, 2126428 bytes
+2026/03/01-20:36:41.296 3fec Generated table #2351@1: 2327 keys, 2122624 bytes
+2026/03/01-20:36:41.329 3fec Generated table #2352@1: 29835 keys, 2155042 bytes
+2026/03/01-20:36:41.422 3fec Generated table #2353@1: 96796 keys, 2247850 bytes
+2026/03/01-20:36:41.489 3fec Generated table #2354@1: 96562 keys, 2247803 bytes
+2026/03/01-20:36:41.507 3fec Generated table #2355@1: 26936 keys, 630537 bytes
+2026/03/01-20:36:41.507 3fec Compacted 1@1 + 13@2 files => 22590092 bytes
+2026/03/01-20:36:41.508 3fec compacted to: files[ 1 1 34 0 0 0 0 ]
+2026/03/01-20:36:41.508 3fec Delete type=2 #2152
+2026/03/01-20:36:41.508 3fec Delete type=2 #2153
+2026/03/01-20:36:41.508 3fec Delete type=2 #2237
+2026/03/01-20:36:41.508 3fec Delete type=2 #2302
+2026/03/01-20:36:41.508 3fec Delete type=2 #2319
+2026/03/01-20:36:41.508 3fec Delete type=2 #2320
+2026/03/01-20:36:41.508 3fec Delete type=2 #2321
+2026/03/01-20:36:41.508 3fec Delete type=2 #2322
+2026/03/01-20:36:41.509 3fec Delete type=2 #2323
+2026/03/01-20:36:41.509 3fec Delete type=2 #2324
+2026/03/01-20:36:41.509 3fec Delete type=2 #2325
+2026/03/01-20:36:41.509 3fec Delete type=2 #2326
+2026/03/01-20:36:41.509 3fec Delete type=2 #2327
+2026/03/01-20:36:41.509 3fec Delete type=2 #2339
+2026/03/01-20:38:45.605 4d28 Compacting 1@0 + 0@1 files
+2026/03/01-20:38:45.619 4d28 Generated table #2356@0: 8520 keys, 131490 bytes
+2026/03/01-20:38:45.631 4d28 Generated table #2357@0: 3265 keys, 217279 bytes
+2026/03/01-20:38:45.631 4d28 Compacted 1@0 + 0@1 files => 348769 bytes
+2026/03/01-20:38:45.632 4d28 compacted to: files[ 0 3 34 0 0 0 0 ]
+2026/03/01-20:38:46.495 3fec Compacting 1@1 + 8@2 files
+2026/03/01-20:38:46.588 3fec Generated table #2358@1: 85444 keys, 2235241 bytes
+2026/03/01-20:38:46.660 3fec Generated table #2359@1: 26221 keys, 2220664 bytes
+2026/03/01-20:38:46.736 3fec Generated table #2360@1: 57377 keys, 2217490 bytes
+2026/03/01-20:38:46.826 3fec Generated table #2361@1: 65760 keys, 2234705 bytes
+2026/03/01-20:38:46.899 3fec Generated table #2362@1: 46640 keys, 2214431 bytes
+2026/03/01-20:38:46.924 3fec Generated table #2363@1: 6553 keys, 2142785 bytes
+2026/03/01-20:38:46.941 3fec Generated table #2364@1: 486 keys, 2128296 bytes
+2026/03/01-20:38:46.961 3fec Generated table #2365@1: 970 keys, 2084982 bytes
+2026/03/01-20:38:46.961 3fec Compacted 1@1 + 8@2 files => 17478594 bytes
+2026/03/01-20:38:46.962 3fec compacted to: files[ 0 2 34 0 0 0 0 ]
+2026/03/01-20:38:46.962 3fec Delete type=2 #2330
+2026/03/01-20:38:46.962 3fec Delete type=2 #2331
+2026/03/01-20:38:46.963 3fec Delete type=2 #2332
+2026/03/01-20:38:46.963 3fec Delete type=2 #2333
+2026/03/01-20:38:46.963 3fec Delete type=2 #2334
+2026/03/01-20:38:46.963 3fec Delete type=2 #2335
+2026/03/01-20:38:46.963 3fec Delete type=2 #2341
+2026/03/01-20:38:46.963 3fec Delete type=2 #2342
+2026/03/01-20:38:46.963 3fec Delete type=2 #2345
+2026/03/01-20:38:46.963 3fec Delete type=2 #2356
+2026/03/01-20:41:01.445 3fec Compacting 1@1 + 5@2 files
+2026/03/01-20:41:01.688 3fec Generated table #2366@1: 96551 keys, 2245825 bytes
+2026/03/01-20:41:01.895 3fec Generated table #2367@1: 96319 keys, 2247281 bytes
+2026/03/01-20:41:02.093 3fec Generated table #2368@1: 96227 keys, 2245511 bytes
+2026/03/01-20:41:02.314 3fec Generated table #2369@1: 96508 keys, 2246947 bytes
+2026/03/01-20:41:02.465 3fec Generated table #2370@1: 60126 keys, 1850054 bytes
+2026/03/01-20:41:02.465 3fec Compacted 1@1 + 5@2 files => 10835618 bytes
+2026/03/01-20:41:02.466 3fec compacted to: files[ 0 1 34 0 0 0 0 ]
+2026/03/01-20:41:02.467 3fec Delete type=2 #2154
+2026/03/01-20:41:02.468 3fec Delete type=2 #2238
+2026/03/01-20:41:02.468 3fec Delete type=2 #2239
+2026/03/01-20:41:02.468 3fec Delete type=2 #2240
+2026/03/01-20:41:02.468 3fec Delete type=2 #2265
+2026/03/01-20:41:02.469 3fec Delete type=2 #2340
+2026/03/01-20:44:43.383 3fec Compacting 1@1 + 4@2 files
+2026/03/01-20:44:43.494 3fec Generated table #2371@1: 16203 keys, 2199924 bytes
+2026/03/01-20:44:43.668 3fec Generated table #2372@1: 23748 keys, 2286393 bytes
+2026/03/01-20:44:43.825 3fec Generated table #2373@1: 24465 keys, 2221727 bytes
+2026/03/01-20:44:43.955 3fec Generated table #2374@1: 30310 keys, 2202542 bytes
+2026/03/01-20:44:43.955 3fec Compacted 1@1 + 4@2 files => 8910586 bytes
+2026/03/01-20:44:43.956 3fec compacted to: files[ 0 0 34 0 0 0 0 ]
+2026/03/01-20:44:43.958 3fec Delete type=2 #2346
+2026/03/01-20:44:43.958 3fec Delete type=2 #2347
+2026/03/01-20:44:43.959 3fec Delete type=2 #2348
+2026/03/01-20:44:43.959 3fec Delete type=2 #2349
+2026/03/01-20:44:43.959 3fec Delete type=2 #2357
+2026/03/01-20:53:39.513 3fec Level-0 table #2376: started
+2026/03/01-20:53:39.538 3fec Level-0 table #2376: 1230844 bytes OK
+2026/03/01-20:53:39.540 3fec Delete type=0 #2344
+2026/03/01-20:53:39.910 3fec Compacting 1@0 + 0@1 files
+2026/03/01-20:53:39.952 3fec Generated table #2377@0: 21989 keys, 434979 bytes
+2026/03/01-20:53:39.960 3fec Generated table #2378@0: 1935 keys, 215251 bytes
+2026/03/01-20:53:39.965 3fec Generated table #2379@0: 575 keys, 20127 bytes
+2026/03/01-20:53:39.965 3fec Compacted 1@0 + 0@1 files => 670357 bytes
+2026/03/01-20:53:39.966 3fec compacted to: files[ 0 3 34 0 0 0 0 ]
+2026/03/01-20:53:40.220 3fec Compacting 1@1 + 11@2 files
+2026/03/01-20:53:40.245 3fec Generated table #2380@1: 763 keys, 2135916 bytes
+2026/03/01-20:53:40.261 3fec Generated table #2381@1: 882 keys, 2138342 bytes
+2026/03/01-20:53:40.281 3fec Generated table #2382@1: 1138 keys, 2141083 bytes
+2026/03/01-20:53:40.310 3fec Generated table #2383@1: 2055 keys, 2148305 bytes
+2026/03/01-20:53:40.351 3fec Generated table #2384@1: 14007 keys, 2185980 bytes
+2026/03/01-20:53:40.405 3fec Generated table #2385@1: 23843 keys, 2287357 bytes
+2026/03/01-20:53:40.467 3fec Generated table #2386@1: 21829 keys, 2226782 bytes
+2026/03/01-20:53:40.558 3fec Generated table #2387@1: 33348 keys, 2199975 bytes
+2026/03/01-20:53:40.605 3fec Generated table #2388@1: 5010 keys, 2138981 bytes
+2026/03/01-20:53:40.611 3fec Generated table #2389@1: 229 keys, 272248 bytes
+2026/03/01-20:53:40.611 3fec Compacted 1@1 + 11@2 files => 19874969 bytes
+2026/03/01-20:53:40.612 3fec compacted to: files[ 0 2 33 0 0 0 0 ]
+2026/03/01-20:53:40.613 3fec Delete type=2 #1156
+2026/03/01-20:53:40.613 3fec Delete type=2 #1913
+2026/03/01-20:53:40.613 3fec Delete type=2 #2228
+2026/03/01-20:53:40.613 3fec Delete type=2 #2317
+2026/03/01-20:53:40.613 3fec Delete type=2 #2318
+2026/03/01-20:53:40.613 3fec Delete type=2 #2343
+2026/03/01-20:53:40.613 3fec Delete type=2 #2350
+2026/03/01-20:53:40.613 3fec Delete type=2 #2371
+2026/03/01-20:53:40.613 3fec Delete type=2 #2372
+2026/03/01-20:53:40.613 3fec Delete type=2 #2373
+2026/03/01-20:53:40.614 3fec Delete type=2 #2374
+2026/03/01-20:53:40.614 3fec Delete type=2 #2376
+2026/03/01-20:53:40.614 3fec Delete type=2 #2378
+2026/03/01-20:53:40.653 4d28 Compacting 1@1 + 11@2 files
+2026/03/01-20:53:40.746 4d28 Generated table #2390@1: 86715 keys, 2235223 bytes
+2026/03/01-20:53:40.830 4d28 Generated table #2391@1: 28260 keys, 2222674 bytes
+2026/03/01-20:53:40.920 4d28 Generated table #2392@1: 56104 keys, 2215774 bytes
+2026/03/01-20:53:40.997 4d28 Generated table #2393@1: 66331 keys, 2236533 bytes
+2026/03/01-20:53:41.069 4d28 Generated table #2394@1: 46661 keys, 2214939 bytes
+2026/03/01-20:53:41.094 4d28 Generated table #2395@1: 7756 keys, 2142295 bytes
+2026/03/01-20:53:41.109 4d28 Generated table #2396@1: 484 keys, 2131966 bytes
+2026/03/01-20:53:41.124 4d28 Generated table #2397@1: 985 keys, 2136420 bytes
+2026/03/01-20:53:41.135 4d28 Generated table #2398@1: 438 keys, 2124517 bytes
+2026/03/01-20:53:41.146 4d28 Generated table #2399@1: 448 keys, 2122282 bytes
+2026/03/01-20:53:41.151 4d28 Generated table #2400@1: 85 keys, 88764 bytes
+2026/03/01-20:53:41.151 4d28 Compacted 1@1 + 11@2 files => 21871387 bytes
+2026/03/01-20:53:41.152 4d28 compacted to: files[ 0 1 33 0 0 0 0 ]
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2285
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2286
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2311
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2358
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2359
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2360
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2361
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2362
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2363
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2364
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2365
+2026/03/01-20:53:41.153 4d28 Delete type=2 #2377
+2026/03/01-20:57:10.101 3fec Compacting 1@1 + 9@2 files
+2026/03/01-20:57:10.222 3fec Generated table #2401@1: 29596 keys, 2153228 bytes
+2026/03/01-20:57:10.487 3fec Generated table #2402@1: 96771 keys, 2247813 bytes
+2026/03/01-20:57:10.706 3fec Generated table #2403@1: 96570 keys, 2247636 bytes
+2026/03/01-20:57:10.956 3fec Generated table #2404@1: 96600 keys, 2246742 bytes
+2026/03/01-20:57:11.166 3fec Generated table #2405@1: 96162 keys, 2247404 bytes
+2026/03/01-20:57:11.390 3fec Generated table #2406@1: 96157 keys, 2245736 bytes
+2026/03/01-20:57:11.616 3fec Generated table #2407@1: 96762 keys, 2246602 bytes
+2026/03/01-20:57:11.880 3fec Generated table #2408@1: 81192 keys, 2229716 bytes
+2026/03/01-20:57:11.903 3fec Generated table #2409@1: 6603 keys, 272751 bytes
+2026/03/01-20:57:11.903 3fec Compacted 1@1 + 9@2 files => 18137628 bytes
+2026/03/01-20:57:11.905 3fec compacted to: files[ 0 0 33 0 0 0 0 ]
+2026/03/01-20:57:11.907 3fec Delete type=2 #2352
+2026/03/01-20:57:11.907 3fec Delete type=2 #2353
+2026/03/01-20:57:11.907 3fec Delete type=2 #2354
+2026/03/01-20:57:11.907 3fec Delete type=2 #2355
+2026/03/01-20:57:11.908 3fec Delete type=2 #2366
+2026/03/01-20:57:11.908 3fec Delete type=2 #2367
+2026/03/01-20:57:11.908 3fec Delete type=2 #2368
+2026/03/01-20:57:11.908 3fec Delete type=2 #2369
+2026/03/01-20:57:11.908 3fec Delete type=2 #2370
+2026/03/01-20:57:11.908 3fec Delete type=2 #2379
+2026/03/01-20:57:23.835 3fec Level-0 table #2411: started
+2026/03/01-20:57:23.897 3fec Level-0 table #2411: 1088387 bytes OK
+2026/03/01-20:57:23.899 3fec Delete type=0 #2375
+2026/03/01-20:57:23.910 3fec Compacting 1@0 + 0@1 files
+2026/03/01-20:57:23.960 3fec Generated table #2412@0: 13799 keys, 249197 bytes
+2026/03/01-20:57:23.989 3fec Generated table #2413@0: 3598 keys, 282734 bytes
+2026/03/01-20:57:23.995 3fec Generated table #2414@0: 157 keys, 5471 bytes
+2026/03/01-20:57:23.995 3fec Compacted 1@0 + 0@1 files => 537402 bytes
+2026/03/01-20:57:23.997 3fec compacted to: files[ 0 3 33 0 0 0 0 ]
+2026/03/01-20:57:29.665 3fec Compacting 1@1 + 10@2 files
+2026/03/01-20:57:29.856 3fec Generated table #2415@1: 87009 keys, 2236887 bytes
+2026/03/01-20:57:29.993 3fec Generated table #2416@1: 28934 keys, 2224080 bytes
+2026/03/01-20:57:30.202 3fec Generated table #2417@1: 55740 keys, 2214856 bytes
+2026/03/01-20:57:30.446 3fec Generated table #2418@1: 66437 keys, 2235813 bytes
+2026/03/01-20:57:30.620 3fec Generated table #2419@1: 46676 keys, 2215521 bytes
+2026/03/01-20:57:30.678 3fec Generated table #2420@1: 8171 keys, 2150084 bytes
+2026/03/01-20:57:30.708 3fec Generated table #2421@1: 489 keys, 2143653 bytes
+2026/03/01-20:57:30.749 3fec Generated table #2422@1: 981 keys, 2133872 bytes
+2026/03/01-20:57:30.779 3fec Generated table #2423@1: 441 keys, 2121115 bytes
+2026/03/01-20:57:30.808 3fec Generated table #2424@1: 441 keys, 2128870 bytes
+2026/03/01-20:57:30.813 3fec Generated table #2425@1: 10 keys, 9155 bytes
+2026/03/01-20:57:30.813 3fec Compacted 1@1 + 10@2 files => 21813906 bytes
+2026/03/01-20:57:30.815 3fec compacted to: files[ 0 2 34 0 0 0 0 ]
+2026/03/01-20:57:30.816 3fec Delete type=2 #2390
+2026/03/01-20:57:30.816 3fec Delete type=2 #2391
+2026/03/01-20:57:30.816 3fec Delete type=2 #2392
+2026/03/01-20:57:30.816 3fec Delete type=2 #2393
+2026/03/01-20:57:30.817 3fec Delete type=2 #2394
+2026/03/01-20:57:30.817 3fec Delete type=2 #2395
+2026/03/01-20:57:30.817 3fec Delete type=2 #2396
+2026/03/01-20:57:30.817 3fec Delete type=2 #2397
+2026/03/01-20:57:30.817 3fec Delete type=2 #2398
+2026/03/01-20:57:30.817 3fec Delete type=2 #2399
+2026/03/01-20:57:30.817 3fec Delete type=2 #2411
+2026/03/01-20:57:30.817 3fec Delete type=2 #2412
+2026/03/01-20:57:46.677 3fec Compacting 1@1 + 9@2 files
+2026/03/01-20:57:46.726 3fec Generated table #2426@1: 763 keys, 2135948 bytes
+2026/03/01-20:57:46.772 3fec Generated table #2427@1: 882 keys, 2138426 bytes
+2026/03/01-20:57:46.825 3fec Generated table #2428@1: 1138 keys, 2141083 bytes
+2026/03/01-20:57:46.897 3fec Generated table #2429@1: 2052 keys, 2147819 bytes
+2026/03/01-20:57:46.980 3fec Generated table #2430@1: 13671 keys, 2183206 bytes
+2026/03/01-20:57:47.195 3fec Generated table #2431@1: 23851 keys, 2287137 bytes
+2026/03/01-20:57:47.339 3fec Generated table #2432@1: 20914 keys, 2228957 bytes
+2026/03/01-20:57:47.501 3fec Generated table #2433@1: 33911 keys, 2200697 bytes
+2026/03/01-20:57:47.595 3fec Generated table #2434@1: 6531 keys, 2144722 bytes
+2026/03/01-20:57:47.605 3fec Generated table #2435@1: 118 keys, 94137 bytes
+2026/03/01-20:57:47.606 3fec Compacted 1@1 + 9@2 files => 19702132 bytes
+2026/03/01-20:57:47.607 3fec compacted to: files[ 0 1 35 0 0 0 0 ]
+2026/03/01-20:57:47.608 3fec Delete type=2 #2380
+2026/03/01-20:57:47.608 3fec Delete type=2 #2381
+2026/03/01-20:57:47.608 3fec Delete type=2 #2382
+2026/03/01-20:57:47.609 3fec Delete type=2 #2383
+2026/03/01-20:57:47.609 3fec Delete type=2 #2384
+2026/03/01-20:57:47.609 3fec Delete type=2 #2385
+2026/03/01-20:57:47.609 3fec Delete type=2 #2386
+2026/03/01-20:57:47.609 3fec Delete type=2 #2387
+2026/03/01-20:57:47.609 3fec Delete type=2 #2388
+2026/03/01-20:57:47.609 3fec Delete type=2 #2413
+2026/03/01-21:04:34.157 3fec Compacting 1@1 + 9@2 files
+2026/03/01-21:04:34.272 3fec Generated table #2436@1: 29537 keys, 2153181 bytes
+2026/03/01-21:04:34.509 3fec Generated table #2437@1: 96781 keys, 2247072 bytes
+2026/03/01-21:04:34.728 3fec Generated table #2438@1: 96467 keys, 2245944 bytes
+2026/03/01-21:04:34.978 3fec Generated table #2439@1: 96582 keys, 2247151 bytes
+2026/03/01-21:04:35.262 3fec Generated table #2440@1: 96118 keys, 2246632 bytes
+2026/03/01-21:04:35.495 3fec Generated table #2441@1: 96071 keys, 2244532 bytes
+2026/03/01-21:04:35.719 3fec Generated table #2442@1: 96745 keys, 2247959 bytes
+2026/03/01-21:04:35.942 3fec Generated table #2443@1: 81566 keys, 2231992 bytes
+2026/03/01-21:04:35.968 3fec Generated table #2444@1: 6698 keys, 281783 bytes
+2026/03/01-21:04:35.968 3fec Compacted 1@1 + 9@2 files => 18146246 bytes
+2026/03/01-21:04:35.969 3fec compacted to: files[ 0 0 35 0 0 0 0 ]
+2026/03/01-21:04:35.971 3fec Delete type=2 #2401
+2026/03/01-21:04:35.972 3fec Delete type=2 #2402
+2026/03/01-21:04:35.972 3fec Delete type=2 #2403
+2026/03/01-21:04:35.972 3fec Delete type=2 #2404
+2026/03/01-21:04:35.972 3fec Delete type=2 #2405
+2026/03/01-21:04:35.972 3fec Delete type=2 #2406
+2026/03/01-21:04:35.972 3fec Delete type=2 #2407
+2026/03/01-21:04:35.973 3fec Delete type=2 #2408
+2026/03/01-21:04:35.973 3fec Delete type=2 #2409
+2026/03/01-21:04:35.973 3fec Delete type=2 #2414

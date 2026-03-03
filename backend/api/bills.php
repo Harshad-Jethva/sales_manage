@@ -170,7 +170,7 @@ switch($method) {
             
             if (isset($_POST['items'])) {
                 $items = json_decode($_POST['items'], true);
-                foreach ($items as $item) {
+                foreach ($items as $index => $item) {
                     $item_name = !empty($item['name']) ? $item['name'] : 'Unknown Item';
                     $qty = !empty($item['quantity']) ? (float)$item['quantity'] : 0;
                     $mrp = (float)($item['mrp'] ?? 0);
@@ -205,9 +205,39 @@ switch($method) {
                         }
                     }
 
+                    $image_name = null;
+                    $image_path = null;
+                    $is_edited = 'false';
+                    $processing_timestamp = null;
+                    
+                    $image_key = 'product_image_' . $index;
+                    $is_edited_key = 'is_edited_' . $index;
+                    
+                    if (isset($_POST[$is_edited_key]) && $_POST[$is_edited_key] === '1') {
+                        $is_edited = 'true';
+                        $processing_timestamp = date('Y-m-d H:i:s');
+                    }
+
+                    if (isset($_FILES[$image_key])) {
+                        $p_img = $_FILES[$image_key];
+                        if ($p_img['error'] === UPLOAD_ERR_OK) {
+                            $allowed_types = ['image/jpeg', 'image/png', 'image/webp'];
+                            if ($p_img['size'] <= 2 * 1024 * 1024 && in_array($p_img['type'], $allowed_types)) {
+                                $ext = pathinfo($p_img['name'], PATHINFO_EXTENSION);
+                                $new_name = uniqid('prod_') . '.' . $ext;
+                                $dest = '../uploads/products/' . $new_name;
+                                if (!file_exists('../uploads/products/')) mkdir('../uploads/products/', 0777, true);
+                                if (move_uploaded_file($p_img['tmp_name'], $dest)) {
+                                    $image_name = $p_img['name'];
+                                    $image_path = 'uploads/products/' . $new_name;
+                                }
+                            }
+                        }
+                    }
+
                     // Record the bill item
-                    $item_stmt = $conn->prepare("INSERT INTO bill_items (bill_id, product_id, item_code, barcode, item_name, mrp, regular_discount_percent, special_discount_percent, gst_percent, price_after_discount, selling_price, quantity, total, total_selling_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    $item_stmt->execute([$bill_id, $prod_id, $item_code, $barcode, $item_name, $mrp, $reg_disc, $spec_disc, $gst_percent, $price_after, $selling_price, $qty, $row_total, $total_selling]);
+                    $item_stmt = $conn->prepare("INSERT INTO bill_items (bill_id, product_id, item_code, barcode, item_name, mrp, regular_discount_percent, special_discount_percent, gst_percent, price_after_discount, selling_price, quantity, total, total_selling_price, image_name, image_path, is_edited, processing_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $item_stmt->execute([$bill_id, $prod_id, $item_code, $barcode, $item_name, $mrp, $reg_disc, $spec_disc, $gst_percent, $price_after, $selling_price, $qty, $row_total, $total_selling, $image_name, $image_path, $is_edited, $processing_timestamp]);
                     
                     // UPDATE STOCK: Logic depends on bill_type
                     if ($prod_id) {
@@ -217,8 +247,8 @@ switch($method) {
                             $update_stock->execute([$qty, $prod_id]);
                         } else {
                             // For Purchase: Increment stock and update prices
-                            $update_stock = $conn->prepare("UPDATE products SET stock_quantity = stock_quantity + ?, purchase_price = ?, sale_price = ?, gst_percent = ?, sku = COALESCE(NULLIF(?, ''), sku), barcode = COALESCE(NULLIF(?, ''), barcode) WHERE id = ?");
-                            $update_stock->execute([$qty, $price_after, $selling_price, $gst_percent, $item_code, $barcode, $prod_id]);
+                            $update_stock = $conn->prepare("UPDATE products SET stock_quantity = stock_quantity + ?, purchase_price = ?, sale_price = ?, gst_percent = ?, sku = COALESCE(NULLIF(?, ''), sku), barcode = COALESCE(NULLIF(?, ''), barcode), image_name = COALESCE(NULLIF(?, ''), image_name), image_path = COALESCE(NULLIF(?, ''), image_path), is_edited = ?, processing_timestamp = ? WHERE id = ?");
+                            $update_stock->execute([$qty, $price_after, $selling_price, $gst_percent, $item_code, $barcode, $image_name, $image_path, $is_edited, $processing_timestamp, $prod_id]);
                         }
                     }
                 }

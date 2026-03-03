@@ -14,11 +14,13 @@ import {
     Camera,
     AlertCircle,
     Calculator,
-    Package
+    Package,
+    Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import SEO from '../../components/common/SEO';
+import ImageEditorModal from '../../components/common/ImageEditorModal';
 
 // Error Boundary Fallback for UI
 const ErrorFallback = ({ error }) => (
@@ -39,6 +41,11 @@ const Bills = () => {
     const [showBillModal, setShowBillModal] = useState(false);
     const [showProductModal, setShowProductModal] = useState(false);
     const [viewBill, setViewBill] = useState(null); // Selected bill for viewing
+
+    // Image Editor State
+    const [editorImage, setEditorImage] = useState(null);
+    const [editingRowId, setEditingRowId] = useState(null);
+    const [imageActionPrompt, setImageActionPrompt] = useState(null);
 
     const fetchBillDetails = async (id) => {
         try {
@@ -64,7 +71,7 @@ const Bills = () => {
     });
 
     const [billItems, setBillItems] = useState([
-        { id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, total: 0, total_selling_price: 0 }
+        { id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, total: 0, total_selling_price: 0, product_image: null }
     ]);
 
     const [prodData, setProdData] = useState({
@@ -107,7 +114,7 @@ const Bills = () => {
     };
 
     const addBillRow = () => {
-        setBillItems([...billItems, { id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, total: 0, total_selling_price: 0 }]);
+        setBillItems([...billItems, { id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, total: 0, total_selling_price: 0, product_image: null }]);
     };
 
     const removeBillRow = (id) => {
@@ -187,6 +194,16 @@ const Bills = () => {
         const formData = new FormData();
         Object.keys(billData).forEach(key => formData.append(key, billData[key]));
         formData.append('items', JSON.stringify(validItems));
+
+        validItems.forEach((item, index) => {
+            if (item.product_image instanceof File) {
+                formData.append(`product_image_${index}`, item.product_image);
+                if (item.product_image.isEdited) {
+                    formData.append(`is_edited_${index}`, '1');
+                }
+            }
+        });
+
         formData.append('sub_total', calcSubTotal);
         formData.append('total_amount', calcGrandTotal);
         formData.append('paid_amount', calcGrandTotal);
@@ -249,7 +266,7 @@ const Bills = () => {
                                     supplier_id: '',
                                     bill_type: 'purchase'
                                 });
-                                setBillItems([{ id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, total: 0, total_selling_price: 0 }]);
+                                setBillItems([{ id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, total: 0, total_selling_price: 0, product_image: null }]);
                                 setShowBillModal(true);
                             }}
                         >
@@ -334,12 +351,21 @@ const Bills = () => {
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>Item Name</th><th>Cost Price</th><th>Selling Rate</th><th>MRP</th><th>Available Stock</th><th>Health</th>
+                                                <th style={{ width: '40px' }}>Pic</th><th>Item Name</th><th>Cost Price</th><th>Selling Rate</th><th>MRP</th><th>Available Stock</th><th>Health</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {productList.map(p => (
                                                 <motion.tr whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }} key={p.id}>
+                                                    <td className="p-2">
+                                                        {p.image_path ? (
+                                                            <a href={`http://localhost/sales_manage/backend/${p.image_path}`} target="_blank" rel="noreferrer">
+                                                                <img src={`http://localhost/sales_manage/backend/${p.image_path}`} alt="Product" style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: '4px' }} />
+                                                            </a>
+                                                        ) : (
+                                                            <div className="row-img-placeholder" style={{ width: 40, height: 40, background: 'rgba(0,0,0,0.1)', borderRadius: '4px' }}><Box size={16} /></div>
+                                                        )}
+                                                    </td>
                                                     <td>
                                                         <div className="prod-col"><span className="font-bold">{p.name}</span><span className="sku-tag">{p.sku || 'N/A'}</span></div>
                                                     </td>
@@ -392,11 +418,20 @@ const Bills = () => {
                                     <div className="table-responsive">
                                         <table style={{ width: '100%' }}>
                                             <thead>
-                                                <tr><th className="text-left">Item</th><th className="text-left">Code</th><th className="text-right">Cost</th><th className="text-right">Qty</th><th className="text-right">Total</th></tr>
+                                                <tr><th className="text-left">Image</th><th className="text-left">Item</th><th className="text-left">Code</th><th className="text-right">Cost</th><th className="text-right">Qty</th><th className="text-right">Total</th></tr>
                                             </thead>
                                             <tbody>
                                                 {viewBill.items && viewBill.items.map((item, idx) => (
                                                     <tr key={idx}>
+                                                        <td className="p-2">
+                                                            {item.image_path ? (
+                                                                <a href={`http://localhost/sales_manage/backend/${item.image_path}`} target="_blank" rel="noreferrer">
+                                                                    <img src={`http://localhost/sales_manage/backend/${item.image_path}`} alt="Product" style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: '4px' }} />
+                                                                </a>
+                                                            ) : (
+                                                                <div className="row-img-placeholder" style={{ width: 40, height: 40, background: 'rgba(0,0,0,0.1)', borderRadius: '4px' }}><Package size={16} /></div>
+                                                            )}
+                                                        </td>
                                                         <td className="p-2">{item.item_name}</td>
                                                         <td className="p-2 text-muted">{item.item_code || '-'}</td>
                                                         <td className="p-2 text-right">₹{parseFloat(item.price_after_discount).toLocaleString()}</td>
@@ -447,20 +482,55 @@ const Bills = () => {
 
                                     <div className="pos-items-area">
                                         <div className="area-header">
-                                            <h3>Billing Items</h3>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                <h3>Billing Items</h3>
+                                                <span className="text-muted text-sm" style={{ fontStyle: 'italic' }}>* Image upload is optional</span>
+                                            </div>
                                             <button type="button" className="btn-secondary-small" onClick={addBillRow}>+ Add Row</button>
                                         </div>
                                         <div className="table-responsive-scroll">
                                             <table className="pos-items-table">
                                                 <thead>
                                                     <tr>
-                                                        <th style={{ width: '40px' }}>Sr</th><th style={{ width: '250px' }}>Item Name</th><th style={{ width: '100px' }}>Code</th><th style={{ width: '120px' }}>Barcode</th><th style={{ width: '100px' }}>MRP</th><th style={{ width: '80px' }}>Disc %</th><th style={{ width: '100px' }}>Cost</th><th style={{ width: '100px' }}>Sell Price</th><th style={{ width: '70px' }}>GST %</th><th style={{ width: '80px' }}>Qty</th><th style={{ width: '120px' }}>Total Cost</th><th style={{ width: '120px' }}>Total Sell</th><th style={{ width: '40px' }}></th>
+                                                        <th style={{ width: '40px' }}>Sr</th><th style={{ width: '60px' }}>Image</th><th style={{ width: '250px' }}>Item Name</th><th style={{ width: '100px' }}>Code</th><th style={{ width: '120px' }}>Barcode</th><th style={{ width: '100px' }}>MRP</th><th style={{ width: '80px' }}>Disc %</th><th style={{ width: '100px' }}>Cost</th><th style={{ width: '100px' }}>Sell Price</th><th style={{ width: '70px' }}>GST %</th><th style={{ width: '80px' }}>Qty</th><th style={{ width: '120px' }}>Total Cost</th><th style={{ width: '120px' }}>Total Sell</th><th style={{ width: '40px' }}></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {billItems.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td className="text-center">{index + 1}</td>
+                                                            <td className="text-center">
+                                                                <label
+                                                                    className="row-img-upload"
+                                                                    onDragOver={(e) => e.preventDefault()}
+                                                                    onDrop={(e) => { e.preventDefault(); if (e.dataTransfer.files[0]) { setImageActionPrompt({ file: e.dataTransfer.files[0], rowId: item.id }); } }}
+                                                                >
+                                                                    <input
+                                                                        type="file"
+                                                                        accept="image/jpeg, image/png, image/webp"
+                                                                        style={{ display: 'none' }}
+                                                                        onClick={(e) => { e.target.value = null; }}
+                                                                        onChange={(e) => { if (e.target.files[0]) { setImageActionPrompt({ file: e.target.files[0], rowId: item.id }); } }}
+                                                                    />
+                                                                    {item.product_image && item.product_image instanceof File ? (
+                                                                        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                                                                            <img src={URL.createObjectURL(item.product_image)} alt="Preview" className="row-img-preview" />
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); updateBillRow(item.id, 'product_image', null); }}
+                                                                                style={{ position: 'absolute', top: -5, right: -5, background: '#ef4444', color: '#fff', border: 'none', borderRadius: '50%', width: 16, height: 16, fontSize: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0, zIndex: 10 }}
+                                                                            >✕</button>
+                                                                            <div
+                                                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setEditorImage(item.product_image); setEditingRowId(item.id); }}
+                                                                                style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.5)', opacity: 0, cursor: 'pointer', transition: 'opacity 0.2s' }}
+                                                                                className="img-edit-overlay"
+                                                                            ><span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 'bold' }}>Edit</span></div>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="row-img-placeholder" title="Drag & Drop or Click to upload"><Camera size={14} /></div>
+                                                                    )}
+                                                                </label>
+                                                            </td>
                                                             <td>
                                                                 <div className="row-flex">
                                                                     <select className="row-select" value={item.product_id} onChange={(e) => updateBillRow(item.id, 'product_id', e.target.value)}>
@@ -529,6 +599,60 @@ const Bills = () => {
                         </div>
                     )}
                 </AnimatePresence>
+
+                <AnimatePresence>
+                    {imageActionPrompt && (
+                        <div className="modal-root">
+                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="modal-backdrop" onClick={() => setImageActionPrompt(null)} />
+                            <motion.div initial={{ scale: 0.9, y: 20, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.9, y: 20, opacity: 0 }} className="modal-content-glass" style={{ padding: '2.5rem 2rem', maxWidth: '450px', width: '90%', textAlign: 'center', margin: 'auto' }}>
+                                <div style={{ background: 'rgba(99, 102, 241, 0.15)', width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
+                                    <Sparkles size={40} className="text-primary" />
+                                </div>
+                                <h2 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', fontWeight: '800' }}>Image Added!</h2>
+                                <p className="text-muted" style={{ marginBottom: '2rem', fontSize: '1rem', lineHeight: '1.5' }}>
+                                    Would you like to open the Studio Editor to crop, adjust, or remove background?
+                                </p>
+                                <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: '1fr' }}>
+                                    <button
+                                        type="button"
+                                        className="btn-primary-gradient"
+                                        style={{ justifyContent: 'center', padding: '1rem' }}
+                                        onClick={() => {
+                                            setEditorImage(imageActionPrompt.file);
+                                            setEditingRowId(imageActionPrompt.rowId);
+                                            setImageActionPrompt(null);
+                                        }}
+                                    >
+                                        <Sparkles size={20} /> Open Studio Editor
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn-secondary-glass"
+                                        style={{ justifyContent: 'center', padding: '1rem' }}
+                                        onClick={() => {
+                                            updateBillRow(imageActionPrompt.rowId, 'product_image', imageActionPrompt.file);
+                                            setImageActionPrompt(null);
+                                        }}
+                                    >
+                                        <Save size={20} /> Use Original Image
+                                    </button>
+                                </div>
+                                <button type="button" className="close-btn" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={() => setImageActionPrompt(null)}><X size={24} /></button>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+
+                <ImageEditorModal
+                    isOpen={!!editorImage}
+                    initialImage={editorImage}
+                    onCancel={() => { setEditorImage(null); setEditingRowId(null); }}
+                    onSave={(processedFile) => {
+                        updateBillRow(editingRowId, 'product_image', processedFile);
+                        setEditorImage(null);
+                        setEditingRowId(null);
+                    }}
+                />
 
                 <style jsx>{`
                     .pos-hub {
@@ -967,6 +1091,35 @@ const Bills = () => {
                     .row-flex { display: flex; gap: 0.5rem; }
                     .row-select, .row-input { width: 100%; border: none; background: transparent; color: #fff; padding: 0.3rem; }
                     .row-select { background: #1e293b; border-radius: 4px; }
+
+                    .row-img-upload {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 6px;
+                        border: 1px dashed rgba(255,255,255,0.3);
+                        background: rgba(0,0,0,0.2);
+                        cursor: pointer;
+                        overflow: hidden;
+                        transition: 0.3s;
+                    }
+                    .row-img-upload:hover {
+                        border-color: #818cf8;
+                        background: rgba(99, 102, 241, 0.1);
+                    }
+                    .row-img-preview {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                    .row-img-placeholder {
+                        color: #94a3b8;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
                 `}</style>
             </motion.div>
         );

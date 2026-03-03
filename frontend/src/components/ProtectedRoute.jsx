@@ -14,6 +14,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
     if (allowedRoles && !allowedRoles.includes(user.role)) {
         // Redirect unauthorized users
         if (user.role === 'cashier') return <Navigate to="/pos" replace />;
+        if (user.role === 'salesman') return <Navigate to="/salesman/dashboard" replace />;
         return <Navigate to="/" replace />;
     }
 

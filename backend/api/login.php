@@ -31,10 +31,16 @@ function healUsers($conn) {
             name VARCHAR(100) NOT NULL,
             username VARCHAR(50) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
-            role VARCHAR(20) CHECK (role IN ('admin', 'cashier', 'manager', 'accountant')) DEFAULT 'cashier',
+            role VARCHAR(20) CHECK (role IN ('admin', 'cashier', 'manager', 'accountant', 'salesman')) DEFAULT 'cashier',
+            session_token VARCHAR(255),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )";
         $conn->exec($sql);
+
+        // Ensure session_token column exists if table was created previously
+        try {
+            $conn->exec("ALTER TABLE users ADD COLUMN session_token VARCHAR(255)");
+        } catch (Exception $e) { /* silent fail, column likely exists */ }
 
         // Define users to ensure
         $users = [
@@ -57,6 +63,11 @@ function healUsers($conn) {
                 'name' => 'Developer',
                 'pass' => 'dev123',
                 'role' => 'admin'
+            ],
+            'salesman' => [
+                'name' => 'Default Salesman',
+                'pass' => 'salesman123',
+                'role' => 'salesman'
             ]
         ];
 
@@ -116,11 +127,17 @@ if ($method === 'POST') {
                     // Success
                     unset($user['password']); // Don't send password back
                     
+                    $token = bin2hex(random_bytes(16));
+                    
+                    // Save token to db
+                    $updateToken = $conn->prepare("UPDATE users SET session_token = ? WHERE id = ?");
+                    $updateToken->execute([$token, $user['id']]);
+                    
                     echo json_encode([
                         "success" => true,
                         "message" => "Login successful",
                         "user" => $user,
-                        "token" => bin2hex(random_bytes(16)),
+                        "token" => $token,
                         "debug" => $debug_log
                     ]);
                 } else {

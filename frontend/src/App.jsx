@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CursorProvider } from './context/CursorContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -7,9 +7,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import MainLayout from './components/MainLayout';
 import ThreeDCursor from './components/common/ThreeDCursor';
-import ThreeDBackground from './components/common/ThreeDBackground';
 import PageTransition from './components/common/PageTransition';
 import { HelmetProvider } from 'react-helmet-async';
+import { Toaster } from 'react-hot-toast';
 
 // Lazy load pages for performance optimization (Code Splitting)
 const Login = lazy(() => import('./pages/Login'));
@@ -19,8 +19,7 @@ const Bills = lazy(() => import('./pages/account/Bills'));
 const Stores = lazy(() => import('./pages/account/Stores'));
 const Accounts = lazy(() => import('./pages/account/Accounts'));
 const Reports = lazy(() => import('./pages/account/Reports'));
-const POS = lazy(() => import('./pages/cashier/POS'));
-const BillHistory = lazy(() => import('./pages/cashier/BillHistory'));
+
 
 const AddClient = lazy(() => import('./pages/account/clients/AddClient'));
 const UpdateClient = lazy(() => import('./pages/account/clients/UpdateClient'));
@@ -36,6 +35,18 @@ const AddAccount = lazy(() => import('./pages/account/accounts/AddAccount'));
 const UpdateAccount = lazy(() => import('./pages/account/accounts/UpdateAccount'));
 const DeleteAccount = lazy(() => import('./pages/account/accounts/DeleteAccount'));
 const AccountDetails = lazy(() => import('./pages/account/accounts/AccountDetails'));
+
+// Salesman Panel Pages
+const SalesmanDashboard = lazy(() => import('./pages/salesman/Dashboard'));
+const OrderPlacement = lazy(() => import('./pages/salesman/OrderPlacement'));
+const OrderHistory = lazy(() => import('./pages/salesman/OrderHistory'));
+const ClientOrderHistory = lazy(() => import('./pages/salesman/ClientOrderHistory'));
+const SalesmanProducts = lazy(() => import('./pages/salesman/Products'));
+const SalesmanProductDetails = lazy(() => import('./pages/salesman/ProductDetails'));
+
+
+// Fallback Route Page
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Global Loader Component
 const PageLoader = () => (
@@ -54,7 +65,7 @@ function App() {
         <AuthProvider>
           <CursorProvider>
             <Router>
-              <ThreeDBackground />
+              <Toaster position="top-right" reverseOrder={false} />
               <ThreeDCursor />
               <Suspense fallback={<PageLoader />}>
                 <PageTransition>
@@ -65,11 +76,6 @@ function App() {
                     {/* Protected Routes */}
                     <Route element={<MainLayout />}>
 
-                      {/* POS -- Accessible by Admin & Cashier */}
-                      <Route element={<ProtectedRoute allowedRoles={['admin', 'cashier', 'accountant']} />}>
-                        <Route path="/pos" element={<POS />} />
-                        <Route path="/history" element={<BillHistory />} />
-                      </Route>
 
                       {/* Dashboard & Management -- For Admin & Accountant */}
                       <Route element={<ProtectedRoute allowedRoles={['admin', 'accountant']} />}>
@@ -98,7 +104,21 @@ function App() {
                         <Route path="/reports" element={<Reports />} />
                       </Route>
 
+
+
+                      {/* Salesman Panel -- Accessible by Admin & Salesman */}
+                      <Route element={<ProtectedRoute allowedRoles={['admin', 'salesman']} />}>
+                        <Route path="/salesman/dashboard" element={<SalesmanDashboard />} />
+                        <Route path="/salesman/place-order" element={<OrderPlacement />} />
+                        <Route path="/salesman/order-history" element={<OrderHistory />} />
+                        <Route path="/salesman/client-history" element={<ClientOrderHistory />} />
+                        <Route path="/salesman/products" element={<SalesmanProducts />} />
+                        <Route path="/salesman/products/:id" element={<SalesmanProductDetails />} />
+                      </Route>
+
                     </Route>
+                    {/* Fallback Catch-all Route for Unknown Paths */}
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                 </PageTransition>
               </Suspense>
