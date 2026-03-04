@@ -249,16 +249,24 @@ const OrderHistory = () => {
 
     const getStatusStyle = (status) => {
         switch (status) {
-            case 'Confirmed': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.15)]';
-            case 'Delivered': return 'bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.15)]';
-            default: return 'bg-amber-500/10 text-amber-400 border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.15)]';
+            case 'Pending': return 'bg-amber-500/10 text-amber-500 border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.15)]';
+            case 'Processing': return 'bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.15)]';
+            case 'Ready':
+            case 'Ready to Dispatch': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.15)]';
+            case 'Completed': return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.15)]';
+            case 'Cancelled': return 'bg-rose-500/10 text-rose-400 border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.15)]';
+            default: return 'bg-gray-500/10 text-gray-400 border-gray-500/20 shadow-[0_0_15px_rgba(107,114,128,0.15)]';
         }
     };
 
     const getStatusIcon = (status, size = 16) => {
         switch (status) {
-            case 'Confirmed': return <CheckCircle size={size} className="drop-shadow-[0_0_5px_currentColor]" />;
-            case 'Delivered': return <Truck size={size} className="drop-shadow-[0_0_5px_currentColor]" />;
+            case 'Pending': return <Clock size={size} className="drop-shadow-[0_0_5px_currentColor]" />;
+            case 'Processing': return <PackageOpen size={size} className="drop-shadow-[0_0_5px_currentColor]" />;
+            case 'Ready':
+            case 'Ready to Dispatch': return <Truck size={size} className="drop-shadow-[0_0_5px_currentColor]" />;
+            case 'Completed': return <CheckCircle size={size} className="drop-shadow-[0_0_5px_currentColor]" />;
+            case 'Cancelled': return <X size={size} className="drop-shadow-[0_0_5px_currentColor]" />;
             default: return <Clock size={size} className="drop-shadow-[0_0_5px_currentColor]" />;
         }
     };
@@ -348,8 +356,10 @@ const OrderHistory = () => {
                                 >
                                     <option value="">All Statuses</option>
                                     <option value="Pending">Pending</option>
-                                    <option value="Confirmed">Confirmed</option>
-                                    <option value="Delivered">Delivered</option>
+                                    <option value="Processing">Processing</option>
+                                    <option value="Ready to Dispatch">Ready to Dispatch</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Cancelled">Cancelled</option>
                                 </select>
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-indigo-400 group-hover:text-white transition-colors">
                                     <ChevronDown size={18} />
@@ -570,8 +580,10 @@ const OrderHistory = () => {
                                                     onChange={(e) => setOrderEditStatus(e.target.value)}
                                                 >
                                                     <option value="Pending">Pending</option>
-                                                    <option value="Confirmed">Confirmed</option>
-                                                    <option value="Delivered">Delivered</option>
+                                                    <option value="Processing">Processing</option>
+                                                    <option value="Ready to Dispatch">Ready to Dispatch</option>
+                                                    <option value="Completed">Completed</option>
+                                                    <option value="Cancelled">Cancelled</option>
                                                 </select>
                                             ) : (
                                                 <div className={`px-4 py-1.5 rounded-full border flex items-center gap-2 ${getStatusStyle(selectedOrder.status)}`}>

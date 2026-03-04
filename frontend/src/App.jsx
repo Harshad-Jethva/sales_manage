@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext';
 import { CursorProvider } from './context/CursorContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { FloatingWindowProvider } from './context/FloatingWindowContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import MainLayout from './components/MainLayout';
@@ -44,6 +45,20 @@ const ClientOrderHistory = lazy(() => import('./pages/salesman/ClientOrderHistor
 const SalesmanProducts = lazy(() => import('./pages/salesman/Products'));
 const SalesmanProductDetails = lazy(() => import('./pages/salesman/ProductDetails'));
 
+// Cashier Panel Pages
+const POS = lazy(() => import('./pages/cashier/POS'));
+const POSClientBills = lazy(() => import('./pages/cashier/ClientBills'));
+const POSAllBills = lazy(() => import('./pages/cashier/AllBills'));
+const POSReport = lazy(() => import('./pages/cashier/Report'));
+
+// Warehouse Panel Pages
+const WarehouseDashboard = lazy(() => import('./pages/warehouse/WarehouseDashboard'));
+const ReceiveOrder = lazy(() => import('./pages/warehouse/ReceiveOrder'));
+
+// Admin Panel Pages
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminAccessControl = lazy(() => import('./pages/admin/AdminAccessControl'));
+const PanelLoginRedirect = lazy(() => import('./pages/admin/PanelLoginRedirect'));
 
 // Fallback Route Page
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -63,67 +78,84 @@ function App() {
     <HelmetProvider>
       <ThemeProvider>
         <AuthProvider>
-          <CursorProvider>
-            <Router>
-              <Toaster position="top-right" reverseOrder={false} />
-              <ThreeDCursor />
-              <Suspense fallback={<PageLoader />}>
-                <PageTransition>
-                  <Routes>
-                    {/* Public Route */}
-                    <Route path="/login" element={<Login />} />
+          <FloatingWindowProvider>
+            <CursorProvider>
+              <Router>
+                <Toaster position="top-right" reverseOrder={false} />
+                <ThreeDCursor />
+                <Suspense fallback={<PageLoader />}>
+                  <PageTransition>
+                    <Routes>
+                      {/* Public Route */}
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/admin/panel-login" element={<PanelLoginRedirect />} />
 
-                    {/* Protected Routes */}
-                    <Route element={<MainLayout />}>
+                      {/* Protected Routes */}
+                      <Route element={<MainLayout />}>
+                        {/* Standalone Cashier POS Route */}
+                        <Route element={<ProtectedRoute allowedRoles={['admin', 'cashier', 'warehouse']} />}>
+                          <Route path="/pos" element={<POS />} />
+                          <Route path="/pos/clients" element={<POSClientBills />} />
+                          <Route path="/pos/all-bills" element={<POSAllBills />} />
+                          <Route path="/pos/report" element={<POSReport />} />
+                          <Route path="/pos/client-profile" element={<ClientProfile />} />
+                        </Route>
 
+                        {/* Dashboard & Management -- For Admin & Accountant */}
+                        <Route element={<ProtectedRoute allowedRoles={['admin', 'accountant']} />}>
+                          <Route path="/" element={<Dashboard />} />
+                          <Route path="/clients" element={<Clients />} />
+                          <Route path="/clients/view" element={<ClientProfile />} />
+                          <Route path="/clients/add" element={<AddClient />} />
+                          <Route path="/clients/update" element={<UpdateClient />} />
+                          <Route path="/clients/delete" element={<DeleteClient />} />
+                          <Route path="/bills" element={<Bills />} />
+                          <Route path="/stores" element={<Stores />} />
+                          <Route path="/stores/add" element={<AddStore />} />
+                          <Route path="/stores/update" element={<UpdateStore />} />
+                          <Route path="/stores/delete" element={<DeleteStore />} />
+                          <Route path="/stores/view" element={<StoreDetails />} />
+                          <Route path="/accounts" element={<Accounts />} />
+                          <Route path="/accounts/add" element={<AddAccount />} />
+                          <Route path="/accounts/update" element={<UpdateAccount />} />
+                          <Route path="/accounts/delete" element={<DeleteAccount />} />
+                          <Route path="/accounts/view" element={<AccountDetails />} />
+                          <Route path="/reports" element={<Reports />} />
+                        </Route>
 
-                      {/* Dashboard & Management -- For Admin & Accountant */}
-                      <Route element={<ProtectedRoute allowedRoles={['admin', 'accountant']} />}>
-                        <Route path="/" element={<Dashboard />} />
+                        {/* Salesman Panel -- Accessible by Admin & Salesman */}
+                        <Route element={<ProtectedRoute allowedRoles={['admin', 'salesman']} />}>
+                          <Route path="/salesman/dashboard" element={<SalesmanDashboard />} />
+                          <Route path="/salesman/place-order" element={<OrderPlacement />} />
+                          <Route path="/salesman/order-history" element={<OrderHistory />} />
+                          <Route path="/salesman/client-history" element={<ClientOrderHistory />} />
+                          <Route path="/salesman/products" element={<SalesmanProducts />} />
+                          <Route path="/salesman/products/:id" element={<SalesmanProductDetails />} />
+                        </Route>
 
-                        <Route path="/clients" element={<Clients />} />
-                        <Route path="/clients/view" element={<ClientProfile />} />
-                        <Route path="/clients/add" element={<AddClient />} />
-                        <Route path="/clients/update" element={<UpdateClient />} />
-                        <Route path="/clients/delete" element={<DeleteClient />} />
+                        {/* Warehouse Panel -- Accessible by Admin & Warehouse */}
+                        <Route element={<ProtectedRoute allowedRoles={['admin', 'warehouse']} />}>
+                          <Route path="/warehouse/dashboard" element={<WarehouseDashboard />} />
+                          <Route path="/warehouse/receive-order" element={<ReceiveOrder />} />
+                          <Route path="/warehouse/inventory" element={<Dashboard />} />
+                          <Route path="/warehouse/reports" element={<Reports />} />
+                        </Route>
 
-                        <Route path="/bills" element={<Bills />} />
-
-                        <Route path="/stores" element={<Stores />} />
-                        <Route path="/stores/add" element={<AddStore />} />
-                        <Route path="/stores/update" element={<UpdateStore />} />
-                        <Route path="/stores/delete" element={<DeleteStore />} />
-                        <Route path="/stores/view" element={<StoreDetails />} />
-
-                        <Route path="/accounts" element={<Accounts />} />
-                        <Route path="/accounts/add" element={<AddAccount />} />
-                        <Route path="/accounts/update" element={<UpdateAccount />} />
-                        <Route path="/accounts/delete" element={<DeleteAccount />} />
-                        <Route path="/accounts/view" element={<AccountDetails />} />
-
-                        <Route path="/reports" element={<Reports />} />
+                        {/* Admin Appended Route */}
+                        <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+                          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                          <Route path="/admin/access-control" element={<AdminAccessControl />} />
+                        </Route>
                       </Route>
 
-
-
-                      {/* Salesman Panel -- Accessible by Admin & Salesman */}
-                      <Route element={<ProtectedRoute allowedRoles={['admin', 'salesman']} />}>
-                        <Route path="/salesman/dashboard" element={<SalesmanDashboard />} />
-                        <Route path="/salesman/place-order" element={<OrderPlacement />} />
-                        <Route path="/salesman/order-history" element={<OrderHistory />} />
-                        <Route path="/salesman/client-history" element={<ClientOrderHistory />} />
-                        <Route path="/salesman/products" element={<SalesmanProducts />} />
-                        <Route path="/salesman/products/:id" element={<SalesmanProductDetails />} />
-                      </Route>
-
-                    </Route>
-                    {/* Fallback Catch-all Route for Unknown Paths */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </PageTransition>
-              </Suspense>
-            </Router>
-          </CursorProvider>
+                      {/* Fallback Catch-all Route for Unknown Paths */}
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </PageTransition>
+                </Suspense>
+              </Router>
+            </CursorProvider>
+          </FloatingWindowProvider>
         </AuthProvider>
       </ThemeProvider>
     </HelmetProvider>
@@ -131,4 +163,3 @@ function App() {
 }
 
 export default App;
-

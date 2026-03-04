@@ -48,9 +48,15 @@ const Clients = () => {
   }, [customers]);
 
   const filteredCustomers = customers.filter(c => {
-    const matchSearch = c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (c.phone && c.phone.includes(searchTerm)) ||
-      (c.shop_name && c.shop_name.toLowerCase().includes(searchTerm.toLowerCase()));
+    const term = searchTerm.toLowerCase();
+    const clientIdStr = c.id ? String(c.id).padStart(4, '0') : '';
+    const plainId = c.id ? String(c.id) : '';
+
+    const matchSearch = c.name.toLowerCase().includes(term) ||
+      (c.phone && c.phone.includes(term)) ||
+      (c.shop_name && c.shop_name.toLowerCase().includes(term)) ||
+      clientIdStr.includes(term) ||
+      plainId.includes(term);
 
     const matchFilter = filterType === 'All' || c.customer_type === filterType;
     return matchSearch && matchFilter;

@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, Receipt, Building2, Wallet,
   BarChart3, ShoppingCart, ChevronDown, ChevronRight,
   UserPlus, UserCog, UserMinus, List, Menu, X, LogOut, Plus, Edit, Trash2,
-  ChevronLeft, ShoppingBag
+  ChevronLeft, ShoppingBag, Truck, Package, Shield
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -14,6 +14,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
   const [openSubmenu, setOpenSubmenu] = useState('');
+  const [openSubSubmenu, setOpenSubSubmenu] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -86,6 +87,19 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       ]
     },
 
+    // Cashier Specific Menu
+    { icon: Receipt, label: 'POS Terminal', path: '/pos', roles: ['admin', 'cashier'] },
+    { icon: Users, label: 'Client Ledger', path: '/pos/clients', roles: ['admin', 'cashier', 'accountant'] },
+    {
+      icon: Receipt,
+      label: 'Bills',
+      roles: ['admin', 'cashier'],
+      subItems: [
+        { icon: List, label: 'History Bill', path: '/pos/all-bills' },
+        { icon: BarChart3, label: 'Report', path: '/pos/report' },
+      ]
+    },
+
     // Salesman Specific Menu
     { icon: LayoutDashboard, label: 'Salesman Home', path: '/salesman/dashboard', roles: ['admin', 'salesman'] },
     { icon: Plus, label: 'Place Order', path: '/salesman/place-order', roles: ['admin', 'salesman'] },
@@ -93,17 +107,117 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
     { icon: Users, label: 'Client History', path: '/salesman/client-history', roles: ['admin', 'salesman'] },
     { icon: ShoppingBag, label: 'Products', path: '/salesman/products', roles: ['admin', 'salesman'] },
 
+    // Warehouse Panel
+    { icon: Truck, label: 'Warehouse Terminal', path: '/warehouse/dashboard', roles: ['admin', 'warehouse'] },
+    { icon: Package, label: 'Receive Orders', path: '/warehouse/receive-order', roles: ['admin', 'warehouse'] },
+    { icon: List, label: 'Stock Ledger', path: '/warehouse/inventory', roles: ['admin', 'warehouse'] },
+
+    // POS Pages in Warehouse Panel
+    { icon: Receipt, label: 'POS Terminal', path: '/pos', roles: ['admin', 'warehouse'] },
+    { icon: Users, label: 'Client Ledger', path: '/pos/clients', roles: ['admin', 'warehouse'] },
+    {
+      icon: Receipt,
+      label: 'Bills',
+      roles: ['admin', 'warehouse'],
+      subItems: [
+        { icon: List, label: 'History Bill', path: '/pos/all-bills' },
+        { icon: BarChart3, label: 'Report', path: '/pos/report' },
+      ]
+    },
+
     { icon: BarChart3, label: 'Reports', path: '/reports', roles: ['admin', 'accountant'] },
 
   ];
 
-  const menuItems = allMenuItems.filter(item =>
-    !item.roles || item.roles.includes(user?.role || 'cashier')
-  );
+  const adminMenuItems = [
+    { icon: Shield, label: 'Admin Dashboard', path: '/admin/dashboard', roles: ['admin'] },
+    { icon: UserCog, label: 'Panel Access', path: '/admin/access-control', roles: ['admin'] },
+    {
+      icon: Wallet,
+      label: 'Account Panel',
+      roles: ['admin'],
+      subItems: [
+        { icon: LayoutDashboard, label: 'Account Dashboard', path: '/' },
+        {
+          icon: Users,
+          label: 'Clients',
+          subItems: [
+            { icon: List, label: 'Show Clients', path: '/clients' },
+            { icon: UserPlus, label: 'Add Client', path: '/clients/add' },
+            { icon: UserCog, label: 'Update Client', path: '/clients/update' },
+            { icon: UserMinus, label: 'Delete Client', path: '/clients/delete' }
+          ]
+        },
+        { icon: ShoppingCart, label: 'Inventory', path: '/bills' },
+        {
+          icon: Building2,
+          label: 'Stores',
+          subItems: [
+            { icon: List, label: 'Show Stores', path: '/stores' },
+            { icon: Plus, label: 'Add Store', path: '/stores/add' },
+            { icon: Edit, label: 'Update Store', path: '/stores/update' },
+            { icon: Trash2, label: 'Delete Store', path: '/stores/delete' }
+          ]
+        },
+        {
+          icon: Wallet,
+          label: 'Accounts',
+          subItems: [
+            { icon: List, label: 'Show Accounts', path: '/accounts' },
+            { icon: Plus, label: 'Add Account', path: '/accounts/add' },
+            { icon: Edit, label: 'Update Account', path: '/accounts/update' },
+            { icon: Trash2, label: 'Delete Account', path: '/accounts/delete' }
+          ]
+        },
+        { icon: BarChart3, label: 'Reports', path: '/reports' },
+      ]
+    },
+    {
+      icon: Receipt,
+      label: 'POS Panel',
+      roles: ['admin'],
+      subItems: [
+        { icon: Receipt, label: 'POS Terminal', path: '/pos' },
+        { icon: Users, label: 'Client Ledger', path: '/pos/clients' },
+        { icon: List, label: 'History Bill', path: '/pos/all-bills' },
+        { icon: BarChart3, label: 'Report', path: '/pos/report' },
+      ]
+    },
+    {
+      icon: Users,
+      label: 'Salesman Panel',
+      roles: ['admin'],
+      subItems: [
+        { icon: LayoutDashboard, label: 'Salesman Home', path: '/salesman/dashboard' },
+        { icon: Plus, label: 'Place Order', path: '/salesman/place-order' },
+        { icon: Receipt, label: 'My Orders', path: '/salesman/order-history' },
+        { icon: Users, label: 'Client History', path: '/salesman/client-history' },
+        { icon: ShoppingBag, label: 'Products', path: '/salesman/products' },
+      ]
+    },
+    {
+      icon: Truck,
+      label: 'Warehouse Panel',
+      roles: ['admin'],
+      subItems: [
+        { icon: Truck, label: 'Warehouse Terminal', path: '/warehouse/dashboard' },
+        { icon: Package, label: 'Receive Orders', path: '/warehouse/receive-order' },
+        { icon: List, label: 'Stock Ledger', path: '/warehouse/inventory' },
+      ]
+    }
+  ];
+
+  const menuItems = user?.role === 'admin'
+    ? adminMenuItems
+    : allMenuItems.filter(item => !item.roles || item.roles.includes(user?.role || 'cashier'));
 
   const toggleSubmenu = (label) => {
     if (isCollapsed) setIsCollapsed(false); // Auto-expand when clicking a submenu parent
     setOpenSubmenu(openSubmenu === label ? null : label);
+  };
+
+  const toggleSubSubmenu = (label) => {
+    setOpenSubSubmenu(openSubSubmenu === label ? null : label);
   };
 
   const isParentActive = (item) => {
@@ -203,16 +317,55 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
                           exit={{ height: 0, opacity: 0 }}
                           className="submenu-container"
                         >
-                          {item.subItems.map(sub => (
-                            <NavLink
-                              key={sub.path}
-                              to={sub.path}
-                              end={sub.path === '/clients'}
-                              className={({ isActive }) => `sub-item ${isActive ? 'active' : ''}`}
-                            >
-                              <div className="dot"></div>
-                              <span>{sub.label}</span>
-                            </NavLink>
+                          {item.subItems.map((sub, idx) => (
+                            sub.subItems ? (
+                              <div key={sub.label || idx} className="nested-submenu">
+                                <div
+                                  className={`sub-item nested-parent ${openSubSubmenu === sub.label ? 'active' : ''}`}
+                                  onClick={() => toggleSubSubmenu(sub.label)}
+                                >
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                                    <div className={`dot ${openSubSubmenu === sub.label ? 'active-dot' : ''}`}></div>
+                                    <span>{sub.label}</span>
+                                  </div>
+                                  <motion.div animate={{ rotate: openSubSubmenu === sub.label ? 180 : 0 }} className="nested-chevron">
+                                    <ChevronDown size={14} />
+                                  </motion.div>
+                                </div>
+                                <AnimatePresence>
+                                  {openSubSubmenu === sub.label && (
+                                    <motion.div
+                                      initial={{ height: 0, opacity: 0 }}
+                                      animate={{ height: 'auto', opacity: 1 }}
+                                      exit={{ height: 0, opacity: 0 }}
+                                      className="sub-submenu-container"
+                                    >
+                                      {sub.subItems.map(subSub => (
+                                        <NavLink
+                                          key={subSub.path}
+                                          to={subSub.path}
+                                          end={subSub.path === '/clients'}
+                                          className={({ isActive }) => `sub-sub-item ${isActive ? 'active' : ''}`}
+                                        >
+                                          <div className="dot"></div>
+                                          <span>{subSub.label}</span>
+                                        </NavLink>
+                                      ))}
+                                    </motion.div>
+                                  )}
+                                </AnimatePresence>
+                              </div>
+                            ) : (
+                              <NavLink
+                                key={sub.path || idx}
+                                to={sub.path}
+                                end={sub.path === '/clients'}
+                                className={({ isActive }) => `sub-item ${isActive ? 'active' : ''}`}
+                              >
+                                <div className="dot"></div>
+                                <span>{sub.label}</span>
+                              </NavLink>
+                            )
                           ))}
                         </motion.div>
                       )}
@@ -259,7 +412,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className={`sidebar-desktop ${isMobile ? 'hidden' : ''} ${isCollapsed ? 'collapsed' : ''}`}>
+      <aside className={`sidebar-desktop print:hidden ${isMobile ? 'hidden' : ''} ${isCollapsed ? 'collapsed' : ''}`}>
         <SidebarContent />
       </aside>
 
@@ -492,10 +645,39 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
           transition: 0.2s;
         }
 
-        .sub-item:hover { color: white; background: rgba(255,255,255,0.03); }
+        .sub-item:hover { color: white; background: rgba(255,255,255,0.03); cursor: pointer; }
         .sub-item .dot { width: 5px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.2s; }
         .sub-item.active .dot { background: var(--primary); box-shadow: 0 0 8px var(--primary); }
         .sub-item.active { color: white; background: rgba(79, 70, 229, 0.1); }
+        
+        .nested-parent {
+          justify-content: space-between;
+          padding-right: 0.5rem;
+        }
+        
+        .sub-submenu-container {
+          margin-left: 1rem;
+          padding: 0.2rem 0 0.2rem 0.5rem;
+          border-left: 1px solid rgba(255,255,255,0.05);
+          overflow: hidden;
+        }
+
+        .sub-sub-item {
+          display: flex; align-items: center; gap: 0.8rem;
+          padding: 0.5rem 1rem;
+          color: var(--text-secondary);
+          text-decoration: none;
+          font-size: 0.8rem;
+          border-radius: 6px;
+          transition: 0.2s;
+        }
+        
+        .sub-sub-item:hover { color: white; background: rgba(255,255,255,0.02); }
+        .sub-sub-item .dot { width: 4px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 50%; transition: 0.2s; }
+        .sub-sub-item.active .dot { background: var(--primary); box-shadow: 0 0 8px var(--primary); }
+        .sub-sub-item.active { color: white; background: rgba(79, 70, 229, 0.1); }
+        
+        .active-dot { background: var(--primary) !important; box-shadow: 0 0 8px var(--primary); }
 
         .sidebar-footer { padding: 1.5rem 1rem; border-top: 1px solid rgba(255, 255, 255, 0.08); }
         

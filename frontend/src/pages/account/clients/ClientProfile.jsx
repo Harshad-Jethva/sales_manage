@@ -1,24 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { motion } from 'framer-motion';
 import {
     ArrowLeft, Phone, Mail, MapPin, Globe, Building2,
     FileText, CreditCard, Edit, Trash2, Printer, Share2,
-    Calendar, TrendingUp, DollarSign, Award
+    Calendar, TrendingUp, DollarSign, Award, Receipt
 } from 'lucide-react';
 
 const ClientProfile = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [client, setClient] = useState(null);
+    const [bills, setBills] = useState([]);
+    const [loadingBills, setLoadingBills] = useState(false);
 
     useEffect(() => {
         if (location.state && location.state.client) {
             setClient(location.state.client);
+            fetchClientBills(location.state.client.id);
         } else {
-            navigate('/clients');
+            navigate(-1);
         }
     }, [location.state, navigate]);
+
+    const fetchClientBills = async (clientId) => {
+        setLoadingBills(true);
+        try {
+            const res = await axios.get(`http://localhost/sales_manage/backend/api/bills.php?customer_id=${clientId}`);
+            setBills(Array.isArray(res.data) ? res.data : []);
+        } catch (err) {
+            console.error("Error fetching bills:", err);
+        } finally {
+            setLoadingBills(false);
+        }
+    };
 
     if (!client) return null;
 
@@ -134,7 +150,7 @@ const ClientProfile = () => {
                 <div className="relative h-64 -mx-[1.5rem] -mt-[1.5rem] mb-12 overflow-hidden bg-slate-900 shadow-2xl">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(99,102,241,0.15)_0%,transparent_50%),radial-gradient(circle_at_80%_80%,rgba(236,72,153,0.1)_0%,transparent_50%))]"></div>
                     <div className="max-w-6xl mx-auto h-full px-6 flex justify-between items-start pt-6 relative z-10">
-                        <button className="flex items-center gap-2 px-4 py-2 bg-black/30 backdrop-blur-sm border border-white/10 text-slate-300 rounded-lg hover:text-white hover:bg-white/10 hover:border-white/20 transition-all font-medium text-sm" onClick={() => navigate('/clients')}>
+                        <button className="flex items-center gap-2 px-4 py-2 bg-black/30 backdrop-blur-sm border border-white/10 text-slate-300 rounded-lg hover:text-white hover:bg-white/10 hover:border-white/20 transition-all font-medium text-sm" onClick={() => navigate(-1)}>
                             <ArrowLeft size={16} /> Back
                         </button>
                         <div className="flex gap-3">
@@ -323,6 +339,60 @@ const ClientProfile = () => {
                                 </p>
                             </div>
                         </div>
+                    </div>
+
+                    {/* BILLING HISTORY SECTION */}
+                    <div className="mt-8 erp-card p-6 border-white/5 shadow-2xl">
+                        <h3 className="flex items-center gap-3 text-xl font-bold text-white mb-6 border-b border-white/5 pb-3">
+                            <Receipt className="text-indigo-400" size={24} /> Billing & Payment History
+                        </h3>
+                        {loadingBills ? (
+                            <div className="p-8 text-center text-slate-500 animate-pulse">Loading billing details...</div>
+                        ) : bills.length === 0 ? (
+                            <div className="p-8 text-center text-slate-500 bg-slate-800/30 rounded-xl border border-white/5">
+                                No billing records found for this client.
+                            </div>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="bg-slate-800/80 border-b border-slate-700 text-xs uppercase tracking-wider text-slate-400">
+                                            <th className="p-4 font-semibold">Date</th>
+                                            <th className="p-4 font-semibold">Bill No</th>
+                                            <th className="p-4 font-semibold text-right">Bill Amount</th>
+                                            <th className="p-4 font-semibold text-right">Paid Amount</th>
+                                            <th className="p-4 font-semibold text-center">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-800/50 text-sm">
+                                        {bills.map((bill) => (
+                                            <tr key={bill.id} className="hover:bg-slate-800/30 transition-colors">
+                                                <td className="p-4 text-slate-300">
+                                                    {bill.bill_date}
+                                                </td>
+                                                <td className="p-4">
+                                                    <span className="font-mono text-indigo-400 font-semibold">{bill.bill_number}</span>
+                                                </td>
+                                                <td className="p-4 text-right font-semibold text-white">
+                                                    ₹{parseFloat(bill.total_amount || 0).toLocaleString()}
+                                                </td>
+                                                <td className="p-4 text-right font-medium text-emerald-400">
+                                                    ₹{parseFloat(bill.paid_amount || 0).toLocaleString()}
+                                                </td>
+                                                <td className="p-4 text-center">
+                                                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold ${bill.status === 'paid' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                                                        bill.status === 'partial' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                                            'bg-amber-500/10 text-amber-500 border border-amber-500/20'
+                                                        }`}>
+                                                        {bill.status ? bill.status.toUpperCase() : 'PENDING'}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

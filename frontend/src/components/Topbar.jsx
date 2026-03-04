@@ -8,7 +8,7 @@ const Topbar = ({ toggleSidebar }) => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="erp-topbar">
+    <header className="erp-topbar print:hidden">
       <div className="flex items-center gap-4">
         <button className="mobile-menu-btn md:hidden" onClick={toggleSidebar}>
           <Menu size={24} />

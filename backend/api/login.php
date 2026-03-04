@@ -31,11 +31,19 @@ function healUsers($conn) {
             name VARCHAR(100) NOT NULL,
             username VARCHAR(50) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
-            role VARCHAR(20) CHECK (role IN ('admin', 'cashier', 'manager', 'accountant', 'salesman')) DEFAULT 'cashier',
+            role VARCHAR(20) CHECK (role IN ('admin', 'cashier', 'manager', 'accountant', 'salesman', 'warehouse')) DEFAULT 'cashier',
             session_token VARCHAR(255),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )";
         $conn->exec($sql);
+
+        // Ensure role constraint is updated (PostgreSQL specific adjustment)
+        try {
+            // First drop existing constraint if it exists (name might vary, but we can try to drop and recreate)
+            // For simplicity in a 'heal' function, we try to alter the column type/check
+            $conn->exec("ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check");
+            $conn->exec("ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('admin', 'cashier', 'manager', 'accountant', 'salesman', 'warehouse'))");
+        } catch (Exception $e) { logDebug("Role constraint update note: " . $e->getMessage()); }
 
         // Ensure session_token column exists if table was created previously
         try {
@@ -68,6 +76,11 @@ function healUsers($conn) {
                 'name' => 'Default Salesman',
                 'pass' => 'salesman123',
                 'role' => 'salesman'
+            ],
+            'warehouse' => [
+                'name' => 'Warehouse Manager',
+                'pass' => 'warehouse123',
+                'role' => 'warehouse'
             ]
         ];
 

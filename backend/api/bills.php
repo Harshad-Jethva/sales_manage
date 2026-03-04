@@ -95,7 +95,7 @@ switch($method) {
                              c.city as customer_city,
                              s.supplier_name 
                       FROM bills b 
-                      LEFT JOIN clients c ON b.customer_id = c.id 
+                      LEFT JOIN clients c ON (b.client_id = c.id OR b.customer_id = c.id) 
                       LEFT JOIN suppliers s ON b.supplier_id = s.id 
                       WHERE b.id = ?");
             $stmt->execute([$id]);
@@ -113,7 +113,8 @@ switch($method) {
             $params = [];
             
             if ($customer_id) {
-                $whereClause = "WHERE b.customer_id = ?";
+                $whereClause = "WHERE b.client_id = ? OR b.customer_id = ?";
+                $params[] = $customer_id;
                 $params[] = $customer_id;
             }
 
@@ -122,7 +123,7 @@ switch($method) {
                              c.shop_name,
                              s.supplier_name 
                       FROM bills b 
-                      LEFT JOIN clients c ON b.customer_id = c.id 
+                      LEFT JOIN clients c ON (b.client_id = c.id OR b.customer_id = c.id) 
                       LEFT JOIN suppliers s ON b.supplier_id = s.id 
                       $whereClause
                       ORDER BY b.bill_date DESC";
@@ -135,20 +136,36 @@ switch($method) {
         break;
 
     case 'POST':
-        $bill_type = $_POST['bill_type'] ?? 'sale';
-        $customer_id = !empty($_POST['customer_id']) ? $_POST['customer_id'] : null;
-        $supplier_id = !empty($_POST['supplier_id']) ? $_POST['supplier_id'] : null;
-        $bill_number = $_POST['bill_number'] ?? ('TXN-' . time());
-        $sub_total = $_POST['sub_total'] ?? 0;
-        $discount_amount = $_POST['discount_amount'] ?? 0;
-        $tax_amount = $_POST['tax_amount'] ?? 0;
-        $total_amount = $_POST['total_amount'] ?? 0;
-        $paid_amount = $_POST['paid_amount'] ?? 0;
-        $payment_method = $_POST['payment_method'] ?? 'Cash';
-        $bill_date = $_POST['bill_date'] ?? date('Y-m-d');
-        $notes = $_POST['notes'] ?? '';
+        // Handle JSON input if $_POST is empty
+        $inputData = $_POST;
+        if (empty($inputData)) {
+            $json = file_get_contents('php://input');
+            $decoded = json_decode($json, true);
+            if ($decoded) {
+                $inputData = $decoded;
+            }
+        }
+
+        $bill_type = $inputData['bill_type'] ?? 'sale';
         
-        $status = 'pending';
+        // Handle client vs customer logic
+        $client_id = !empty($inputData['client_id']) ? $inputData['client_id'] : (!empty($inputData['customer_id']) ? $inputData['customer_id'] : null);
+        $customer_id = null; // We reset this to NULL because POS uses clients table, avoiding FK violation with customers table.
+        
+        if ($client_id === '' || $client_id === 0) $client_id = null;
+        
+        $supplier_id = !empty($inputData['supplier_id']) ? $inputData['supplier_id'] : null;
+        $bill_number = $inputData['bill_number'] ?? ('TXN-' . time());
+        $sub_total = $inputData['sub_total'] ?? 0;
+        $discount_amount = $inputData['discount_amount'] ?? 0;
+        $tax_amount = $inputData['tax_amount'] ?? 0;
+        $total_amount = $inputData['total_amount'] ?? 0;
+        $paid_amount = $inputData['paid_amount'] ?? 0;
+        $payment_method = $inputData['payment_method'] ?? 'Cash';
+        $bill_date = $inputData['bill_date'] ?? date('Y-m-d');
+        $notes = $inputData['notes'] ?? '';
+        
+        $status = $inputData['status'] ?? 'pending';
         if ($paid_amount >= $total_amount) $status = 'paid';
         elseif ($paid_amount > 0) $status = 'partial';
 
@@ -163,23 +180,30 @@ switch($method) {
         try {
             $conn->beginTransaction();
 
-            $stmt = $conn->prepare("INSERT INTO bills (bill_type, customer_id, supplier_id, bill_number, sub_total, discount_amount, tax_amount, total_amount, paid_amount, status, payment_method, bill_date, bill_image, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$bill_type, $customer_id, $supplier_id, $bill_number, $sub_total, $discount_amount, $tax_amount, $total_amount, $paid_amount, $status, $payment_method, $bill_date, $bill_image, $notes]);
+            $stmt = $conn->prepare("INSERT INTO bills (bill_type, client_id, customer_id, supplier_id, bill_number, sub_total, discount_amount, tax_amount, total_amount, paid_amount, status, payment_method, bill_date, bill_image, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$bill_type, $client_id, $customer_id, $supplier_id, $bill_number, $sub_total, $discount_amount, $tax_amount, $total_amount, $paid_amount, $status, $payment_method, $bill_date, $bill_image, $notes]);
             
             $bill_id = $conn->lastInsertId('bills_id_seq');
             
-            if (isset($_POST['items'])) {
-                $items = json_decode($_POST['items'], true);
-                foreach ($items as $index => $item) {
+            if (isset($inputData['items'])) {
+                $items = $inputData['items'];
+                if (is_string($items)) {
+                    $items = json_decode($items, true);
+                }
+                
+                if (is_array($items)) {
+                    foreach ($items as $index => $item) {
                     $item_name = !empty($item['name']) ? $item['name'] : 'Unknown Item';
-                    $qty = !empty($item['quantity']) ? (float)$item['quantity'] : 0;
+                    // Support both 'quantity' and 'qty' keys
+                    $qty = (isset($item['quantity'])) ? (float)$item['quantity'] : (isset($item['qty']) ? (float)$item['qty'] : 0);
                     $mrp = (float)($item['mrp'] ?? 0);
                     $reg_disc = (float)($item['regular_discount'] ?? 0);
                     $spec_disc = (float)($item['special_discount'] ?? 0);
-                    $gst_percent = (float)($item['gst'] ?? 0);
+                    // Support both 'gst' and 'gst_percent' keys
+                    $gst_percent = (isset($item['gst'])) ? (float)$item['gst'] : (isset($item['gst_percent']) ? (float)$item['gst_percent'] : 0);
                     
-                    $price_after = (float)($item['price'] ?? 0); // This maps to Product Cost
-                    $selling_price = (float)($item['selling_price'] ?? 0); // This maps to Selling Price
+                    $price_after = (float)($item['price'] ?? 0); // This maps to Product Cost (Cost used for calculations)
+                    $selling_price = (float)($item['selling_price'] ?? $price_after); 
                     
                     $row_total = (float)($item['total'] ?? ($qty * $price_after)); // Total Product Cost
                     $total_selling = (float)($item['total_selling_price'] ?? ($qty * $selling_price)); // Total Selling Price
@@ -207,14 +231,14 @@ switch($method) {
 
                     $image_name = null;
                     $image_path = null;
-                    $is_edited = 'false';
+                    $is_edited = 0;
                     $processing_timestamp = null;
                     
                     $image_key = 'product_image_' . $index;
                     $is_edited_key = 'is_edited_' . $index;
                     
-                    if (isset($_POST[$is_edited_key]) && $_POST[$is_edited_key] === '1') {
-                        $is_edited = 'true';
+                    if (isset($inputData[$is_edited_key]) && ($inputData[$is_edited_key] === '1' || $inputData[$is_edited_key] === true)) {
+                        $is_edited = 1;
                         $processing_timestamp = date('Y-m-d H:i:s');
                     }
 
@@ -252,13 +276,15 @@ switch($method) {
                         }
                     }
                 }
+                }
             }
             
             $conn->commit();
             echo json_encode(["success" => true, "message" => "Transaction completed", "id" => $bill_id]);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $conn->rollBack();
-            echo json_encode(["success" => false, "error" => $e->getMessage()]);
+            http_response_code(500);
+            echo json_encode(["success" => false, "error" => $e->getMessage(), "trace" => $e->getTraceAsString()]);
         }
 
         break;

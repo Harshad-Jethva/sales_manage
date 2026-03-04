@@ -1,0 +1,38 @@
+[
+    {
+        "id": 3,
+        "name": "Account Manager",
+        "username": "accountant",
+        "role": "accountant"
+    },
+    {
+        "id": 4,
+        "name": "Field Executive",
+        "username": "salesman",
+        "role": "salesman"
+    },
+    {
+        "id": 6,
+        "name": "Warehouse Manager",
+        "username": "warehouse",
+        "role": "warehouse"
+    },
+    {
+        "id": 5,
+        "name": "Developer",
+        "username": "dev",
+        "role": "admin"
+    },
+    {
+        "id": 1,
+        "name": "System Admin",
+        "username": "admin",
+        "role": "admin"
+    },
+    {
+        "id": 2,
+        "name": "Counter Staff",
+        "username": "cashier",
+        "role": "cashier"
+    }
+]

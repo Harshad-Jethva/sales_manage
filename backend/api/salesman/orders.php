@@ -1,6 +1,8 @@
 <?php
 require_once '../../config/db.php';
 
+// Redundant headers removed as they are integrated into config/db.php
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
@@ -47,9 +49,11 @@ function handleGet($conn) {
             }
         } else {
             // Get list of orders
-            $query = "SELECT o.*, c.name as client_name 
+            $query = "SELECT o.*, c.name as client_name, c.company as client_company, c.phone as client_phone, u.name as salesman_name,
+                      (SELECT COUNT(*) FROM order_items WHERE order_id = o.id) as items_count
                       FROM orders o 
                       JOIN clients c ON o.client_id = c.id 
+                      JOIN users u ON o.salesman_id = u.id
                       WHERE 1=1";
             $params = [];
 
@@ -247,11 +251,17 @@ function handlePut($conn) {
             $order_id = $data['order_id'];
             
             if (isset($data['status'])) {
-                $stmt = $conn->prepare("UPDATE orders SET status = ?, notes = ? WHERE id = ?");
-                $stmt->execute([$data['status'], $data['notes'] ?? '', $order_id]);
-                $message = "Order details updated successfully";
+                if (isset($data['notes'])) {
+                    $stmt = $conn->prepare("UPDATE orders SET status = ?, notes = ? WHERE id = ?");
+                    $stmt->execute([$data['status'], $data['notes'], $order_id]);
+                } else {
+                    $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
+                    $stmt->execute([$data['status'], $order_id]);
+                }
+                $message = "Order status updated successfully";
             }
         }
+
 
         $conn->commit();
         echo json_encode(["success" => true, "message" => $message ?? "Updated successfully"]);

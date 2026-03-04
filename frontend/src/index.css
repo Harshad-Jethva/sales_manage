@@ -480,3 +480,67 @@ p {
 .erp-grid-cards {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
+
+/* --- Global Print Optimization --- */
+@media print {
+  @page {
+    margin: 10mm;
+    size: A4 portrait;
+  }
+
+  html,
+  body {
+    background: white !important;
+    color: black !important;
+    width: 100%;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  #root,
+  .App,
+  .erp-layout,
+  .erp-content-wrapper,
+  .erp-main {
+    background: white !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    position: static !important;
+    overflow: visible !important;
+  }
+
+  .print-hidden,
+  .no-print,
+  .erp-topbar,
+  .sidebar-desktop,
+  .sidebar-mobile,
+  .mobile-backdrop,
+  header:not(.print-only-header),
+  nav,
+  button,
+  .action-btn,
+  .three-canvas,
+  canvas {
+    display: none !important;
+  }
+
+  .print-container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: black !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+}

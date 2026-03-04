@@ -4,30 +4,35 @@ import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import ThreeBackground from './ThreeBackground';
 
+import FloatingWindowManager from './common/FloatingWindowManager';
+
 const MainLayout = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
 
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-    return (
-        <div className="erp-layout">
-            {/* Background layer */}
-            <ThreeBackground />
+  return (
+    <div className="erp-layout">
+      {/* Background layer */}
+      <ThreeBackground />
 
-            {/* Sidebar fixed */}
-            <Sidebar mobileOpen={sidebarOpen} setMobileOpen={setSidebarOpen} />
+      {/* Floating Windows Manager */}
+      <FloatingWindowManager />
 
-            {/* Main Content Area */}
-            <div className="erp-content-wrapper">
-                <Topbar toggleSidebar={toggleSidebar} />
+      {/* Sidebar fixed */}
+      <Sidebar mobileOpen={sidebarOpen} setMobileOpen={setSidebarOpen} />
 
-                <main className="erp-main">
-                    <Outlet />
-                </main>
-            </div>
+      {/* Main Content Area */}
+      <div className="erp-content-wrapper">
+        <Topbar toggleSidebar={toggleSidebar} />
 
-            <style jsx>{`
+        <main className="erp-main">
+          <Outlet />
+        </main>
+      </div>
+
+      <style jsx>{`
         .erp-layout {
           display: flex;
           min-height: 100vh;
@@ -71,9 +76,18 @@ const MainLayout = () => {
             padding: 1.5rem 1rem;
           }
         }
+        @media print {
+          .erp-content-wrapper {
+            margin-left: 0 !important;
+            width: 100% !important;
+          }
+          .erp-main {
+            padding: 0 !important;
+          }
+        }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default MainLayout;

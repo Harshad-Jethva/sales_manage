@@ -118,6 +118,43 @@ if ($method == 'GET') {
             $stmt = $conn->query($sql);
             echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
             break;
+        case 'cashier_report':
+            $from = $_GET['from'] ?? date('Y-m-d');
+            $to = $_GET['to'] ?? date('Y-m-d');
+            
+            $sql = "
+                SELECT 
+                    COALESCE(payment_method, 'Other') as payment_method,
+                    SUM(total_amount) as total_amount,
+                    SUM(paid_amount) as paid_amount,
+                    SUM(total_amount - paid_amount) as pending_amount,
+                    COUNT(*) as count
+                FROM bills 
+                WHERE bill_date BETWEEN ? AND ?
+                AND bill_type = 'sale'
+                GROUP BY payment_method
+            ";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$from, $to]);
+            $summary = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $bills_sql = "
+                SELECT b.*, c.name as customer_name 
+                FROM bills b
+                LEFT JOIN clients c ON (b.client_id = c.id OR b.customer_id = c.id)
+                WHERE b.bill_date BETWEEN ? AND ?
+                AND b.bill_type = 'sale'
+                ORDER BY b.bill_date DESC, b.id DESC
+            ";
+            $stmt = $conn->prepare($bills_sql);
+            $stmt->execute([$from, $to]);
+            $bills = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode([
+                "summary" => $summary,
+                "bills" => $bills
+            ]);
+            break;
     }
 }
 ?>
