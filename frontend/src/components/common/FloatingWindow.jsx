@@ -136,7 +136,7 @@ const FloatingWindow = ({
                 )}
             </div>
 
-            <style jsx>{`
+            <style>{`
                 .floating-window-rnd {
                     transition: none !important; /* Prevent rnd transition jitter */
                 }

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, Users, Receipt, Building2, Wallet,
+  LayoutDashboard, Users, Receipt, Building2, Wallet, Bell, Send,
   BarChart3, ShoppingCart, ChevronDown, ChevronRight,
   UserPlus, UserCog, UserMinus, List, Menu, X, LogOut, Plus, Edit, Trash2,
-  ChevronLeft, ShoppingBag, Truck, Package, Shield
+  ChevronLeft, ShoppingBag, Truck, Package, Shield, Database
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -132,6 +132,26 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
   const adminMenuItems = [
     { icon: Shield, label: 'Admin Dashboard', path: '/admin/dashboard', roles: ['admin'] },
     { icon: UserCog, label: 'Panel Access', path: '/admin/access-control', roles: ['admin'] },
+    {
+      icon: Database,
+      label: 'Management',
+      roles: ['admin'],
+      subItems: [
+        { icon: Shield, label: 'Employee Accounts', path: '/admin/employees' },
+        { icon: Users, label: 'Client Management', path: '/admin/clients' },
+        { icon: Truck, label: 'Vendor Management', path: '/admin/vendors' },
+      ]
+    },
+    { icon: UserPlus, label: 'Account Control', path: '/admin/client-accounts', roles: ['admin'] },
+    {
+      icon: Bell,
+      label: 'Notification Center',
+      roles: ['admin'],
+      subItems: [
+        { icon: Send, label: 'Send Broadcast', path: '/admin/notifications' },
+        { icon: Receipt, label: 'Response History', path: '/admin/notification-responses' },
+      ]
+    },
     {
       icon: Wallet,
       label: 'Account Panel',
@@ -440,7 +460,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
         )}
       </AnimatePresence>
 
-      <style jsx>{`
+      <style>{`
         /* --- DESKTOP SIDEBAR --- */
         .sidebar-desktop {
           width: 260px;

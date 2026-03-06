@@ -75,7 +75,7 @@ const ThreeBackground = () => {
                 <FloatingCube position={[0, -2, -1]} color="#3b82f6" speed={0.4} />
 
             </Canvas>
-            <style jsx>{`
+            <style>{`
         .three-bg-wrapper {
             position: fixed;
             top: 0;

@@ -154,8 +154,8 @@ const AdminDashboard = () => {
                             <option>Last Quarter</option>
                         </select>
                     </div>
-                    <div style={{ height: '340px' }}>
-                        <ResponsiveContainer width="100%" height="100%">
+                    <div style={{ height: '340px', minHeight: '340px' }}>
+                        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                             <AreaChart data={data}>
                                 <defs>
                                     <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">

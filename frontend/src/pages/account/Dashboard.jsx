@@ -143,8 +143,8 @@ const Dashboard = () => {
                             <option>This Year</option>
                         </select>
                     </div>
-                    <div style={{ height: '320px' }}>
-                        <ResponsiveContainer width="100%" height="100%">
+                    <div style={{ height: '320px', minHeight: '320px' }}>
+                        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                             <AreaChart data={data}>
                                 <defs>
                                     <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">

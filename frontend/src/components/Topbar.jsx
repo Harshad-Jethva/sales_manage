@@ -1,7 +1,8 @@
 import React from 'react';
-import { Search, Bell, Settings, Menu, Sun, Moon } from 'lucide-react';
+import { Search, Settings, Menu, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import NotificationBell from './common/notifications/NotificationBell';
 
 const Topbar = ({ toggleSidebar }) => {
   const { user } = useAuth();
@@ -23,10 +24,9 @@ const Topbar = ({ toggleSidebar }) => {
         <button className="action-btn" onClick={toggleTheme} title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}>
           {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
         </button>
-        <button className="action-btn">
-          <Bell size={20} />
-          <span className="badge-indicator"></span>
-        </button>
+
+        <NotificationBell />
+
         <button className="action-btn">
           <Settings size={20} />
         </button>
@@ -39,7 +39,7 @@ const Topbar = ({ toggleSidebar }) => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .erp-topbar {
           height: var(--topbar-height);
           background: rgba(15, 23, 42, 0.6);

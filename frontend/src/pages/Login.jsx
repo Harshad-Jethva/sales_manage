@@ -26,6 +26,7 @@ const Login = () => {
             else if (user.role === 'salesman') navigate('/salesman/dashboard', { replace: true });
             else if (user.role === 'warehouse') navigate('/warehouse/dashboard', { replace: true });
             else if (user.role === 'admin') navigate('/admin/dashboard', { replace: true });
+            else if (['client_panel', 'vendor_user', 'salesman_user'].includes(user.role)) navigate('/', { replace: true });
             else navigate('/', { replace: true });
         }
     }, [user, navigate]);
@@ -58,6 +59,8 @@ const Login = () => {
                     navigate('/warehouse/dashboard');
                 } else if (res.data.user.role === 'admin') {
                     navigate('/admin/dashboard');
+                } else if (['client_panel', 'vendor_user', 'salesman_user'].includes(res.data.user.role)) {
+                    navigate('/');
                 } else {
                     navigate('/');
                 }

@@ -39,16 +39,20 @@ function healUsers($conn) {
 
         // Ensure role constraint is updated (PostgreSQL specific adjustment)
         try {
-            // First drop existing constraint if it exists (name might vary, but we can try to drop and recreate)
-            // For simplicity in a 'heal' function, we try to alter the column type/check
             $conn->exec("ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check");
-            $conn->exec("ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('admin', 'cashier', 'manager', 'accountant', 'salesman', 'warehouse'))");
+            $conn->exec("ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('admin', 'cashier', 'manager', 'accountant', 'salesman', 'warehouse', 'client_panel', 'vendor_user', 'salesman_user', 'custom_role'))");
         } catch (Exception $e) { logDebug("Role constraint update note: " . $e->getMessage()); }
 
         // Ensure session_token column exists if table was created previously
         try {
             $conn->exec("ALTER TABLE users ADD COLUMN session_token VARCHAR(255)");
         } catch (Exception $e) { /* silent fail, column likely exists */ }
+        
+        // Add new columns if missing
+        try { $conn->exec("ALTER TABLE users ADD COLUMN mobile_number VARCHAR(20)"); } catch(Exception $e){}
+        try { $conn->exec("ALTER TABLE users ADD COLUMN email VARCHAR(100)"); } catch(Exception $e){}
+        try { $conn->exec("ALTER TABLE users ADD COLUMN account_status VARCHAR(20) DEFAULT 'active'"); } catch(Exception $e){}
+        try { $conn->exec("ALTER TABLE users ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"); } catch(Exception $e){}
 
         // Define users to ensure
         $users = [
@@ -81,6 +85,11 @@ function healUsers($conn) {
                 'name' => 'Warehouse Manager',
                 'pass' => 'warehouse123',
                 'role' => 'warehouse'
+            ],
+            'client_demo' => [
+                'name' => 'Demo Client',
+                'pass' => 'client123',
+                'role' => 'client_panel'
             ]
         ];
 
@@ -134,6 +143,15 @@ if ($method === 'POST') {
 
             if ($user) {
                 logDebug("User found. ID: " . $user['id'] . ", Role: " . $user['role']);
+                
+                // Check if account is active
+                if (isset($user['account_status']) && $user['account_status'] !== 'active') {
+                    logDebug("Account is inactive: " . $user['account_status']);
+                    http_response_code(403);
+                    echo json_encode(["success" => false, "message" => "Your account is deactivated. Please contact administrator.", "debug" => $debug_log]);
+                    return;
+                }
+
                 // Verify password
                 if (password_verify($data->password, $user['password'])) {
                     logDebug("Password verified successfully.");

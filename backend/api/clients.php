@@ -75,10 +75,12 @@ switch($method) {
         if (isset($_GET['id'])) {
             $stmt = $conn->prepare("SELECT *, type as customer_type FROM clients WHERE id = ?");
             $stmt->execute([$_GET['id']]);
-            echo json_encode($stmt->fetch(PDO::FETCH_ASSOC));
+            $client = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo json_encode(["success" => true, "data" => $client]);
         } else {
             $stmt = $conn->query("SELECT *, type as customer_type FROM clients ORDER BY created_at DESC");
-            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+            $clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode(["success" => true, "data" => $clients]);
         }
         break;
 
@@ -89,8 +91,8 @@ switch($method) {
                 name, phone, email, address, company, type,
                 shop_name, gstin, pan, billing_address, shipping_address,
                 website, contact_person, notes, bank_name, account_number, ifsc_code,
-                city, state, pincode, credit_limit
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                city, state, pincode, credit_limit, status, outstanding_balance
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             $params = [
                 $data['name'], 
@@ -113,7 +115,9 @@ switch($method) {
                 $data['city'] ?? '',
                 $data['state'] ?? '',
                 $data['pincode'] ?? '',
-                $data['credit_limit'] ?? 0.00
+                $data['credit_limit'] ?? 0.00,
+                $data['status'] ?? 'active',
+                $data['outstanding_balance'] ?? 0.00
             ];
             
             if($stmt->execute($params)) {
@@ -131,7 +135,7 @@ switch($method) {
                 name=?, phone=?, email=?, address=?, company=?, type=?,
                 shop_name=?, gstin=?, pan=?, billing_address=?, shipping_address=?,
                 website=?, contact_person=?, notes=?, bank_name=?, account_number=?, ifsc_code=?,
-                city=?, state=?, pincode=?, credit_limit=?
+                city=?, state=?, pincode=?, credit_limit=?, status=?, outstanding_balance=?
                 WHERE id=?");
             
             $params = [
@@ -156,6 +160,8 @@ switch($method) {
                 $data['state'] ?? '',
                 $data['pincode'] ?? '',
                 $data['credit_limit'] ?? 0.00,
+                $data['status'] ?? 'active',
+                $data['outstanding_balance'] ?? 0.00,
                 $data['id']
             ];
             

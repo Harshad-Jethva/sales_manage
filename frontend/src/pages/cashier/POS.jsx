@@ -52,7 +52,9 @@ const POS = () => {
                     axios.get('http://localhost/sales_manage/backend/api/clients.php')
                 ]);
                 setProducts(prodRes.data || []);
-                setClients(clientRes.data || []);
+                // If the API returns {success: true, data: [...]}, use data.data
+                const clientsData = Array.isArray(clientRes.data) ? clientRes.data : (clientRes.data?.data || []);
+                setClients(clientsData);
             } catch (err) {
                 console.error("Failed to load POS data", err);
             } finally {

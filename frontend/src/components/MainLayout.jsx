@@ -32,7 +32,7 @@ const MainLayout = () => {
         </main>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .erp-layout {
           display: flex;
           min-height: 100vh;

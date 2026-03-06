@@ -7,7 +7,7 @@ const CustomerDetailsPanel = ({ client, onClientSelect, clients = [] }) => {
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
     // Client Filter Logic
-    const filteredClients = clients.filter(c => {
+    const filteredClients = Array.isArray(clients) ? clients.filter(c => {
         const sTerm = searchTerm.toLowerCase();
         const idStr = c.id ? c.id.toString() : '';
         const paddedId = idStr ? `cl-${idStr.padStart(3, '0')}` : '';
@@ -21,7 +21,7 @@ const CustomerDetailsPanel = ({ client, onClientSelect, clients = [] }) => {
             (paddedIdAlt && paddedIdAlt.includes(sTerm)) ||
             (c.client_id && c.client_id.toString().toLowerCase().includes(sTerm))
         );
-    });
+    }) : [];
 
     const handleSelect = (c) => {
         onClientSelect(c);

@@ -58,7 +58,15 @@ const ReceiveOrder = lazy(() => import('./pages/warehouse/ReceiveOrder'));
 // Admin Panel Pages
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const AdminAccessControl = lazy(() => import('./pages/admin/AdminAccessControl'));
+const EmployeeManagement = lazy(() => import('./pages/admin/EmployeeManagement'));
+const ClientManagement = lazy(() => import('./pages/admin/ClientManagement'));
+const VendorManagement = lazy(() => import('./pages/admin/VendorManagement'));
+const ClientAccountManagement = lazy(() => import('./pages/admin/ClientAccountManagement'));
 const PanelLoginRedirect = lazy(() => import('./pages/admin/PanelLoginRedirect'));
+
+// Notification System
+const NotificationCenter = lazy(() => import('./components/admin/notifications/NotificationCenter'));
+const NotificationResponseHistory = lazy(() => import('./components/admin/notifications/NotificationResponseHistory'));
 
 // Fallback Route Page
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -102,7 +110,7 @@ function App() {
                         </Route>
 
                         {/* Dashboard & Management -- For Admin & Accountant */}
-                        <Route element={<ProtectedRoute allowedRoles={['admin', 'accountant']} />}>
+                        <Route element={<ProtectedRoute allowedRoles={['admin', 'accountant', 'client_panel', 'vendor_user', 'salesman_user']} />}>
                           <Route path="/" element={<Dashboard />} />
                           <Route path="/clients" element={<Clients />} />
                           <Route path="/clients/view" element={<ClientProfile />} />
@@ -145,6 +153,12 @@ function App() {
                         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
                           <Route path="/admin/dashboard" element={<AdminDashboard />} />
                           <Route path="/admin/access-control" element={<AdminAccessControl />} />
+                          <Route path="/admin/employees" element={<EmployeeManagement />} />
+                          <Route path="/admin/clients" element={<ClientManagement />} />
+                          <Route path="/admin/vendors" element={<VendorManagement />} />
+                          <Route path="/admin/client-accounts" element={<ClientAccountManagement />} />
+                          <Route path="/admin/notifications" element={<NotificationCenter />} />
+                          <Route path="/admin/notification-responses" element={<NotificationResponseHistory />} />
                         </Route>
                       </Route>
 
