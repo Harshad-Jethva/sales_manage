@@ -1,0 +1,333 @@
+﻿Array
+(
+    [0] => Array
+        (
+            [id] => 9
+            [bill_number] => PUR-501665
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 47.20
+            [paid_amount] => 47.20
+            [due_date] => 
+        )
+
+    [1] => Array
+        (
+            [id] => 10
+            [bill_number] => PUR-964519
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 602.51
+            [paid_amount] => 602.51
+            [due_date] => 
+        )
+
+    [2] => Array
+        (
+            [id] => 11
+            [bill_number] => PUR-627475
+            [client_id] => 
+            [payment_method] => UPI
+            [total_amount] => 19703.64
+            [paid_amount] => 19703.64
+            [due_date] => 
+        )
+
+    [3] => Array
+        (
+            [id] => 12
+            [bill_number] => PUR-253698
+            [client_id] => 
+            [payment_method] => Bank
+            [total_amount] => 24426.00
+            [paid_amount] => 24426.00
+            [due_date] => 
+        )
+
+    [4] => Array
+        (
+            [id] => 13
+            [bill_number] => PUR-761808
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 1911.60
+            [paid_amount] => 1911.60
+            [due_date] => 
+        )
+
+    [5] => Array
+        (
+            [id] => 14
+            [bill_number] => TXN-1772344839
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [6] => Array
+        (
+            [id] => 15
+            [bill_number] => PUR-475696
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 80.95
+            [paid_amount] => 80.95
+            [due_date] => 
+        )
+
+    [7] => Array
+        (
+            [id] => 16
+            [bill_number] => PUR-598402
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 66.08
+            [paid_amount] => 66.08
+            [due_date] => 
+        )
+
+    [8] => Array
+        (
+            [id] => 17
+            [bill_number] => TXN-1772607166
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [9] => Array
+        (
+            [id] => 18
+            [bill_number] => TXN-1772607578
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [10] => Array
+        (
+            [id] => 19
+            [bill_number] => TXN-1772607937
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [11] => Array
+        (
+            [id] => 20
+            [bill_number] => TXN-1772609806
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [12] => Array
+        (
+            [id] => 21
+            [bill_number] => TXN-1772610088
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [13] => Array
+        (
+            [id] => 22
+            [bill_number] => TXN-1772610437
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [14] => Array
+        (
+            [id] => 23
+            [bill_number] => TXN-1772610720
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [15] => Array
+        (
+            [id] => 24
+            [bill_number] => TXN-1772610785
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [16] => Array
+        (
+            [id] => 25
+            [bill_number] => TXN-1772611067
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [17] => Array
+        (
+            [id] => 26
+            [bill_number] => TXN-1772611641
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [18] => Array
+        (
+            [id] => 27
+            [bill_number] => TXN-1772611670
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [19] => Array
+        (
+            [id] => 28
+            [bill_number] => TXN-1772611889
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [20] => Array
+        (
+            [id] => 29
+            [bill_number] => TXN-1772612431
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [21] => Array
+        (
+            [id] => 30
+            [bill_number] => TXN-1772612677
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [22] => Array
+        (
+            [id] => 31
+            [bill_number] => TXN-1772613102
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [23] => Array
+        (
+            [id] => 32
+            [bill_number] => TXN-1772613243
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [24] => Array
+        (
+            [id] => 33
+            [bill_number] => TXN-1772613675
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [25] => Array
+        (
+            [id] => 34
+            [bill_number] => TXN-1772614063
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [26] => Array
+        (
+            [id] => 35
+            [bill_number] => TXN-1772615154
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 0.00
+            [paid_amount] => 0.00
+            [due_date] => 
+        )
+
+    [27] => Array
+        (
+            [id] => 38
+            [bill_number] => TEST-1772616103
+            [client_id] => 
+            [payment_method] => Cash
+            [total_amount] => 118.00
+            [paid_amount] => 118.00
+            [due_date] => 
+        )
+
+    [28] => Array
+        (
+            [id] => 40
+            [bill_number] => INV-460953
+            [client_id] => 2
+            [payment_method] => Cash
+            [total_amount] => 50.40
+            [paid_amount] => 50.40
+            [due_date] => 
+        )
+
+    [29] => Array
+        (
+            [id] => 41
+            [bill_number] => INV-753803
+            [client_id] => 2
+            [payment_method] => Cash
+            [total_amount] => 232.50
+            [paid_amount] => 232.50
+            [due_date] => 
+        )
+
+)

@@ -561,7 +561,7 @@ const ClientAccountManagement = () => {
                 )}
             </AnimatePresence>
 
-            <style jsx>{`
+            <style>{`
         .account-mgmt-container {
           min-height: 100%;
         }

@@ -143,7 +143,7 @@ const CustomerDetailsPanel = ({ client, onClientSelect, clients = [] }) => {
 
                 <div className="flex flex-col">
                     <span className="text-gray-400 text-xs uppercase tracking-wider font-semibold">Outstanding</span>
-                    <div className="text-red-400 font-mono font-bold border-b border-gray-700 pb-1">{(parseFloat(client?.outstanding || 0)).toFixed(2)}</div>
+                    <div className="text-red-400 font-mono font-bold border-b border-gray-700 pb-1">₹ {(parseFloat(client?.outstanding_balance || 0)).toFixed(2)}</div>
                 </div>
             </div>
         </div>

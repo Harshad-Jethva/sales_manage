@@ -44,13 +44,13 @@ function healProducts($conn) {
 switch($method) {
     case 'GET':
         $stmt = $conn->query("SELECT * FROM products ORDER BY name ASC");
-        echo json_encode($stmt->fetchAll());
+        echo json_encode(["success" => true, "data" => $stmt->fetchAll()]);
         break;
 
     case 'POST':
         $data = json_decode(file_get_contents("php://input"), true);
         if(!empty($data['name'])) {
-            $stmt = $conn->prepare("INSERT INTO products (name, sku, mrp, purchase_price, sale_price, stock_quantity, unit) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO products (name, sku, mrp, purchase_price, sale_price, stock_quantity, unit, mfg_date, expiry_date, default_fetch_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             if($stmt->execute([
                 $data['name'], 
                 $data['sku'] ?? '', 
@@ -58,9 +58,13 @@ switch($method) {
                 $data['purchase_price'] ?? 0, 
                 $data['sale_price'], 
                 $data['stock_quantity'] ?? 0,
-                $data['unit'] ?? 'pcs'
+                $data['unit'] ?? 'pcs',
+                $data['mfg_date'] ?? null,
+                $data['expiry_date'] ?? null,
+                $data['default_fetch_quantity'] ?? 1.00
             ])) {
                 echo json_encode(["success" => true, "message" => "Product added", "id" => $conn->lastInsertId('products_id_seq')]);
+
             } else {
                 echo json_encode(["success" => false, "error" => "Failed to add product"]);
             }

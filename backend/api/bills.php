@@ -106,7 +106,7 @@ switch($method) {
                 $itemsStmt->execute([$id]);
                 $bill['items'] = $itemsStmt->fetchAll(PDO::FETCH_ASSOC);
             }
-            echo json_encode($bill);
+            echo json_encode(["success" => true, "data" => $bill]);
         } else {
             $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : null;
             $whereClause = "";
@@ -131,7 +131,7 @@ switch($method) {
             $stmt = $conn->prepare($query);
             $stmt->execute($params);
             $bills = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($bills);
+            echo json_encode(["success" => true, "data" => $bills]);
         }
         break;
 
@@ -211,6 +211,9 @@ switch($method) {
                     $prod_id = !empty($item['product_id']) ? $item['product_id'] : null;
                     $item_code = !empty($item['item_code']) ? $item['item_code'] : '';
                     $barcode = !empty($item['barcode']) ? $item['barcode'] : '';
+                    $mfg_date = !empty($item['mfg_date']) ? $item['mfg_date'] : null;
+                    $expiry_date = !empty($item['expiry_date']) ? $item['expiry_date'] : null;
+                    $def_qty = (float)($item['default_fetch_quantity'] ?? 1.00);
 
                     // AUTO-SYNC: If product_id is missing, try to find by name or create new
                     if (!$prod_id && !empty($item_name)) {
@@ -223,8 +226,8 @@ switch($method) {
                         } else {
                             // Create new product if it doesn't exist
                             $sku = !empty($item_code) ? $item_code : ('AUTO-' . strtoupper(substr(uniqid(), -5)));
-                            $ins_prod = $conn->prepare("INSERT INTO products (name, sku, barcode, mrp, purchase_price, sale_price, stock_quantity, gst_percent) VALUES (?, ?, ?, ?, ?, ?, 0, ?)");
-                            $ins_prod->execute([$item_name, $sku, $barcode, $mrp, $price_after, $selling_price, $gst_percent]);
+                            $ins_prod = $conn->prepare("INSERT INTO products (name, sku, barcode, mrp, purchase_price, sale_price, stock_quantity, gst_percent, mfg_date, expiry_date, default_fetch_quantity) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?)");
+                            $ins_prod->execute([$item_name, $sku, $barcode, $mrp, $price_after, $selling_price, $gst_percent, $mfg_date, $expiry_date, $def_qty]);
                             $prod_id = $conn->lastInsertId('products_id_seq');
                         }
                     }
@@ -260,23 +263,77 @@ switch($method) {
                     }
 
                     // Record the bill item
-                    $item_stmt = $conn->prepare("INSERT INTO bill_items (bill_id, product_id, item_code, barcode, item_name, mrp, regular_discount_percent, special_discount_percent, gst_percent, price_after_discount, selling_price, quantity, total, total_selling_price, image_name, image_path, is_edited, processing_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    $item_stmt->execute([$bill_id, $prod_id, $item_code, $barcode, $item_name, $mrp, $reg_disc, $spec_disc, $gst_percent, $price_after, $selling_price, $qty, $row_total, $total_selling, $image_name, $image_path, $is_edited, $processing_timestamp]);
+                    $item_stmt = $conn->prepare("INSERT INTO bill_items (bill_id, product_id, item_code, barcode, item_name, mrp, regular_discount_percent, special_discount_percent, gst_percent, price_after_discount, selling_price, quantity, total, total_selling_price, image_name, image_path, is_edited, processing_timestamp, mfg_date, expiry_date, default_fetch_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $item_stmt->execute([$bill_id, $prod_id, $item_code, $barcode, $item_name, $mrp, $reg_disc, $spec_disc, $gst_percent, $price_after, $selling_price, $qty, $row_total, $total_selling, $image_name, $image_path, $is_edited, $processing_timestamp, $mfg_date, $expiry_date, $def_qty]);
                     
-                    // UPDATE STOCK: Logic depends on bill_type
+                    // RECORD STOCK HISTORY AND UPDATE STOCK
                     if ($prod_id) {
-                        if ($bill_type === 'sale') {
-                            // For Sale: Decrement stock
-                            $update_stock = $conn->prepare("UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?");
-                            $update_stock->execute([$qty, $prod_id]);
-                        } else {
-                            // For Purchase: Increment stock and update prices
-                            $update_stock = $conn->prepare("UPDATE products SET stock_quantity = stock_quantity + ?, purchase_price = ?, sale_price = ?, gst_percent = ?, sku = COALESCE(NULLIF(?, ''), sku), barcode = COALESCE(NULLIF(?, ''), barcode), image_name = COALESCE(NULLIF(?, ''), image_name), image_path = COALESCE(NULLIF(?, ''), image_path), is_edited = ?, processing_timestamp = ? WHERE id = ?");
-                            $update_stock->execute([$qty, $price_after, $selling_price, $gst_percent, $item_code, $barcode, $image_name, $image_path, $is_edited, $processing_timestamp, $prod_id]);
+                        try {
+                            // Get current stock for logging
+                            $stock_stmt = $conn->prepare("SELECT stock_quantity FROM products WHERE id = ? FOR UPDATE");
+                            $stock_stmt->execute([$prod_id]);
+                            $prod_data = $stock_stmt->fetch();
+                            $old_qty = (float)($prod_data['stock_quantity'] ?? 0);
+
+                            if ($bill_type === 'sale') {
+                                // For Sale: Decrement stock
+                                $new_qty = $old_qty - $qty;
+                                
+                                // Phase 8: Prevent negative stock if needed (optional check here, usually handled by validation)
+                                // if ($new_qty < 0) throw new Exception("Insufficient stock for item: " . $item_name);
+
+                                $update_stock = $conn->prepare("UPDATE products SET stock_quantity = ? WHERE id = ?");
+                                $update_stock->execute([$new_qty, $prod_id]);
+                                
+                                // Log history
+                                $log_stmt = $conn->prepare("INSERT INTO stock_history (product_id, change_quantity, old_quantity, new_quantity, type, reference_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                                $log_stmt->execute([$prod_id, -$qty, $old_qty, $new_qty, 'sale', $bill_id, "Sale Bill: $bill_number"]);
+                            } else {
+                                // For Purchase: Increment stock and update prices
+                                $new_qty = $old_qty + $qty;
+                                $update_stock = $conn->prepare("UPDATE products SET stock_quantity = ?, purchase_price = ?, sale_price = ?, gst_percent = ?, sku = COALESCE(NULLIF(?, ''), sku), barcode = COALESCE(NULLIF(?, ''), barcode), image_name = COALESCE(NULLIF(?, ''), image_name), image_path = COALESCE(NULLIF(?, ''), image_path), is_edited = ?, processing_timestamp = ?, mfg_date = ?, expiry_date = ?, default_fetch_quantity = ? WHERE id = ?");
+                                $update_stock->execute([$new_qty, $price_after, $selling_price, $gst_percent, $item_code, $barcode, $image_name, $image_path, $is_edited, $processing_timestamp, $mfg_date, $expiry_date, $def_qty, $prod_id]);
+
+                                
+                                // Log history
+                                $log_stmt = $conn->prepare("INSERT INTO stock_history (product_id, change_quantity, old_quantity, new_quantity, type, reference_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                                $log_stmt->execute([$prod_id, $qty, $old_qty, $new_qty, 'purchase', $bill_id, "Purchase Bill: $bill_number"]);
+                            }
+
+                            // Phase 5 & 6: Trigger notifications if low/out of stock
+                            if ($new_qty <= 3) {
+                                $msg = $new_qty == 0 ? "Stock Out Alert: Item '$item_name' is out of stock." : "Low Stock Alert: Item '$item_name' only has $new_qty units remaining.";
+                                $notifType = $new_qty == 0 ? 'critical' : 'warning';
+                                $title = $new_qty == 0 ? "Stock Out Alert" : "Low Stock Alert";
+                                
+                                $notifStmt = $conn->prepare("INSERT INTO notifications (title, message, type, source) VALUES (?, ?, ?, 'system') RETURNING id");
+                                $notifStmt->execute([$title, $msg, $notifType]);
+                                $notif_id = $notifStmt->fetchColumn();
+
+                                if ($notif_id) {
+                                    // Notify all admins
+                                    $conn->exec("INSERT INTO notification_recipients (notification_id, user_id) 
+                                                SELECT $notif_id, id FROM users WHERE role = 'admin'");
+                                }
+                            }
+                        } catch (Exception $e) {
+                            // Re-throw to be caught by the outer try-catch
+                            throw $e;
                         }
                     }
                 }
                 }
+            }
+            
+            // Check if there is an outstanding balance to assign to the client ledger
+            if ($client_id && $total_amount > $paid_amount) {
+                // Determine if it was explicitly credit or just short paid
+                // This updates the client's total_bills_generated & outstanding_balance
+                $outstanding_for_this_bill = $total_amount - $paid_amount;
+                $paid_for_this_bill = $paid_amount;
+                
+                $update_client_stmt = $conn->prepare("UPDATE clients SET total_bills_generated = COALESCE(total_bills_generated, 0) + 1, total_paid_amount = COALESCE(total_paid_amount, 0) + ?, outstanding_balance = COALESCE(outstanding_balance, 0) + ? WHERE id = ?");
+                $update_client_stmt->execute([$paid_for_this_bill, $outstanding_for_this_bill, $client_id]);
             }
             
             $conn->commit();

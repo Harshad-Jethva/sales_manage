@@ -1,0 +1,416 @@
+.cash-handover-container {
+    padding: 2.5rem;
+    min-height: 100vh;
+    background: radial-gradient(circle at 10% 20%, rgba(10, 10, 30, 1) 0%, rgba(20, 20, 60, 1) 90%);
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+}
+
+.cash-handover-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1.5rem;
+}
+
+.header-section h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1 10%, #a855f7 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.header-controls {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.control-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.control-value {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.6rem 1rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+input.control-value {
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input.control-value:focus {
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.tab-system {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.5rem;
+    border-radius: 16px;
+    width: fit-content;
+}
+
+.tab-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #fff;
+    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
+}
+
+.count-table-container {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.count-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.count-table th {
+    text-align: left;
+    padding: 1rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+}
+
+.count-row {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.count-row:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateX(5px);
+}
+
+.count-row td {
+    padding: 1.2rem 1rem;
+}
+
+.denomination-badge {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.count-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 0.6rem;
+    width: 120px;
+    color: #7dd3fc;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.amount-display {
+    color: #10b981;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.summary-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.summary-card {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.summary-label {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.summary-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.mismatch-warning {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.5);
+}
+
+.secondary-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 12px;
+    padding: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.total-cash-hand-box {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.total-cash-hand-box .label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+.total-cash-hand-box .value {
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .cash-handover-card,
+    .cash-handover-card * {
+        visibility: visible;
+    }
+
+    .cash-handover-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #fff !important;
+        color: #000 !important;
+        min-height: auto;
+    }
+
+    .cash-handover-card {
+        background: none !important;
+        backdrop-filter: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: 100%;
+    }
+
+    .header-section {
+        border-bottom: 2px solid #000;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+    }
+
+    .header-section h1 {
+        -webkit-text-fill-color: #000 !important;
+        background: none !important;
+        color: #000 !important;
+        font-size: 24pt;
+    }
+
+    .control-value {
+        background: none !important;
+        border: none !important;
+        color: #000 !important;
+        padding: 0 !important;
+    }
+
+    .tab-system,
+    .action-buttons,
+    .mismatch-warning {
+        display: none !important;
+    }
+
+    .main-content {
+        display: block !important;
+    }
+
+    .count-table-container {
+        background: none !important;
+        border: 1px solid #eee !important;
+        padding: 0 !important;
+    }
+
+    .count-table th {
+        color: #000 !important;
+        border-bottom: 1px solid #000;
+    }
+
+    .count-row {
+        background: none !important;
+        border-bottom: 1px solid #eee;
+    }
+
+    .denomination-badge {
+        background: none !important;
+        color: #000 !important;
+        padding: 0 !important;
+        font-weight: bold;
+    }
+
+    .count-input {
+        background: none !important;
+        border: none !important;
+        color: #000 !important;
+        text-align: right;
+    }
+
+    .amount-display {
+        color: #000 !important;
+    }
+
+    .summary-sidebar {
+        margin-top: 30px;
+        width: 100% !important;
+    }
+
+    .total-cash-hand-box {
+        background: none !important;
+        border: 2px solid #000 !important;
+        color: #000 !important;
+        padding: 10px !important;
+    }
+
+    .total-cash-hand-box .value {
+        font-size: 30pt !important;
+    }
+
+    .summary-card {
+        background: none !important;
+        border: 1px solid #eee !important;
+        padding: 10px !important;
+    }
+
+    .summary-label,
+    .summary-value {
+        color: #000 !important;
+    }
+
+    .summary-value.text-blue-400,
+    .summary-value.text-red-500,
+    .summary-value.text-green-500 {
+        color: #000 !important;
+    }
+
+    textarea.control-value {
+        border: 1px solid #ccc !important;
+        min-height: 100px !important;
+    }
+}

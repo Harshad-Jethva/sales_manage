@@ -25,9 +25,12 @@ const ClientBills = () => {
                 axios.get('http://localhost/sales_manage/backend/api/bills.php')
             ]);
 
-            setClients(Array.isArray(clientsRes.data) ? clientsRes.data : []);
+            // Backend returns { success: true, data: [] }
+            const clientList = clientsRes.data.data || (Array.isArray(clientsRes.data) ? clientsRes.data : []);
+            setClients(clientList);
 
-            const salesBills = (billsRes.data || []).filter(b => b.bill_type === 'sale');
+            const billList = billsRes.data.data || (Array.isArray(billsRes.data) ? billsRes.data : []);
+            const salesBills = billList.filter(b => b.bill_type === 'sale');
             setBills(salesBills);
         } catch (err) {
             console.error("Error fetching data:", err);

@@ -96,7 +96,7 @@ const DeleteStore = () => {
                 {filteredSuppliers.length === 0 && !loading && <p className="no-results">No suppliers found matching "{searchTerm}"</p>}
             </div>
 
-            <style jsx>{`
+            <style>{`
                 .page-container { max-width: 800px; margin: 0 auto; color: white; padding-bottom: 3rem; }
                 .page-header { margin-bottom: 2rem; }
                 .page-header h1 { color: #f87171; font-size: 2rem; margin-bottom: 0.5rem; }

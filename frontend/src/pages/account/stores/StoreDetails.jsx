@@ -134,7 +134,7 @@ const StoreDetails = () => {
                 </div>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 .profile-container { max-width: 1000px; margin: 0 auto; color: white; padding-bottom: 5rem; }
                 .loader { display: flex; align-items: center; justify-content: center; height: 50vh; color: #94a3b8; gap: 1rem; }
                 .spin { animation: spin 1s linear infinite; }

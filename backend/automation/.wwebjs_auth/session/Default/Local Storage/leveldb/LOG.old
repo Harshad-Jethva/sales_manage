@@ -1,3 +1,6 @@
-2026/03/04-11:31:12.116 4144 Reusing MANIFEST E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2026/03/04-11:31:12.159 4144 Recovering log #10
-2026/03/04-11:31:12.178 4144 Reusing old log E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Local Storage\leveldb/000010.log 
+2026/03/09-08:25:21.277 37d8 Reusing MANIFEST E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2026/03/09-08:25:21.312 37d8 Recovering log #19
+2026/03/09-08:25:21.319 37d8 Reusing old log E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Local Storage\leveldb/000019.log 
+2026/03/09-08:27:45.873 ecc Level-0 table #24: started
+2026/03/09-08:27:45.903 ecc Level-0 table #24: 18507 bytes OK
+2026/03/09-08:27:45.911 ecc Delete type=0 #19

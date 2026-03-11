@@ -25,7 +25,7 @@ const AddClient = () => {
         name: '', phone: '', email: '', customer_type: 'Regular',
         shop_name: '', company: '', website: '', contact_person: '',
         address: '', billing_address: '', shipping_address: '',
-        city: '', state: '', pincode: '',
+        city: '', area: '', state: '', pincode: '',
         gstin: '', pan: '', notes: '', credit_limit: '',
         bank_name: '', account_number: '', ifsc_code: ''
     });
@@ -75,8 +75,8 @@ const AddClient = () => {
                         <button
                             key={tab}
                             className={`px-6 py-4 font-semibold text-sm transition-all whitespace-nowrap border-b-2 flex-1 text-center ${activeFormTab === tab
-                                    ? 'border-indigo-500 text-indigo-400 bg-indigo-500/5'
-                                    : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-800/50'
+                                ? 'border-indigo-500 text-indigo-400 bg-indigo-500/5'
+                                : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-800/50'
                                 }`}
                             onClick={() => setActiveFormTab(tab)}
                         >
@@ -162,7 +162,11 @@ const AddClient = () => {
                                 />
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-400 mb-1.5">Area</label>
+                                    <input className="erp-input w-full" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} placeholder="e.g. Malad" />
+                                </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-400 mb-1.5">City</label>
                                     <input className="erp-input w-full" value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} />

@@ -37,14 +37,18 @@ const Accounts = () => {
     }, [loading]);
 
     const fetchData = async () => {
+        setLoading(true);
         try {
             const accRes = await axios.get('http://localhost/sales_manage/backend/api/banks.php');
-            const txRes = await axios.get('http://localhost/sales_manage/backend/api/banks.php?transactions=true');
-            setAccounts(Array.isArray(accRes.data) ? accRes.data : []);
-            setTransactions(Array.isArray(txRes.data) ? txRes.data : []);
-            setLoading(false);
+            const list = accRes.data.data || (Array.isArray(accRes.data) ? accRes.data : []);
+            setAccounts(list);
+
+            const transRes = await axios.get('http://localhost/sales_manage/backend/api/banks.php?type=transactions');
+            const tList = transRes.data.data || (Array.isArray(transRes.data) ? transRes.data : []);
+            setTransactions(tList);
         } catch (err) {
             console.error(err);
+        } finally {
             setLoading(false);
         }
     };

@@ -27,6 +27,7 @@ function healClients($conn) {
         ifsc_code VARCHAR(20),
         
         city VARCHAR(100),
+        area VARCHAR(150),
         state VARCHAR(100),
         pincode VARCHAR(10),
         credit_limit DECIMAL(15,2) DEFAULT 0.00,
@@ -50,6 +51,7 @@ function healClients($conn) {
         'account_number' => "VARCHAR(50)",
         'ifsc_code' => "VARCHAR(20)",
         'city' => "VARCHAR(100)",
+        'area' => "VARCHAR(150)",
         'state' => "VARCHAR(100)",
         'pincode' => "VARCHAR(10)",
         'credit_limit' => "DECIMAL(15,2) DEFAULT 0.00",
@@ -91,8 +93,8 @@ switch($method) {
                 name, phone, email, address, company, type,
                 shop_name, gstin, pan, billing_address, shipping_address,
                 website, contact_person, notes, bank_name, account_number, ifsc_code,
-                city, state, pincode, credit_limit, status, outstanding_balance
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                city, area, state, pincode, credit_limit, status, outstanding_balance
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             $params = [
                 $data['name'], 
@@ -113,6 +115,7 @@ switch($method) {
                 $data['account_number'] ?? '',
                 $data['ifsc_code'] ?? '',
                 $data['city'] ?? '',
+                $data['area'] ?? '',
                 $data['state'] ?? '',
                 $data['pincode'] ?? '',
                 $data['credit_limit'] ?? 0.00,
@@ -135,7 +138,7 @@ switch($method) {
                 name=?, phone=?, email=?, address=?, company=?, type=?,
                 shop_name=?, gstin=?, pan=?, billing_address=?, shipping_address=?,
                 website=?, contact_person=?, notes=?, bank_name=?, account_number=?, ifsc_code=?,
-                city=?, state=?, pincode=?, credit_limit=?, status=?, outstanding_balance=?
+                city=?, area=?, state=?, pincode=?, credit_limit=?, status=?, outstanding_balance=?
                 WHERE id=?");
             
             $params = [
@@ -157,6 +160,7 @@ switch($method) {
                 $data['account_number'] ?? '',
                 $data['ifsc_code'] ?? '',
                 $data['city'] ?? '',
+                $data['area'] ?? '',
                 $data['state'] ?? '',
                 $data['pincode'] ?? '',
                 $data['credit_limit'] ?? 0.00,

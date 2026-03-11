@@ -1,0 +1,430 @@
+﻿Bills table:
+Array
+(
+    [0] => Array
+        (
+            [column_name] => id
+            [data_type] => integer
+        )
+
+    [1] => Array
+        (
+            [column_name] => bill_type
+            [data_type] => character varying
+        )
+
+    [2] => Array
+        (
+            [column_name] => client_id
+            [data_type] => integer
+        )
+
+    [3] => Array
+        (
+            [column_name] => external_store_id
+            [data_type] => integer
+        )
+
+    [4] => Array
+        (
+            [column_name] => customer_id
+            [data_type] => integer
+        )
+
+    [5] => Array
+        (
+            [column_name] => supplier_id
+            [data_type] => integer
+        )
+
+    [6] => Array
+        (
+            [column_name] => bill_number
+            [data_type] => character varying
+        )
+
+    [7] => Array
+        (
+            [column_name] => sub_total
+            [data_type] => numeric
+        )
+
+    [8] => Array
+        (
+            [column_name] => discount_amount
+            [data_type] => numeric
+        )
+
+    [9] => Array
+        (
+            [column_name] => tax_amount
+            [data_type] => numeric
+        )
+
+    [10] => Array
+        (
+            [column_name] => total_amount
+            [data_type] => numeric
+        )
+
+    [11] => Array
+        (
+            [column_name] => paid_amount
+            [data_type] => numeric
+        )
+
+    [12] => Array
+        (
+            [column_name] => status
+            [data_type] => character varying
+        )
+
+    [13] => Array
+        (
+            [column_name] => payment_method
+            [data_type] => character varying
+        )
+
+    [14] => Array
+        (
+            [column_name] => bill_date
+            [data_type] => date
+        )
+
+    [15] => Array
+        (
+            [column_name] => bill_image
+            [data_type] => character varying
+        )
+
+    [16] => Array
+        (
+            [column_name] => notes
+            [data_type] => text
+        )
+
+    [17] => Array
+        (
+            [column_name] => created_at
+            [data_type] => timestamp without time zone
+        )
+
+)
+
+Clients table:
+Array
+(
+    [0] => Array
+        (
+            [column_name] => id
+            [data_type] => integer
+        )
+
+    [1] => Array
+        (
+            [column_name] => name
+            [data_type] => character varying
+        )
+
+    [2] => Array
+        (
+            [column_name] => phone
+            [data_type] => character varying
+        )
+
+    [3] => Array
+        (
+            [column_name] => email
+            [data_type] => character varying
+        )
+
+    [4] => Array
+        (
+            [column_name] => address
+            [data_type] => text
+        )
+
+    [5] => Array
+        (
+            [column_name] => company
+            [data_type] => character varying
+        )
+
+    [6] => Array
+        (
+            [column_name] => type
+            [data_type] => character varying
+        )
+
+    [7] => Array
+        (
+            [column_name] => shop_name
+            [data_type] => character varying
+        )
+
+    [8] => Array
+        (
+            [column_name] => gstin
+            [data_type] => character varying
+        )
+
+    [9] => Array
+        (
+            [column_name] => pan
+            [data_type] => character varying
+        )
+
+    [10] => Array
+        (
+            [column_name] => billing_address
+            [data_type] => text
+        )
+
+    [11] => Array
+        (
+            [column_name] => shipping_address
+            [data_type] => text
+        )
+
+    [12] => Array
+        (
+            [column_name] => city
+            [data_type] => character varying
+        )
+
+    [13] => Array
+        (
+            [column_name] => state
+            [data_type] => character varying
+        )
+
+    [14] => Array
+        (
+            [column_name] => pincode
+            [data_type] => character varying
+        )
+
+    [15] => Array
+        (
+            [column_name] => website
+            [data_type] => character varying
+        )
+
+    [16] => Array
+        (
+            [column_name] => contact_person
+            [data_type] => character varying
+        )
+
+    [17] => Array
+        (
+            [column_name] => notes
+            [data_type] => text
+        )
+
+    [18] => Array
+        (
+            [column_name] => bank_name
+            [data_type] => character varying
+        )
+
+    [19] => Array
+        (
+            [column_name] => account_number
+            [data_type] => character varying
+        )
+
+    [20] => Array
+        (
+            [column_name] => ifsc_code
+            [data_type] => character varying
+        )
+
+    [21] => Array
+        (
+            [column_name] => credit_limit
+            [data_type] => numeric
+        )
+
+    [22] => Array
+        (
+            [column_name] => created_at
+            [data_type] => timestamp without time zone
+        )
+
+    [23] => Array
+        (
+            [column_name] => updated_at
+            [data_type] => timestamp without time zone
+        )
+
+    [24] => Array
+        (
+            [column_name] => outstanding_balance
+            [data_type] => numeric
+        )
+
+    [25] => Array
+        (
+            [column_name] => total_bills_generated
+            [data_type] => integer
+        )
+
+    [26] => Array
+        (
+            [column_name] => total_paid_amount
+            [data_type] => numeric
+        )
+
+    [27] => Array
+        (
+            [column_name] => status
+            [data_type] => character varying
+        )
+
+)
+
+All tables:
+Array
+(
+    [0] => Array
+        (
+            [table_name] => bank_accounts
+        )
+
+    [1] => Array
+        (
+            [table_name] => bank_transactions
+        )
+
+    [2] => Array
+        (
+            [table_name] => invoices
+        )
+
+    [3] => Array
+        (
+            [table_name] => invoice_items
+        )
+
+    [4] => Array
+        (
+            [table_name] => invoice_taxes
+        )
+
+    [5] => Array
+        (
+            [table_name] => tax_details
+        )
+
+    [6] => Array
+        (
+            [table_name] => audit_logs
+        )
+
+    [7] => Array
+        (
+            [table_name] => bills
+        )
+
+    [8] => Array
+        (
+            [table_name] => external_stores
+        )
+
+    [9] => Array
+        (
+            [table_name] => customers
+        )
+
+    [10] => Array
+        (
+            [table_name] => payments
+        )
+
+    [11] => Array
+        (
+            [table_name] => clients
+        )
+
+    [12] => Array
+        (
+            [table_name] => order_pdfs
+        )
+
+    [13] => Array
+        (
+            [table_name] => products
+        )
+
+    [14] => Array
+        (
+            [table_name] => suppliers
+        )
+
+    [15] => Array
+        (
+            [table_name] => users
+        )
+
+    [16] => Array
+        (
+            [table_name] => order_items
+        )
+
+    [17] => Array
+        (
+            [table_name] => bill_items
+        )
+
+    [18] => Array
+        (
+            [table_name] => orders
+        )
+
+    [19] => Array
+        (
+            [table_name] => client_ledger
+        )
+
+    [20] => Array
+        (
+            [table_name] => notifications
+        )
+
+    [21] => Array
+        (
+            [table_name] => bill_payments
+        )
+
+    [22] => Array
+        (
+            [table_name] => notification_recipients
+        )
+
+    [23] => Array
+        (
+            [table_name] => company_settings
+        )
+
+    [24] => Array
+        (
+            [table_name] => whatsapp_logs
+        )
+
+    [25] => Array
+        (
+            [table_name] => modules
+        )
+
+    [26] => Array
+        (
+            [table_name] => user_module_permissions
+        )
+
+    [27] => Array
+        (
+            [table_name] => user_permissions
+        )
+
+)

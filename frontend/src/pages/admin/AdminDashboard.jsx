@@ -17,6 +17,10 @@ const AdminDashboard = () => {
         bank_balance: 0,
         pending_bills_count: 0
     });
+    const [expiryAnalytics, setExpiryAnalytics] = useState({
+        expired: 0,
+        soon: 0
+    });
     const [isLoading, setIsLoading] = useState(true);
     const containerRef = useRef(null);
 
@@ -39,6 +43,19 @@ const AdminDashboard = () => {
         try {
             const res = await axios.get('http://localhost/sales_manage/backend/api/reports.php?type=overall_stats');
             setStats(res.data);
+
+            // Trigger Expiry Alerts Check
+            await axios.get('http://localhost/sales_manage/backend/api/expiry.php?action=check_alerts');
+
+            // Fetch Expiry Counts for UI
+            const expRes = await axios.get('http://localhost/sales_manage/backend/api/expiry.php?action=list');
+            if (expRes.data.success) {
+                const list = expRes.data.data || [];
+                setExpiryAnalytics({
+                    expired: list.filter(i => parseInt(i.remaining_days) <= 0).length,
+                    soon: list.filter(i => parseInt(i.remaining_days) > 0 && parseInt(i.remaining_days) <= 30).length
+                });
+            }
         } catch (err) {
             console.error(err);
         } finally {
@@ -231,17 +248,18 @@ const AdminDashboard = () => {
                             <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl flex gap-3 items-start">
                                 <Activity className="text-red-400 mt-0.5" size={16} />
                                 <div>
-                                    <p className="text-sm font-semibold text-red-200">High Pending Receivables</p>
-                                    <p className="text-xs text-red-400/80 mt-0.5">3 accounts exceeded 60 days credit limit.</p>
+                                    <p className="text-sm font-semibold text-red-200">Inventory Expiry Alert</p>
+                                    <p className="text-xs text-red-400/80 mt-0.5">{expiryAnalytics.expired} items already expired. IMMEDIATE ACTION REQUIRED.</p>
                                 </div>
                             </div>
                             <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl flex gap-3 items-start">
                                 <Box className="text-amber-400 mt-0.5" size={16} />
                                 <div>
-                                    <p className="text-sm font-semibold text-amber-200">Low Stock Warning</p>
-                                    <p className="text-xs text-amber-400/80 mt-0.5">12 items in warehouse are below threshold.</p>
+                                    <p className="text-sm font-semibold text-amber-200">Stock Risk Warning</p>
+                                    <p className="text-xs text-amber-400/80 mt-0.5">{expiryAnalytics.soon} items will expire within 30 days.</p>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,8 @@ import {
   LayoutDashboard, Users, Receipt, Building2, Wallet, Bell, Send,
   BarChart3, ShoppingCart, ChevronDown, ChevronRight,
   UserPlus, UserCog, UserMinus, List, Menu, X, LogOut, Plus, Edit, Trash2,
-  ChevronLeft, ShoppingBag, Truck, Package, Shield, Database
+  ChevronLeft, ShoppingBag, Truck, Package, Shield, Database, Clock, FileText,
+  Calendar, MapPin
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -97,6 +98,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       subItems: [
         { icon: List, label: 'History Bill', path: '/pos/all-bills' },
         { icon: BarChart3, label: 'Report', path: '/pos/report' },
+        { icon: Wallet, label: 'Cash Handover', path: '/pos/cash-handover' },
       ]
     },
 
@@ -106,11 +108,25 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
     { icon: Receipt, label: 'My Orders', path: '/salesman/order-history', roles: ['admin', 'salesman'] },
     { icon: Users, label: 'Client History', path: '/salesman/client-history', roles: ['admin', 'salesman'] },
     { icon: ShoppingBag, label: 'Products', path: '/salesman/products', roles: ['admin', 'salesman'] },
+    { icon: Calendar, label: 'Route Calendar', path: '/salesman/route-calendar', roles: ['admin', 'salesman'] },
+    { icon: MapPin, label: 'Live Navigation', path: '/salesman/route-navigation', roles: ['admin', 'salesman'] },
+    { icon: Wallet, label: 'Cash Handover', path: '/salesman/cash-handover', roles: ['admin', 'salesman'] },
 
     // Warehouse Panel
     { icon: Truck, label: 'Warehouse Terminal', path: '/warehouse/dashboard', roles: ['admin', 'warehouse'] },
     { icon: Package, label: 'Receive Orders', path: '/warehouse/receive-order', roles: ['admin', 'warehouse'] },
     { icon: List, label: 'Stock Ledger', path: '/warehouse/inventory', roles: ['admin', 'warehouse'] },
+    {
+      icon: MapPin,
+      label: 'Route Manager',
+      roles: ['admin', 'warehouse'],
+      subItems: [
+        { icon: Calendar, label: 'Route Planner', path: '/warehouse/route-planner' },
+        { icon: List, label: 'Route History', path: '/warehouse/route-history' },
+        { icon: MapPin, label: 'Live Tracking', path: '/warehouse/live-tracking' },
+        { icon: Wallet, label: 'Cash Handover', path: '/warehouse/cash-handover' },
+      ]
+    },
 
     // POS Pages in Warehouse Panel
     { icon: Receipt, label: 'POS Terminal', path: '/pos', roles: ['admin', 'warehouse'] },
@@ -142,6 +158,41 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
         { icon: Truck, label: 'Vendor Management', path: '/admin/vendors' },
       ]
     },
+    {
+      icon: Users,
+      label: 'Attendance & HR',
+      roles: ['admin'],
+      subItems: [
+        { icon: LayoutDashboard, label: 'HR Dashboard', path: '/admin/attendance/dashboard' },
+        { icon: Calendar, label: 'Attendance Manage', path: '/admin/attendance/manage' },
+        { icon: BarChart3, label: 'Attendance Reports', path: '/admin/attendance/reports' },
+        { icon: Wallet, label: 'Salary Settings', path: '/admin/attendance/salary-settings' },
+        { icon: Clock, label: 'Holiday Settings', path: '/admin/attendance/holidays' },
+        { icon: FileText, label: 'Salary Report', path: '/admin/attendance/salary-report' },
+      ]
+    },
+    {
+      icon: Package,
+      label: 'Stock Management',
+      roles: ['admin'],
+      subItems: [
+        { icon: List, label: 'Stock Details', path: '/admin/stock-details' },
+        { icon: BarChart3, label: 'Stock Reports', path: '/admin/stock-reports' },
+        { icon: Clock, label: 'Expiry Management', path: '/admin/expiry-management' },
+      ]
+
+    },
+    {
+      icon: MapPin,
+      label: 'Route Manager',
+      roles: ['admin'],
+      subItems: [
+        { icon: Calendar, label: 'Route Planner', path: '/admin/route-planner' },
+        { icon: List, label: 'Route History', path: '/admin/route-history' },
+        { icon: MapPin, label: 'Live Tracking', path: '/admin/live-tracking' },
+        { icon: FileText, label: 'Tracking Reports', path: '/admin/tracking-reports' },
+      ]
+    },
     { icon: UserPlus, label: 'Account Control', path: '/admin/client-accounts', roles: ['admin'] },
     {
       icon: Bell,
@@ -150,6 +201,24 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       subItems: [
         { icon: Send, label: 'Send Broadcast', path: '/admin/notifications' },
         { icon: Receipt, label: 'Response History', path: '/admin/notification-responses' },
+      ]
+    },
+    {
+      icon: Wallet,
+      label: 'Overdue Management',
+      roles: ['admin'],
+      subItems: [
+        { icon: List, label: 'Overdue Collections', path: '/admin/overdue-collections' },
+        { icon: Receipt, label: 'Collection History', path: '/admin/collection-history' },
+      ]
+    },
+    {
+      icon: Wallet,
+      label: 'Cash Management',
+      roles: ['admin'],
+      subItems: [
+        { icon: Plus, label: 'New Handover', path: '/admin/cash-handover' },
+        { icon: Clock, label: 'Handover History', path: '/admin/cash-history' },
       ]
     },
     {
@@ -213,6 +282,8 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
         { icon: Receipt, label: 'My Orders', path: '/salesman/order-history' },
         { icon: Users, label: 'Client History', path: '/salesman/client-history' },
         { icon: ShoppingBag, label: 'Products', path: '/salesman/products' },
+        { icon: Calendar, label: 'Route Calendar', path: '/salesman/route-calendar' },
+        { icon: MapPin, label: 'Live Navigation', path: '/salesman/route-navigation' },
       ]
     },
     {
@@ -223,6 +294,15 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
         { icon: Truck, label: 'Warehouse Terminal', path: '/warehouse/dashboard' },
         { icon: Package, label: 'Receive Orders', path: '/warehouse/receive-order' },
         { icon: List, label: 'Stock Ledger', path: '/warehouse/inventory' },
+        {
+          icon: MapPin,
+          label: 'Route Manager',
+          subItems: [
+            { icon: Calendar, label: 'Route Planner', path: '/warehouse/route-planner' },
+            { icon: List, label: 'Route History', path: '/warehouse/route-history' },
+            { icon: MapPin, label: 'Live Tracking', path: '/warehouse/live-tracking' },
+          ]
+        },
       ]
     }
   ];

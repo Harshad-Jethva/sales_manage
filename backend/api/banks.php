@@ -7,7 +7,7 @@ $input = json_decode(file_get_contents("php://input"), true);
 
 switch($method) {
     case 'GET':
-        if(isset($_GET['transactions'])) {
+        if(isset($_GET['transactions']) || (isset($_GET['type']) && $_GET['type'] == 'transactions')) {
             $sql = "SELECT t.*, a.bank_name, a.account_number FROM bank_transactions t JOIN bank_accounts a ON t.account_id = a.id";
             if(isset($_GET['account_id'])) {
                 $account_id = $_GET['account_id'];
@@ -15,10 +15,10 @@ switch($method) {
             }
             $sql .= " ORDER BY t.transaction_date DESC";
             $stmt = $conn->query($sql);
-            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+            echo json_encode(["success" => true, "data" => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
         } else {
             $stmt = $conn->query("SELECT * FROM bank_accounts ORDER BY bank_name ASC");
-            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+            echo json_encode(["success" => true, "data" => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
         }
         break;
 

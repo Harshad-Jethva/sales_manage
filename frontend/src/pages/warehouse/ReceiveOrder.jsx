@@ -513,7 +513,7 @@ const ReceiveOrder = () => {
                 )}
             </AnimatePresence>
 
-            <style jsx>{`
+            <style>{`
                 .no-scrollbar::-webkit-scrollbar { display: none; }
                 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
                 

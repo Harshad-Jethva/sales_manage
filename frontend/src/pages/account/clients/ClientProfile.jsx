@@ -196,8 +196,12 @@ const ClientProfile = () => {
                         </div>
                         <div className="hidden md:flex gap-10 md:text-right border-l border-white/10 pl-10">
                             <div>
+                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Total Outstanding</label>
+                                <h4 className="text-2xl font-bold text-red-500 m-0">₹{parseFloat(client.outstanding_balance || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</h4>
+                            </div>
+                            <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Credit Limit</label>
-                                <h4 className="text-2xl font-bold text-white m-0">₹{client.credit_limit || '0'}</h4>
+                                <h4 className="text-2xl font-bold text-white m-0">₹{parseFloat(client.credit_limit || 0).toLocaleString()}</h4>
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Status</label>
@@ -207,12 +211,12 @@ const ClientProfile = () => {
                         {/* Mobile right col equivalent */}
                         <div className="md:hidden flex w-full justify-between items-center border-t border-white/10 pt-4 mt-2">
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Credit Limit</label>
-                                <h4 className="text-xl font-bold text-white m-0">₹{client.credit_limit || '0'}</h4>
+                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Total Outstanding</label>
+                                <h4 className="text-xl font-bold text-red-500 m-0">₹{parseFloat(client.outstanding_balance || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</h4>
                             </div>
                             <div className="text-right">
-                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Status</label>
-                                <h4 className="text-xl font-bold text-emerald-400 m-0">Active</h4>
+                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Credit Limit</label>
+                                <h4 className="text-xl font-bold text-white m-0">₹{parseFloat(client.credit_limit || 0).toLocaleString()}</h4>
                             </div>
                         </div>
                     </div>

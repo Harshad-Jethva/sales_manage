@@ -11,7 +11,8 @@ const TransactionTable = ({ cart, onUpdateQty, onRemove, products, onAddItem }) 
     const codeInputRef = useRef(null);
 
     // Filter for suggestions
-    const filteredSuggestions = products.filter(p => {
+    const safeProducts = Array.isArray(products) ? products : [];
+    const filteredSuggestions = safeProducts.filter(p => {
         if (!newItemName) return true;
         const term = newItemName.toLowerCase();
         return (p.name && p.name.toLowerCase().includes(term)) || (p.sku && p.sku.toLowerCase().includes(term));
@@ -22,7 +23,7 @@ const TransactionTable = ({ cart, onUpdateQty, onRemove, products, onAddItem }) 
             const term = newItemCode.trim().toLowerCase();
             if (!term) return;
 
-            const exactMatch = products.find(p =>
+            const exactMatch = safeProducts.find(p =>
                 (p.sku && p.sku.toLowerCase() === term) ||
                 (p.barcode && p.barcode.toLowerCase() === term)
             );
@@ -213,7 +214,7 @@ const TransactionTable = ({ cart, onUpdateQty, onRemove, products, onAddItem }) 
                     <div className="bg-blue-300 border-b border-blue-400 text-blue-900 px-3 py-1 font-bold text-sm flex justify-between items-center shadow-sm">
                         <span>Products List</span>
                         <div className="flex items-center gap-3">
-                            <span className="text-xs font-normal">Records : {filteredSuggestions.length}/{products.length}</span>
+                            <span className="text-xs font-normal">Records : {filteredSuggestions.length}/{safeProducts.length}</span>
                             <button onClick={() => setShowSuggestions(false)} className="text-red-700 hover:text-white bg-red-300 hover:bg-red-500 rounded px-2 w-6 h-6 flex items-center justify-center transition-colors">✕</button>
                         </div>
                     </div>

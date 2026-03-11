@@ -73,9 +73,102 @@ client.on('auth_failure', (msg) => {
 client.initialize();
 
 // Helper to generate PDF
+async function generateReceiptPDF(receiptData) {
+    const doc = new jsPDF();
+    const width = 210;
+    const marginLeft = 15;
+
+    // Header
+    doc.setFontSize(22);
+    doc.setTextColor(30, 41, 59);
+    doc.setFont(undefined, 'bold');
+    doc.text('HAB CREATION', marginLeft, 20);
+
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.setTextColor(100, 116, 139);
+    doc.text('123 Business Avenue, Tech District', marginLeft, 26);
+    doc.text('Phone: +91 9876543210 | GST: 22AAAAA000', marginLeft, 31);
+
+    // Receipt Meta
+    doc.setFontSize(24);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(15, 23, 42);
+    doc.text('RECEIPT', width - marginLeft, 20, { align: 'right' });
+
+    doc.setFontSize(10);
+    doc.setTextColor(71, 85, 105);
+    doc.text(`Receipt No: ${receiptData.receipt_number}`, width - marginLeft, 27, { align: 'right' });
+    doc.text(`Date: ${new Date(receiptData.created_at).toLocaleDateString()}`, width - marginLeft, 32, { align: 'right' });
+
+    // Client Info
+    doc.setDrawColor(226, 232, 240);
+    doc.line(marginLeft, 45, width - marginLeft, 45);
+
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(15, 23, 42);
+    doc.text('Billed To:', marginLeft, 55);
+    doc.text(receiptData.client_name, marginLeft, 61);
+
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.setTextColor(71, 85, 105);
+    doc.text(`Phone: ${receiptData.client_phone}`, marginLeft, 66);
+
+    // Bill Table
+    const tableRows = [[
+        `#${receiptData.bill_number}`,
+        `Rs. ${(parseFloat(receiptData.collected_amount) + parseFloat(receiptData.remaining_balance)).toLocaleString()}`,
+        `Rs. ${parseFloat(receiptData.collected_amount).toLocaleString()}`,
+        `Rs. ${parseFloat(receiptData.remaining_balance).toLocaleString()}`
+    ]];
+
+    autoTable(doc, {
+        startY: 75,
+        head: [['Bill Number', 'Original Amount', 'Paid Amount', 'Balance']],
+        body: tableRows,
+        theme: 'grid',
+        headStyles: { fillColor: [79, 70, 229] },
+        styles: { halign: 'center' }
+    });
+
+    const finalY = doc.lastAutoTable.finalY + 15;
+
+    // Summary
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(79, 70, 229);
+    doc.text(`Total Collected: Rs. ${parseFloat(receiptData.collected_amount).toLocaleString()}`, width - marginLeft, finalY, { align: 'right' });
+
+    doc.setFontSize(10);
+    doc.setTextColor(71, 85, 105);
+    doc.text(`Remaining Balance: Rs. ${parseFloat(receiptData.remaining_balance).toLocaleString()}`, width - marginLeft, finalY + 7, { align: 'right' });
+
+    // Footer
+    doc.setFontSize(8);
+    doc.setFont(undefined, 'italic');
+    doc.setTextColor(148, 163, 184);
+    doc.text('Thank you for your business! This is a system generated receipt.', marginLeft, 280);
+
+    const fileName = `receipt_${receiptData.receipt_id}.pdf`;
+    const uploadsDir = path.join(__dirname, '..', 'uploads', 'receipts');
+    if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    const filePath = path.join(uploadsDir, fileName);
+
+    const pdfOutput = doc.output('arraybuffer');
+    fs.writeFileSync(filePath, Buffer.from(pdfOutput));
+
+    return { fileName, filePath: `/uploads/receipts/${fileName}` };
+}
+
+// Order PDF generation helper
 async function generateOrderPDF(orderData, items, clientData) {
     const doc = new jsPDF();
     const orderNumber = orderData.order_number;
+    // ... (rest of generateOrderPDF same as before)
 
     // Header
     doc.setFontSize(22);
@@ -201,6 +294,62 @@ app.post('/generate-pdf', async (req, res) => {
     }
 });
 
+// Endpoint to send WhatsApp Receipt
+app.post('/send-receipt-whatsapp', async (req, res) => {
+    const { receipt_id } = req.body;
+
+    if (!receipt_id) {
+        return res.status(400).json({ success: false, message: 'Receipt ID is required' });
+    }
+
+    try {
+        // Fetch receipt & client info
+        const query = `
+            SELECT r.*, c.name as client_name, c.phone as client_phone, b.bill_number 
+            FROM collection_receipts r
+            JOIN clients c ON r.client_id = c.id
+            JOIN bills b ON r.bill_id = b.id
+            WHERE r.receipt_id = $1
+        `;
+        const receiptRes = await pool.query(query, [receipt_id]);
+        if (receiptRes.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Receipt record not found' });
+        }
+        const receiptData = receiptRes.rows[0];
+
+        if (!receiptData.client_phone) {
+            return res.status(400).json({ success: false, message: 'Client phone number not found' });
+        }
+
+        // Generate PDF
+        const { fileName, filePath } = await generateReceiptPDF(receiptData);
+
+        // Update DB with path if needed
+        await pool.query('UPDATE collection_receipts SET receipt_pdf_path = $1 WHERE receipt_id = $2', [filePath, receipt_id]);
+
+        // WhatsApp Setup
+        let mobile = receiptData.client_phone.replace(/\D/g, '');
+        if (mobile.length === 10) mobile = '91' + mobile;
+        const chatId = `${mobile}@c.us`;
+
+        const fullPdfPath = path.join(__dirname, '..', filePath);
+        const media = MessageMedia.fromFilePath(fullPdfPath);
+
+        const message = `Dear *${receiptData.client_name}*,\n\nThank you for your payment. Please find attached your Receipt *#${receiptData.receipt_number || receipt_id}* for Bill *#${receiptData.bill_number}*.\n\nValidated Amount: *Rs. ${parseFloat(receiptData.collected_amount).toLocaleString()}*.\nCaptured Balance: *Rs. ${parseFloat(receiptData.remaining_balance).toLocaleString()}*.`;
+
+        await client.sendMessage(chatId, message);
+        await client.sendMessage(chatId, media, { caption: `Receipt ${receiptData.receipt_number || receipt_id}` });
+
+        // Update WhatsApp Status
+        await pool.query('UPDATE collection_receipts SET whatsapp_status = $1 WHERE receipt_id = $2', ['Sent', receipt_id]);
+
+        res.json({ success: true, message: 'Receipt sent via WhatsApp successfully' });
+    } catch (error) {
+        console.error('Error sending receipt WhatsApp:', error);
+        res.status(500).json({ success: false, message: 'Failed to send WhatsApp message', error: error.message });
+    }
+});
+
 // Endpoint to send WhatsApp
 app.post('/send-whatsapp', async (req, res) => {
     const { order_id } = req.body;
@@ -298,6 +447,65 @@ app.get('/whatsapp-status/:order_id', async (req, res) => {
         res.json({ success: true, data: result.rows[0] });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+// Endpoint to send Route Plan WhatsApp
+app.post('/send-route-whatsapp', async (req, res) => {
+    const { route_id } = req.body;
+
+    if (!route_id) {
+        return res.status(400).json({ success: false, message: 'Route ID is required' });
+    }
+
+    try {
+        // Fetch route details
+        const routeRes = await pool.query('SELECT * FROM route_plans WHERE route_id = $1', [route_id]);
+        if (routeRes.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Route plan not found' });
+        }
+        const routeData = routeRes.rows[0];
+
+        if (!routeData.pdf_path) {
+            return res.status(400).json({ success: false, message: 'Route PDF not generated yet' });
+        }
+
+        // Fetch salesman details
+        const salesmanRes = await pool.query('SELECT name, mobile_number FROM users WHERE id = $1', [routeData.salesman_id]);
+        if (salesmanRes.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Salesman not found' });
+        }
+        const salesmanData = salesmanRes.rows[0];
+
+        if (!salesmanData.mobile_number) {
+            return res.status(400).json({ success: false, message: 'Salesman mobile number not found' });
+        }
+
+        // Format mobile
+        let mobile = salesmanData.mobile_number.replace(/\D/g, '');
+        if (mobile.length === 10) mobile = '91' + mobile;
+        const chatId = `${mobile}@c.us`;
+
+        const fullPdfPath = path.join(__dirname, '..', routeData.pdf_path);
+        if (!fs.existsSync(fullPdfPath)) {
+            return res.status(404).json({ success: false, message: 'PDF file not found on server disk' });
+        }
+
+        const media = MessageMedia.fromFilePath(fullPdfPath);
+
+        const routeDateStr = new Date(routeData.route_date).toLocaleDateString();
+        const message = `Hello *${salesmanData.name}*,\n\nYour route plan for *${routeDateStr}* is ready.\n\nPlease find attached the client visit list including outstanding bill details.\n\nThank you.`;
+
+        await client.sendMessage(chatId, message);
+        await client.sendMessage(chatId, media, { caption: `Route Plan ${routeDateStr}` });
+
+        // Update DB
+        await pool.query('UPDATE route_plans SET whatsapp_status = $1 WHERE route_id = $2', ['Sent', route_id]);
+
+        res.json({ success: true, message: 'Route plan sent via WhatsApp successfully' });
+    } catch (error) {
+        console.error('Error sending Route WhatsApp:', error);
+        res.status(500).json({ success: false, message: 'Failed to send WhatsApp message', error: error.message });
     }
 });
 

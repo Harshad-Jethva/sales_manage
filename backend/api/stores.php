@@ -1,29 +1,12 @@
 <?php
 require_once '../config/db.php';
 
-// Self-healing: Create table if missing
-function healSuppliers($conn) {
-    $sql = "CREATE TABLE IF NOT EXISTS suppliers (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        supplier_name VARCHAR(255) NOT NULL,
-        contact_person VARCHAR(255),
-        phone VARCHAR(20),
-        email VARCHAR(255),
-        address TEXT,
-        gst_number VARCHAR(50),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )";
-    $conn->exec($sql);
-}
-
-// healSuppliers($conn);
-
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch($method) {
     case 'GET':
         $stmt = $conn->query("SELECT * FROM suppliers ORDER BY supplier_name ASC");
-        echo json_encode($stmt->fetchAll());
+        echo json_encode(["success" => true, "data" => $stmt->fetchAll()]);
         break;
 
     case 'POST':

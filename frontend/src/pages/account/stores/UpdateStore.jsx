@@ -167,7 +167,7 @@ const UpdateStore = () => {
                 </motion.div>
             )}
 
-            <style jsx>{`
+            <style>{`
                 .page-container { max-width: 900px; margin: 0 auto; padding-bottom: 3rem; color: white; }
                 .page-header { margin-bottom: 2rem; }
                 .page-header h1 { font-size: 2rem; margin-bottom: 0.5rem; }

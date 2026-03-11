@@ -427,7 +427,7 @@ const EmployeeManagement = () => {
                 )}
             </AnimatePresence>
 
-            <style jsx>{`
+            <style>{`
                 .erp-button {
                     display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem;
                     border-radius: 0.75rem; font-weight: 600; transition: all 0.2s ease;

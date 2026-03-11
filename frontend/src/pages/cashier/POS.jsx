@@ -51,9 +51,12 @@ const POS = () => {
                     axios.get('http://localhost/sales_manage/backend/api/products.php'),
                     axios.get('http://localhost/sales_manage/backend/api/clients.php')
                 ]);
-                setProducts(prodRes.data || []);
-                // If the API returns {success: true, data: [...]}, use data.data
+
+                // Correctly extract data arrays from { success: true, data: [...] } format
+                const productsData = Array.isArray(prodRes.data) ? prodRes.data : (prodRes.data?.data || []);
                 const clientsData = Array.isArray(clientRes.data) ? clientRes.data : (clientRes.data?.data || []);
+
+                setProducts(productsData);
                 setClients(clientsData);
             } catch (err) {
                 console.error("Failed to load POS data", err);
@@ -102,9 +105,21 @@ const POS = () => {
 
     // Cart Operations
     const addToCart = (product) => {
+        // Phase 3: Stock Validation
+        const availableStock = parseFloat(product.stock_quantity || 0);
+
+        if (availableStock <= 0) {
+            alert(`Item cannot be added.\nStock available: 0 units.\nPlease restock the item before billing.`);
+            return;
+        }
+
         setCart(prev => {
             const existing = prev.find(item => item.id === product.id);
             if (existing) {
+                if (existing.qty + 1 > availableStock) {
+                    alert(`Cannot add more. Only ${availableStock} units available in stock.`);
+                    return prev;
+                }
                 return prev.map(item => item.id === product.id ? { ...item, qty: item.qty + 1 } : item);
             }
             return [...prev, {
@@ -113,10 +128,12 @@ const POS = () => {
                 name: product.name,
                 mrp: parseFloat(product.mrp || product.sale_price),
                 price: parseFloat(product.sale_price),
-                qty: 1,
+                qty: parseFloat(product.default_fetch_quantity || 1),
                 gst_percent: parseFloat(product.gst_percent || 0),
-                discountPercent: 0
+                discountPercent: 0,
+                maxQty: availableStock // Store for later validation
             }];
+
         });
         setSearchTerm(''); // Clear search after add
         setFilteredProducts([]);
@@ -124,6 +141,16 @@ const POS = () => {
 
     const updateQty = (id, qty, discountPercent) => {
         if (qty < 1) return;
+
+        const itemInCart = cart.find(item => item.id === id);
+        const originalProduct = products.find(p => p.id === id);
+        const availableStock = parseFloat(originalProduct?.stock_quantity || 0);
+
+        if (qty > availableStock) {
+            alert(`Requested quantity (${qty}) exceeds available stock (${availableStock}).`);
+            return;
+        }
+
         setCart(prev => prev.map(item => {
             if (item.id === id) {
                 return {
@@ -140,6 +167,14 @@ const POS = () => {
 
     // Payment
     const handleCheckout = () => {
+        // Final stock check
+        for (const item of cart) {
+            const product = products.find(p => p.id === item.id);
+            if (item.qty > (product?.stock_quantity || 0)) {
+                alert(`Stock for ${item.name} has changed. Only ${product?.stock_quantity || 0} units available.`);
+                return;
+            }
+        }
         setShowPaymentModal(true);
     };
 

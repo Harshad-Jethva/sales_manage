@@ -274,7 +274,7 @@ const ImageEditorModal = ({ isOpen, initialImage, onSave, onCancel }) => {
                 </div>
             </motion.div>
 
-            <style jsx>{`
+            <style>{`
                 .editor-modal-root {
                     position: fixed; inset: 0; z-index: 2000;
                     display: flex; align-items: center; justify-content: center;

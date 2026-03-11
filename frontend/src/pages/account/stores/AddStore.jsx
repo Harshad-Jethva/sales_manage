@@ -127,7 +127,7 @@ const AddStore = () => {
                 </form>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 .page-container { max-width: 800px; margin: 0 auto; color: white; }
                 .page-header { margin-bottom: 2rem; }
                 .page-header h1 { font-size: 2rem; font-weight: 800; margin-top: 1rem; }

@@ -54,6 +54,7 @@ const UpdateClient = () => {
             website: client.website || '',
             contact_person: client.contact_person || '',
             address: client.address || '',
+            area: client.area || '',
             city: client.city || '',
             state: client.state || '',
             pincode: client.pincode || '',
@@ -202,8 +203,8 @@ const UpdateClient = () => {
                             <button
                                 key={tab.id}
                                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl whitespace-nowrap font-semibold transition-all ${activeFormTab === tab.id
-                                        ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                                        : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white border border-transparent'
+                                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
+                                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white border border-transparent'
                                     }`}
                                 onClick={() => setActiveFormTab(tab.id)}
                             >
@@ -253,7 +254,11 @@ const UpdateClient = () => {
                                     <textarea rows="2" className="erp-input w-full resize-y" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-slate-300 mb-2">Area</label>
+                                        <input className="erp-input w-full" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} placeholder="e.g. Malad" />
+                                    </div>
                                     <div>
                                         <label className="block text-sm font-semibold text-slate-300 mb-2">City</label>
                                         <input className="erp-input w-full" value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} />

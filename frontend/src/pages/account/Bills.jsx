@@ -50,8 +50,9 @@ const Bills = () => {
     const fetchBillDetails = async (id) => {
         try {
             const res = await axios.get(`http://localhost/sales_manage/backend/api/bills.php?id=${id}`);
-            if (res.data) {
-                setViewBill(res.data);
+            const data = res.data.data || res.data;
+            if (data) {
+                setViewBill(data);
             }
         } catch (err) {
             console.error("Fetch Bill Details Error:", err);
@@ -71,7 +72,7 @@ const Bills = () => {
     });
 
     const [billItems, setBillItems] = useState([
-        { id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, total: 0, total_selling_price: 0, product_image: null }
+        { id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, mfg_date: '', expiry_date: '', default_fetch_quantity: 1, total: 0, total_selling_price: 0, product_image: null }
     ]);
 
     const [prodData, setProdData] = useState({
@@ -101,9 +102,13 @@ const Bills = () => {
                 axios.get('http://localhost/sales_manage/backend/api/products.php')
             ]);
 
-            setBillList(Array.isArray(billsRes.data) ? billsRes.data : []);
-            setSupplierList(Array.isArray(suppsRes.data) ? suppsRes.data : []);
-            setProductList(Array.isArray(prodsRes.data) ? prodsRes.data : []);
+            const billData = billsRes.data.data || (Array.isArray(billsRes.data) ? billsRes.data : []);
+            const supplierData = suppsRes.data.data || (Array.isArray(suppsRes.data) ? suppsRes.data : []);
+            const productData = prodsRes.data.data || (Array.isArray(prodsRes.data) ? prodsRes.data : []);
+
+            setBillList(billData);
+            setSupplierList(supplierData);
+            setProductList(productData);
         } catch (err) {
             console.error("API Fetch Error:", err);
         }
@@ -114,7 +119,7 @@ const Bills = () => {
     };
 
     const addBillRow = () => {
-        setBillItems([...billItems, { id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, total: 0, total_selling_price: 0, product_image: null }]);
+        setBillItems([...billItems, { id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, mfg_date: '', expiry_date: '', default_fetch_quantity: 1, total: 0, total_selling_price: 0, product_image: null }]);
     };
 
     const removeBillRow = (id) => {
@@ -138,6 +143,9 @@ const Bills = () => {
                         updated.price = prod.purchase_price;
                         updated.selling_price = prod.sale_price;
                         updated.gst = prod.gst_percent || 0;
+                        updated.mfg_date = prod.mfg_date || '';
+                        updated.expiry_date = prod.expiry_date || '';
+                        updated.default_fetch_quantity = prod.default_fetch_quantity || 1;
                         if (prod.mrp > 0) {
                             updated.regular_discount = (((prod.mrp - prod.purchase_price) / prod.mrp) * 100).toFixed(2);
                         }
@@ -266,7 +274,7 @@ const Bills = () => {
                                     supplier_id: '',
                                     bill_type: 'purchase'
                                 });
-                                setBillItems([{ id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, total: 0, total_selling_price: 0, product_image: null }]);
+                                setBillItems([{ id: Math.random(), product_id: '', name: '', item_code: '', barcode: '', mrp: 0, regular_discount: 0, gst: 0, price: 0, selling_price: 0, quantity: 1, mfg_date: '', expiry_date: '', default_fetch_quantity: 1, total: 0, total_selling_price: 0, product_image: null }]);
                                 setShowBillModal(true);
                             }}
                         >
@@ -475,7 +483,7 @@ const Bills = () => {
                                                 {supplierList.map(s => <option key={s.id} value={s.id}>{s.supplier_name}</option>)}
                                             </select>
                                         </div>
-                                        <div className="input-box"><label>Bill Number</label><input className="input-control" type="text" value={billData.bill_number} readOnly /></div>
+                                        <div className="input-box"><label>Bill Number</label><input className="input-control" type="text" value={billData.bill_number} onChange={(e) => setBillData({ ...billData, bill_number: e.target.value })} placeholder="Enter Bill No." /></div>
                                         <div className="input-box"><label>Payment Mode</label><select className="input-control" value={billData.payment_method} onChange={(e) => setBillData({ ...billData, payment_method: e.target.value })}><option value="Cash">Cash</option><option value="UPI">UPI</option><option value="Bank">Bank Trans.</option></select></div>
                                         <div className="input-box"><label>Invoice Date</label><input className="input-control" type="date" value={billData.bill_date} onChange={(e) => setBillData({ ...billData, bill_date: e.target.value })} /></div>
                                     </div>
@@ -492,7 +500,23 @@ const Bills = () => {
                                             <table className="pos-items-table">
                                                 <thead>
                                                     <tr>
-                                                        <th style={{ width: '40px' }}>Sr</th><th style={{ width: '60px' }}>Image</th><th style={{ width: '250px' }}>Item Name</th><th style={{ width: '100px' }}>Code</th><th style={{ width: '120px' }}>Barcode</th><th style={{ width: '100px' }}>MRP</th><th style={{ width: '80px' }}>Disc %</th><th style={{ width: '100px' }}>Cost</th><th style={{ width: '100px' }}>Sell Price</th><th style={{ width: '70px' }}>GST %</th><th style={{ width: '80px' }}>Qty</th><th style={{ width: '120px' }}>Total Cost</th><th style={{ width: '120px' }}>Total Sell</th><th style={{ width: '40px' }}></th>
+                                                        <th style={{ width: '40px' }}>Sr</th>
+                                                        <th style={{ width: '60px' }}>Image</th>
+                                                        <th style={{ width: '250px' }}>Item Name / Selection</th>
+                                                        <th style={{ width: '110px' }}>Item Code</th>
+                                                        <th style={{ width: '130px' }}>Barcode</th>
+                                                        <th style={{ width: '160px' }}>MFG Date</th>
+                                                        <th style={{ width: '160px' }}>EXP Date</th>
+                                                        <th style={{ width: '100px' }}>MRP</th>
+                                                        <th style={{ width: '80px' }}>Disc %</th>
+                                                        <th style={{ width: '100px' }}>Cost Price</th>
+                                                        <th style={{ width: '100px' }}>Sell Price</th>
+                                                        <th style={{ width: '70px' }}>GST %</th>
+                                                        <th style={{ width: '70px' }}>Qty</th>
+                                                        <th style={{ width: '70px' }}>Def. Qty</th>
+                                                        <th style={{ width: '120px' }}>Total Cost</th>
+                                                        <th style={{ width: '120px' }}>Total Sell</th>
+                                                        <th style={{ width: '40px' }}></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -542,12 +566,16 @@ const Bills = () => {
                                                             </td>
                                                             <td><input className="row-input" value={item.item_code || ''} onChange={(e) => updateBillRow(item.id, 'item_code', e.target.value)} /></td>
                                                             <td><input className="row-input" value={item.barcode || ''} onChange={(e) => updateBillRow(item.id, 'barcode', e.target.value)} /></td>
+                                                            <td><input className="row-input" type="date" value={item.mfg_date} onChange={(e) => updateBillRow(item.id, 'mfg_date', e.target.value)} /></td>
+                                                            <td><input className="row-input" type="date" value={item.expiry_date} onChange={(e) => updateBillRow(item.id, 'expiry_date', e.target.value)} /></td>
                                                             <td><input className="row-input" type="number" step="0.01" value={item.mrp} onChange={(e) => updateBillRow(item.id, 'mrp', e.target.value)} /></td>
                                                             <td><input className="row-input" type="number" step="0.01" value={item.regular_discount} onChange={(e) => updateBillRow(item.id, 'regular_discount', e.target.value)} /></td>
                                                             <td><input className="row-input" type="number" step="0.01" value={item.price} onChange={(e) => updateBillRow(item.id, 'price', e.target.value)} /></td>
                                                             <td><input className="row-input" type="number" step="0.01" value={item.selling_price} onChange={(e) => updateBillRow(item.id, 'selling_price', e.target.value)} /></td>
                                                             <td><input className="row-input" type="number" step="0.01" value={item.gst} onChange={(e) => updateBillRow(item.id, 'gst', e.target.value)} /></td>
                                                             <td><input className="row-input" type="number" step="0.01" value={item.quantity} onChange={(e) => updateBillRow(item.id, 'quantity', e.target.value)} /></td>
+                                                            <td><input className="row-input" type="number" step="0.01" value={item.default_fetch_quantity} onChange={(e) => updateBillRow(item.id, 'default_fetch_quantity', e.target.value)} /></td>
+
                                                             <td className="font-bold text-primary">₹{parseFloat(item.total || 0).toLocaleString()}</td>
                                                             <td className="font-bold text-muted">₹{parseFloat(item.total_selling_price || 0).toLocaleString()}</td>
                                                             <td><button type="button" className="btn-del" onClick={() => removeBillRow(item.id)}><Trash2 size={16} /></button></td>
@@ -654,7 +682,7 @@ const Bills = () => {
                     }}
                 />
 
-                <style jsx>{`
+                <style>{`
                     .pos-hub {
                         max-width: 1400px;
                         margin: 0 auto;
@@ -994,14 +1022,21 @@ const Bills = () => {
                         border-radius: 12px;
                         border: 1px solid rgba(255,255,255,0.05);
                     }
+                    .pos-items-table {
+                        min-width: 1750px;
+                        border-collapse: collapse;
+                    }
                     .pos-items-table th {
-                        background: rgba(30, 41, 59, 0.9);
+                        background: rgba(30, 41, 59, 1);
                         position: sticky;
                         top: 0;
                         z-index: 10;
-                        font-size: 0.75rem;
+                        font-size: 0.7rem;
+                        padding: 0.8rem 0.4rem;
+                        white-space: nowrap;
+                        text-align: center;
                     }
-                    .pos-items-table td { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
+                    .pos-items-table td { padding: 0.4rem 0.3rem; font-size: 0.85rem; }
                     
                     .pos-bottom-section {
                         background: rgba(15, 23, 42, 0.6);
@@ -1088,9 +1123,23 @@ const Bills = () => {
                     .modal-footer { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; }
                     
                     /* Utility Styles */
-                    .row-flex { display: flex; gap: 0.5rem; }
-                    .row-select, .row-input { width: 100%; border: none; background: transparent; color: #fff; padding: 0.3rem; }
-                    .row-select { background: #1e293b; border-radius: 4px; }
+                    .row-flex { display: flex; gap: 0.3rem; flex-direction: column; }
+                    .row-select, .row-input { 
+                        width: 100%; 
+                        border: 1px solid rgba(255,255,255,0.1); 
+                        background: rgba(15, 23, 42, 0.4); 
+                        color: #fff; 
+                        padding: 0.4rem 0.5rem;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                        text-align: center;
+                    }
+                    .row-input:focus {
+                        border-color: #6366f1;
+                        background: rgba(15, 23, 42, 0.7);
+                        outline: none;
+                    }
+                    .row-select { background: #1e293b; text-align: left; }
 
                     .row-img-upload {
                         display: inline-flex;

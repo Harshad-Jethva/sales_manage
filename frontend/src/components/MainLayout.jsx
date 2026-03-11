@@ -5,6 +5,7 @@ import Topbar from './Topbar';
 import ThreeBackground from './ThreeBackground';
 
 import FloatingWindowManager from './common/FloatingWindowManager';
+import GPSTracker from './common/GPSTracker';
 
 const MainLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,6 +20,9 @@ const MainLayout = () => {
 
       {/* Floating Windows Manager */}
       <FloatingWindowManager />
+
+      {/* GPS Tracking for Salesmen */}
+      <GPSTracker />
 
       {/* Sidebar fixed */}
       <Sidebar mobileOpen={sidebarOpen} setMobileOpen={setSidebarOpen} />

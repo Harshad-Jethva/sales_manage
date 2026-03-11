@@ -32,11 +32,16 @@ const Clients = () => {
 
   const fetchCustomers = async () => {
     try {
+      console.log("Fetching clients from API...");
       const res = await axios.get('http://localhost/sales_manage/backend/api/clients.php');
-      setCustomers(Array.isArray(res.data) ? res.data : []);
+      console.log("API Response:", res.data);
+      // Backend returns { success: true, data: [] }
+      const clientList = res.data.data || (Array.isArray(res.data) ? res.data : []);
+      console.log("Extracted Client List:", clientList);
+      setCustomers(clientList);
       setLoading(false);
     } catch (err) {
-      console.error(err);
+      console.error("Fetch Error:", err);
       setLoading(false);
     }
   };

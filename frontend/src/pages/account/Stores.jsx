@@ -33,7 +33,8 @@ const Stores = () => {
     const fetchSuppliers = async () => {
         try {
             const res = await axios.get('http://localhost/sales_manage/backend/api/stores.php');
-            setSuppliers(Array.isArray(res.data) ? res.data : []);
+            const list = res.data.data || (Array.isArray(res.data) ? res.data : []);
+            setSuppliers(list);
             setLoading(false);
         } catch (err) {
             console.error(err);

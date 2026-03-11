@@ -309,8 +309,8 @@ const ClientManagement = () => {
                                         <td className="px-6 py-4 text-sm text-slate-300">₹{parseFloat(client.credit_limit || 0).toLocaleString()}</td>
                                         <td className="px-6 py-4">
                                             <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${client.status === 'active'
-                                                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                                                    : 'bg-red-500/10 text-red-400 border-red-500/20'
+                                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                                : 'bg-red-500/10 text-red-400 border-red-500/20'
                                                 }`}>
                                                 {client.status}
                                             </span>
@@ -447,7 +447,7 @@ const ClientManagement = () => {
                 )}
             </AnimatePresence>
 
-            <style jsx>{`
+            <style>{`
                 .erp-button {
                     display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
                     border-radius: 1rem; font-weight: 700; transition: all 0.3s ease;

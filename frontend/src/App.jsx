@@ -44,6 +44,8 @@ const OrderHistory = lazy(() => import('./pages/salesman/OrderHistory'));
 const ClientOrderHistory = lazy(() => import('./pages/salesman/ClientOrderHistory'));
 const SalesmanProducts = lazy(() => import('./pages/salesman/Products'));
 const SalesmanProductDetails = lazy(() => import('./pages/salesman/ProductDetails'));
+const RouteCalendar = lazy(() => import('./pages/salesman/RouteCalendar'));
+const RouteNavigation = lazy(() => import('./pages/salesman/RouteNavigation'));
 
 // Cashier Panel Pages
 const POS = lazy(() => import('./pages/cashier/POS'));
@@ -63,10 +65,35 @@ const ClientManagement = lazy(() => import('./pages/admin/ClientManagement'));
 const VendorManagement = lazy(() => import('./pages/admin/VendorManagement'));
 const ClientAccountManagement = lazy(() => import('./pages/admin/ClientAccountManagement'));
 const PanelLoginRedirect = lazy(() => import('./pages/admin/PanelLoginRedirect'));
+const StockDetails = lazy(() => import('./pages/admin/StockDetails'));
+const StockReports = lazy(() => import('./pages/admin/StockReports'));
+const ExpiryManagement = lazy(() => import('./pages/admin/ExpiryManagement'));
+const ExpiryReports = lazy(() => import('./pages/admin/ExpiryReports'));
+const RoutePlanner = lazy(() => import('./pages/admin/RoutePlanner'));
+const RouteHistory = lazy(() => import('./pages/admin/RouteHistory'));
+const LiveTracking = lazy(() => import('./pages/admin/LiveTracking'));
+const TrackingReports = lazy(() => import('./pages/admin/TrackingReports'));
+
 
 // Notification System
 const NotificationCenter = lazy(() => import('./components/admin/notifications/NotificationCenter'));
 const NotificationResponseHistory = lazy(() => import('./components/admin/notifications/NotificationResponseHistory'));
+
+// Overdue Management System
+const OverdueCollections = lazy(() => import('./components/admin/overdue/OverdueCollections'));
+const CollectionHistory = lazy(() => import('./components/admin/overdue/CollectionHistory'));
+
+// Cash Handover Pages
+const CashHandover = lazy(() => import('./pages/common/CashHandover'));
+const CashHistory = lazy(() => import('./pages/admin/CashHistory'));
+
+// Attendance & HR Pages
+const AttendanceDashboard = lazy(() => import('./pages/admin/attendance/Dashboard'));
+const AttendanceManage = lazy(() => import('./pages/admin/attendance/Manage'));
+const AttendanceReports = lazy(() => import('./pages/admin/attendance/Reports'));
+const SalarySettings = lazy(() => import('./pages/admin/attendance/SalarySettings'));
+const HolidaySettings = lazy(() => import('./pages/admin/attendance/Holidays'));
+const SalaryReport = lazy(() => import('./pages/admin/attendance/SalaryReport'));
 
 // Fallback Route Page
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -107,6 +134,7 @@ function App() {
                           <Route path="/pos/all-bills" element={<POSAllBills />} />
                           <Route path="/pos/report" element={<POSReport />} />
                           <Route path="/pos/client-profile" element={<ClientProfile />} />
+                          <Route path="/pos/cash-handover" element={<CashHandover panelName="POS" />} />
                         </Route>
 
                         {/* Dashboard & Management -- For Admin & Accountant */}
@@ -129,6 +157,7 @@ function App() {
                           <Route path="/accounts/delete" element={<DeleteAccount />} />
                           <Route path="/accounts/view" element={<AccountDetails />} />
                           <Route path="/reports" element={<Reports />} />
+                          <Route path="/accounts/cash-handover" element={<CashHandover panelName="Accounts" />} />
                         </Route>
 
                         {/* Salesman Panel -- Accessible by Admin & Salesman */}
@@ -139,14 +168,21 @@ function App() {
                           <Route path="/salesman/client-history" element={<ClientOrderHistory />} />
                           <Route path="/salesman/products" element={<SalesmanProducts />} />
                           <Route path="/salesman/products/:id" element={<SalesmanProductDetails />} />
+                          <Route path="/salesman/route-calendar" element={<RouteCalendar />} />
+                          <Route path="/salesman/route-navigation" element={<RouteNavigation />} />
+                          <Route path="/salesman/cash-handover" element={<CashHandover panelName="Salesman" />} />
                         </Route>
 
                         {/* Warehouse Panel -- Accessible by Admin & Warehouse */}
                         <Route element={<ProtectedRoute allowedRoles={['admin', 'warehouse']} />}>
                           <Route path="/warehouse/dashboard" element={<WarehouseDashboard />} />
                           <Route path="/warehouse/receive-order" element={<ReceiveOrder />} />
-                          <Route path="/warehouse/inventory" element={<Dashboard />} />
+                          <Route path="/warehouse/inventory" element={<StockDetails />} />
                           <Route path="/warehouse/reports" element={<Reports />} />
+                          <Route path="/warehouse/route-planner" element={<RoutePlanner />} />
+                          <Route path="/warehouse/route-history" element={<RouteHistory />} />
+                          <Route path="/warehouse/live-tracking" element={<LiveTracking />} />
+                          <Route path="/warehouse/cash-handover" element={<CashHandover panelName="Warehouse" />} />
                         </Route>
 
                         {/* Admin Appended Route */}
@@ -159,7 +195,28 @@ function App() {
                           <Route path="/admin/client-accounts" element={<ClientAccountManagement />} />
                           <Route path="/admin/notifications" element={<NotificationCenter />} />
                           <Route path="/admin/notification-responses" element={<NotificationResponseHistory />} />
+                          <Route path="/admin/overdue-collections" element={<OverdueCollections />} />
+                          <Route path="/admin/collection-history" element={<CollectionHistory />} />
+                          <Route path="/admin/stock-details" element={<StockDetails />} />
+                          <Route path="/admin/stock-reports" element={<StockReports />} />
+                          <Route path="/admin/expiry-management" element={<ExpiryManagement />} />
+                          <Route path="/admin/expiry-reports" element={<ExpiryReports />} />
+                          <Route path="/admin/route-planner" element={<RoutePlanner />} />
+                          <Route path="/admin/route-history" element={<RouteHistory />} />
+                          <Route path="/admin/live-tracking" element={<LiveTracking />} />
+                          <Route path="/admin/tracking-reports" element={<TrackingReports />} />
+                          <Route path="/admin/cash-handover" element={<CashHandover panelName="Admin" />} />
+                          <Route path="/admin/cash-history" element={<CashHistory />} />
+
+                          {/* Attendance & HR Routes */}
+                          <Route path="/admin/attendance/dashboard" element={<AttendanceDashboard />} />
+                          <Route path="/admin/attendance/manage" element={<AttendanceManage />} />
+                          <Route path="/admin/attendance/reports" element={<AttendanceReports />} />
+                          <Route path="/admin/attendance/salary-settings" element={<SalarySettings />} />
+                          <Route path="/admin/attendance/holidays" element={<HolidaySettings />} />
+                          <Route path="/admin/attendance/salary-report" element={<SalaryReport />} />
                         </Route>
+
                       </Route>
 
                       {/* Fallback Catch-all Route for Unknown Paths */}

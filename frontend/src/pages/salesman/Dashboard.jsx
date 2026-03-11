@@ -196,7 +196,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <style jsx>{`
+            <style>{`
         .stat-card {
            position: relative;
            overflow: hidden;
