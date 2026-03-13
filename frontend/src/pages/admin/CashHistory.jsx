@@ -3,10 +3,11 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import { Search, Filter, Calendar, FileText, ArrowUpDown } from 'lucide-react';
+import { buildApiUrl } from '../../config/api';
 import './CashHistory.css';
 
 const CashHistory = () => {
-    const { user } = useAuth();
+    const { token } = useAuth();
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
@@ -20,8 +21,8 @@ const CashHistory = () => {
         setLoading(true);
         try {
             const queryParams = new URLSearchParams(filters).toString();
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/cash_handover.php?${queryParams}`, {
-                headers: { Authorization: `Bearer ${user.session_token}` }
+            const response = await axios.get(`${buildApiUrl('cash_handover.php')}?${queryParams}`, {
+                headers: { Authorization: `Bearer ${token}` }
             });
             if (response.data.success) {
                 setHistory(response.data.data);

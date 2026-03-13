@@ -5,11 +5,12 @@ import { useAuth } from '../context/AuthContext';
 import SEO from '../components/common/SEO';
 import LoginAnimation from '../components/LoginAnimation';
 import gsap from 'gsap';
+import { buildApiUrl } from '../config/api';
 import './Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { login, user, token } = useAuth();
+    const { login, user } = useAuth();
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -63,7 +64,7 @@ const Login = () => {
         setAnimationStatus('idle');
 
         try {
-            const res = await axios.post('http://localhost/sales_manage/backend/api/login.php', formData);
+            const res = await axios.post(buildApiUrl('login.php'), formData);
             if (res.data.success) {
                 setPendingLoginData({ user: res.data.user, token: res.data.token });
                 setAnimationStatus('success');
@@ -146,4 +147,3 @@ const Login = () => {
 
 
 export default Login;
-

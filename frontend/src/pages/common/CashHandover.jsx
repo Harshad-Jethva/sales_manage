@@ -6,11 +6,10 @@ import { Printer, Save, Download, Calculator, AlertTriangle, ArrowLeft } from 'l
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import './CashHandover.css';
-import { useNavigate } from 'react-router-dom';
+import { buildApiUrl } from '../../config/api';
 
 const CashHandover = ({ panelName = 'POS' }) => {
-    const { user } = useAuth();
-    const navigate = useNavigate();
+    const { user, token } = useAuth();
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [activeTab, setActiveTab] = useState('Cash');
     const [loading, setLoading] = useState(false);
@@ -48,8 +47,8 @@ const CashHandover = ({ panelName = 'POS' }) => {
     useEffect(() => {
         const fetchExpected = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/cash_handover.php?action=get_expected&date=${date}`, {
-                    headers: { Authorization: `Bearer ${user.session_token}` }
+                const response = await axios.get(`${buildApiUrl('cash_handover.php')}?action=get_expected&date=${date}`, {
+                    headers: { Authorization: `Bearer ${token}` }
                 });
                 if (response.data.success) {
                     setExpectedBalance(response.data.expected_cash);
@@ -59,7 +58,7 @@ const CashHandover = ({ panelName = 'POS' }) => {
             }
         };
         fetchExpected();
-    }, [date, user.session_token]);
+    }, [date, token]);
 
     const handleCountChange = (value, count) => {
         if (count < 0) return;
@@ -95,8 +94,8 @@ const CashHandover = ({ panelName = 'POS' }) => {
                 notes: notes
             };
 
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/cash_handover.php`, payload, {
-                headers: { Authorization: `Bearer ${user.session_token}` }
+            const response = await axios.post(buildApiUrl('cash_handover.php'), payload, {
+                headers: { Authorization: `Bearer ${token}` }
             });
 
             if (response.data.success) {

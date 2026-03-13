@@ -1,27 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { Users, Shield, Receipt, Truck, Wallet, Briefcase, ChevronRight, LogIn } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import { useFloatingWindows } from '../../context/FloatingWindowContext';
+import { buildApiUrl } from '../../config/api';
 
 const AdminAccessControl = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { login } = useAuth();
-    const navigate = useNavigate();
+    const { token } = useAuth();
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    const fetchUsers = async () => {
+    const fetchUsers = useCallback(async () => {
+        if (!token) {
+            setLoading(false);
+            return;
+        }
         try {
-            const response = await fetch('http://localhost/sales_manage/backend/api/users.php');
-            const result = await response.json();
-            if (result.success) {
-                setUsers(result.data);
+            const response = await axios.get(buildApiUrl('users.php'), {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            if (response.data?.success) {
+                setUsers(response.data.data || []);
             } else {
                 toast.error('Failed to fetch users');
             }
@@ -31,12 +33,16 @@ const AdminAccessControl = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [token]);
+
+    useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
 
     const { openWindow } = useFloatingWindows();
 
     const handleLoginAs = (user, panel) => {
-        const adminToken = sessionStorage.getItem('token');
+        const adminToken = token;
         if (!adminToken) {
             toast.error('Admin session not found');
             return;
@@ -125,7 +131,7 @@ const AdminAccessControl = () => {
                     const panelUsers = users.filter(u => panel.roles.includes(u.role));
 
                     return (
-                        <motion.div
+                        <Motion.div
                             key={panel.id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -177,7 +183,7 @@ const AdminAccessControl = () => {
                                     </div>
                                 )}
                             </div>
-                        </motion.div>
+                        </Motion.div>
                     );
                 })}
             </div>

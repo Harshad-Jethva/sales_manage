@@ -219,7 +219,6 @@ function App() {
                         <Route element={<ProtectedRoute allowedRoles={['admin', 'delivery']} />}>
                           <Route path="/delivery/dashboard" element={<DeliveryPanelDashboard />} />
                           <Route path="/delivery/my-deliveries" element={<MyDeliveries />} />
-                          <Route path="/delivery/my deliveries" element={<MyDeliveries />} />
                         </Route>
 
                         {/* Admin Appended Route */}
