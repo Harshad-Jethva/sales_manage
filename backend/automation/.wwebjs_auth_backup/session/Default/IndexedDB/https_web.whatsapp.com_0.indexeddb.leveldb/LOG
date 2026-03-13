@@ -1,0 +1,16 @@
+2026/03/12-10:20:28.075 2dd4 Reusing MANIFEST E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-010604
+2026/03/12-10:20:28.084 2dd4 Recovering log #15898
+2026/03/12-10:20:28.140 2dd4 Reusing old log E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/015898.log 
+2026/03/12-10:20:28.655 9f8 Level-0 table #15927: started
+2026/03/12-10:20:28.692 9f8 Level-0 table #15927: 1193475 bytes OK
+2026/03/12-10:20:28.693 9f8 Delete type=0 #15898
+2026/03/12-10:20:28.808 2dd4 Level-0 table #15929: started
+2026/03/12-10:20:28.840 2dd4 Level-0 table #15929: 1212012 bytes OK
+2026/03/12-10:20:28.842 2dd4 Delete type=0 #15926
+2026/03/12-10:20:29.006 2dd4 Level-0 table #15931: started
+2026/03/12-10:20:29.034 2dd4 Level-0 table #15931: 1229882 bytes OK
+2026/03/12-10:20:29.037 2dd4 Delete type=0 #15928
+2026/03/12-10:20:29.125 9f8 Compacting 3@0 + 5@1 files
+2026/03/12-10:20:29.134 9f8 Level-0 table #15934: started
+2026/03/12-10:20:29.166 9f8 Level-0 table #15934: 1225860 bytes OK
+2026/03/12-10:20:29.169 9f8 Delete type=0 #15930

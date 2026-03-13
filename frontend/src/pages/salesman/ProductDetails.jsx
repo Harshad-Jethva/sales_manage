@@ -14,6 +14,7 @@ import {
     ShoppingCart,
     AlertCircle
 } from 'lucide-react';
+import OptimizedImage from '../../components/common/OptimizedImage';
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -96,8 +97,9 @@ const ProductDetails = () => {
             </Helmet>
 
             <button
-                onClick={() => navigate('/salesman/products')}
+                onClick={() => navigate('/salesman/catalog')}
                 className="mb-8 flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                aria-label="Back to Catalog"
             >
                 <ArrowLeft size={20} /> Back to Catalog
             </button>
@@ -117,13 +119,15 @@ const ProductDetails = () => {
                             onMouseLeave={() => setIsHovered(false)}
                         >
                             {product.image_path ? (
-                                <img
+                                <OptimizedImage
                                     src={`http://localhost/sales_manage/backend/${product.image_path}`}
                                     alt={product.name}
-                                    className="w-full h-full object-contain p-4 transition-transform duration-[400ms] pointer-events-none drop-shadow-xl"
-                                    style={{
+                                    className="w-full h-full p-4 drop-shadow-xl"
+                                    priority={true}
+                                    imgStyle={{
                                         transformOrigin: `${zoomPos.x} ${zoomPos.y}`,
-                                        transform: isHovered ? 'scale(2.5)' : 'scale(1)'
+                                        transform: isHovered ? 'scale(2.5)' : 'scale(1)',
+                                        transition: 'transform 0.4s cubic-bezier(0.2, 0, 0.2, 1)'
                                     }}
                                 />
                             ) : (
@@ -220,13 +224,14 @@ const ProductDetails = () => {
                             </button>
 
                             <div className="w-full h-full min-h-[60vh] max-h-[90vh] flex items-center justify-center p-8 bg-black/20">
-                                <img
+                                <OptimizedImage
                                     src={`http://localhost/sales_manage/backend/${product.image_path}`}
                                     alt={product.name}
-                                    className="max-w-full max-h-[80vh] w-auto h-auto object-contain pointer-events-none transition-transform duration-[400ms] drop-shadow-2xl"
-                                    style={{
+                                    className="max-w-full max-h-[80vh] w-auto h-auto drop-shadow-2xl"
+                                    imgStyle={{
                                         transformOrigin: `${modalZoomPos.x} ${modalZoomPos.y}`,
-                                        transform: isModalHovered ? 'scale(2.5)' : 'scale(1)'
+                                        transform: isModalHovered ? 'scale(2.5)' : 'scale(1)',
+                                        transition: 'transform 0.4s cubic-bezier(0.2, 0, 0.2, 1)'
                                     }}
                                 />
                             </div>

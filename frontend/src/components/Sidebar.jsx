@@ -63,7 +63,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
         { icon: UserMinus, label: 'Delete Client', path: '/clients/delete' },
       ]
     },
-    { icon: ShoppingCart, label: 'Inventory', path: '/bills', roles: ['admin', 'accountant'] },
+    { icon: ShoppingCart, label: 'Inventory', path: '/inventory-management', roles: ['admin', 'accountant'] },
     {
       icon: Building2,
       label: 'Stores',
@@ -96,8 +96,8 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       label: 'Bills',
       roles: ['admin', 'cashier'],
       subItems: [
-        { icon: List, label: 'History Bill', path: '/pos/all-bills' },
-        { icon: BarChart3, label: 'Report', path: '/pos/report' },
+        { icon: List, label: 'History Bill', path: '/pos/bills' },
+        { icon: BarChart3, label: 'Report', path: '/pos/analytics' },
         { icon: Wallet, label: 'Cash Handover', path: '/pos/cash-handover' },
       ]
     },
@@ -107,7 +107,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
     { icon: Plus, label: 'Place Order', path: '/salesman/place-order', roles: ['admin', 'salesman'] },
     { icon: Receipt, label: 'My Orders', path: '/salesman/order-history', roles: ['admin', 'salesman'] },
     { icon: Users, label: 'Client History', path: '/salesman/client-history', roles: ['admin', 'salesman'] },
-    { icon: ShoppingBag, label: 'Products', path: '/salesman/products', roles: ['admin', 'salesman'] },
+    { icon: ShoppingBag, label: 'Products', path: '/salesman/catalog', roles: ['admin', 'salesman'] },
     { icon: Calendar, label: 'Route Calendar', path: '/salesman/route-calendar', roles: ['admin', 'salesman'] },
     { icon: MapPin, label: 'Live Navigation', path: '/salesman/route-navigation', roles: ['admin', 'salesman'] },
     { icon: Wallet, label: 'Cash Handover', path: '/salesman/cash-handover', roles: ['admin', 'salesman'] },
@@ -115,7 +115,17 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
     // Warehouse Panel
     { icon: Truck, label: 'Warehouse Terminal', path: '/warehouse/dashboard', roles: ['admin', 'warehouse'] },
     { icon: Package, label: 'Receive Orders', path: '/warehouse/receive-order', roles: ['admin', 'warehouse'] },
-    { icon: List, label: 'Stock Ledger', path: '/warehouse/inventory', roles: ['admin', 'warehouse'] },
+    { icon: List, label: 'Stock Ledger', path: '/warehouse/stock', roles: ['admin', 'warehouse'] },
+    {
+      icon: Truck,
+      label: 'Transport & Builty',
+      roles: ['admin', 'warehouse'],
+      subItems: [
+        { icon: Plus, label: 'Transport Management', path: '/warehouse/transport-management' },
+        { icon: List, label: 'Transport Records', path: '/warehouse/transport-records' },
+        { icon: BarChart3, label: 'Transport Reports', path: '/warehouse/transport-reports' },
+      ]
+    },
     {
       icon: MapPin,
       label: 'Route Manager',
@@ -136,8 +146,33 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       label: 'Bills',
       roles: ['admin', 'warehouse'],
       subItems: [
-        { icon: List, label: 'History Bill', path: '/pos/all-bills' },
-        { icon: BarChart3, label: 'Report', path: '/pos/report' },
+        { icon: List, label: 'History Bill', path: '/pos/bills' },
+        { icon: BarChart3, label: 'Report', path: '/pos/analytics' },
+      ]
+    },
+
+    // Delivery System
+    {
+      icon: Truck,
+      label: 'Delivery System',
+      roles: ['admin', 'warehouse'],
+      subItems: [
+        { icon: LayoutDashboard, label: 'Dashboard', path: '/warehouse/delivery-dashboard' },
+        { icon: Users, label: 'Delivery Staff', path: '/warehouse/delivery-staff' },
+        { icon: Package, label: 'Delivery Orders', path: '/warehouse/delivery-orders' },
+        { icon: MapPin, label: 'Tracking System', path: '/warehouse/delivery-tracking' },
+        { icon: BarChart3, label: 'Delivery Reports', path: '/warehouse/delivery-reports' },
+      ]
+    },
+
+    // Delivery Personnel Panel
+    {
+      icon: Truck,
+      label: 'Delivery Panel',
+      roles: ['admin', 'delivery'],
+      subItems: [
+        { icon: LayoutDashboard, label: 'Dashboard', path: '/delivery/dashboard' },
+        { icon: Package, label: 'My Deliveries', path: '/delivery/my-deliveries' },
       ]
     },
 
@@ -189,7 +224,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       subItems: [
         { icon: Calendar, label: 'Route Planner', path: '/admin/route-planner' },
         { icon: List, label: 'Route History', path: '/admin/route-history' },
-        { icon: MapPin, label: 'Live Tracking', path: '/admin/live-tracking' },
+        { icon: MapPin, label: 'Live Tracking', path: '/salesman-tracking' },
         { icon: FileText, label: 'Tracking Reports', path: '/admin/tracking-reports' },
       ]
     },
@@ -237,7 +272,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
             { icon: UserMinus, label: 'Delete Client', path: '/clients/delete' }
           ]
         },
-        { icon: ShoppingCart, label: 'Inventory', path: '/bills' },
+        { icon: ShoppingCart, label: 'Inventory', path: '/inventory-management' },
         {
           icon: Building2,
           label: 'Stores',
@@ -268,8 +303,8 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       subItems: [
         { icon: Receipt, label: 'POS Terminal', path: '/pos' },
         { icon: Users, label: 'Client Ledger', path: '/pos/clients' },
-        { icon: List, label: 'History Bill', path: '/pos/all-bills' },
-        { icon: BarChart3, label: 'Report', path: '/pos/report' },
+        { icon: List, label: 'History Bill', path: '/pos/bills' },
+        { icon: BarChart3, label: 'Report', path: '/pos/analytics' },
       ]
     },
     {
@@ -281,7 +316,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
         { icon: Plus, label: 'Place Order', path: '/salesman/place-order' },
         { icon: Receipt, label: 'My Orders', path: '/salesman/order-history' },
         { icon: Users, label: 'Client History', path: '/salesman/client-history' },
-        { icon: ShoppingBag, label: 'Products', path: '/salesman/products' },
+        { icon: ShoppingBag, label: 'Products', path: '/salesman/catalog' },
         { icon: Calendar, label: 'Route Calendar', path: '/salesman/route-calendar' },
         { icon: MapPin, label: 'Live Navigation', path: '/salesman/route-navigation' },
       ]
@@ -293,16 +328,45 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       subItems: [
         { icon: Truck, label: 'Warehouse Terminal', path: '/warehouse/dashboard' },
         { icon: Package, label: 'Receive Orders', path: '/warehouse/receive-order' },
-        { icon: List, label: 'Stock Ledger', path: '/warehouse/inventory' },
+        { icon: List, label: 'Stock Ledger', path: '/warehouse/stock' },
+        {
+          icon: Truck,
+          label: 'Transport & Builty',
+          subItems: [
+            { icon: Plus, label: 'Transport Management', path: '/warehouse/transport-management' },
+            { icon: List, label: 'Transport Records', path: '/warehouse/transport-records' },
+            { icon: BarChart3, label: 'Transport Reports', path: '/warehouse/transport-reports' },
+          ]
+        },
         {
           icon: MapPin,
           label: 'Route Manager',
           subItems: [
             { icon: Calendar, label: 'Route Planner', path: '/warehouse/route-planner' },
             { icon: List, label: 'Route History', path: '/warehouse/route-history' },
-            { icon: MapPin, label: 'Live Tracking', path: '/warehouse/live-tracking' },
+            { icon: MapPin, label: 'Live Tracking', path: '/salesman-tracking' },
           ]
         },
+        {
+          icon: Truck,
+          label: 'Delivery System',
+          subItems: [
+            { icon: LayoutDashboard, label: 'Dashboard', path: '/warehouse/delivery-dashboard' },
+            { icon: Users, label: 'Delivery Staff', path: '/warehouse/delivery-staff' },
+            { icon: Package, label: 'Delivery Orders', path: '/warehouse/delivery-orders' },
+            { icon: MapPin, label: 'Tracking System', path: '/warehouse/delivery-tracking' },
+            { icon: BarChart3, label: 'Delivery Reports', path: '/warehouse/delivery-reports' },
+          ]
+        },
+      ]
+    },
+    {
+      icon: Truck,
+      label: 'Delivery Panel',
+      roles: ['admin'],
+      subItems: [
+        { icon: LayoutDashboard, label: 'Dashboard', path: '/delivery/dashboard' },
+        { icon: Package, label: 'My Deliveries', path: '/delivery/my-deliveries' },
       ]
     }
   ];
@@ -342,6 +406,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
     <>
       <div className="sidebar-header">
         <div className="logo-box">
+          <div className="logo-glow"></div>
           <span className="logo-icon">S</span>
         </div>
         {!isCollapsed && (
@@ -351,8 +416,11 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
             exit={{ opacity: 0, x: -10 }}
             className="logo-text"
           >
-            <h2>HAB CREATION</h2>
-            <span className="badge">v2.0</span>
+            <h2>HAB <span className="text-primary-glow">CREATION</span></h2>
+            <div className="badge-row">
+              <span className="badge">v2.0</span>
+              <span className="status-dot"></span>
+            </div>
           </motion.div>
         )}
 
@@ -543,20 +611,28 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       <style>{`
         /* --- DESKTOP SIDEBAR --- */
         .sidebar-desktop {
-          width: 260px;
+          width: var(--sidebar-width);
           height: 100vh;
           position: fixed;
           left: 0;
           top: 0;
-          background: rgba(11, 15, 25, 0.7); /* Deep Sea Base */
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border-right: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(11, 15, 25, 0.4); /* Deep Sea Base */
+          backdrop-filter: blur(28px) saturate(180%);
+          -webkit-backdrop-filter: blur(28px) saturate(180%);
+          border-right: 1px solid var(--border-light);
           display: flex;
           flex-direction: column;
           z-index: 50;
-          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 4px 0 24px rgba(0,0,0,0.2);
+          transition: width 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+          box-shadow: 10px 0 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar-desktop::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(79, 70, 229, 0.03), transparent 70%);
+          pointer-events: none;
         }
 
         .sidebar-desktop.collapsed {
@@ -602,18 +678,40 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
         }
         
         .logo-box {
-          width: 38px; height: 38px;
+          width: 42px; height: 42px;
           background: var(--enterprise-gradient);
-          border-radius: 10px;
+          border-radius: 12px;
           display: flex; align-items: center; justify-content: center;
-          font-weight: 800; font-size: 1.25rem; color: white;
-          box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+          font-weight: 800; font-size: 1.4rem; color: white;
+          box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25);
           flex-shrink: 0;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .logo-glow {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
+          transform: translateX(-100%);
+          animation: logo-shine 3s infinite;
+        }
+
+        @keyframes logo-shine {
+          0% { transform: translateX(-100%); }
+          20%, 100% { transform: translateX(100%); }
         }
 
         .logo-text { overflow: hidden; white-space: nowrap; }
-        .logo-text h2 { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
-        .badge { font-size: 0.65rem; background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; color: #94a3b8; font-weight: 600; }
+        .logo-text h2 { margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.5px; color: white; }
+        .text-primary-glow {
+          color: #a5b4fc;
+          text-shadow: 0 0 10px rgba(165, 180, 252, 0.3);
+        }
+        
+        .badge-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 2px; }
+        .badge { font-size: 0.6rem; background: rgba(99, 102, 241, 0.15); padding: 0.1rem 0.5rem; border-radius: 99px; color: #a5b4fc; font-weight: 700; border: 1px solid rgba(165, 180, 252, 0.1); }
+        .status-dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
         
         .collapse-toggle {
           position: absolute;
@@ -672,12 +770,13 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
 
         .nav-item {
           display: flex; align-items: center; justify-content: space-between;
-          padding: 0.85rem 1rem;
-          border-radius: 10px;
-          color: var(--text-secondary);
+          padding: 0.75rem 1rem;
+          margin: 0.25rem 0;
+          border-radius: 12px;
+          color: #94a3b8;
           text-decoration: none;
           cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           background: transparent;
           border: 1px solid transparent;
@@ -685,47 +784,48 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
 
         .nav-item.collapsed {
           justify-content: center;
-          padding: 0.85rem 0;
+          padding: 0.75rem 0;
         }
 
         .nav-item:hover { 
           color: white; 
-          background: rgba(255,255,255,0.03); 
-          box-shadow: 0 0 15px rgba(255,255,255,0.02);
+          background: rgba(255, 255, 255, 0.04);
           transform: translateX(4px);
         }
 
         .nav-item.active {
-          background: rgba(79, 70, 229, 0.1);
+          background: linear-gradient(90deg, rgba(79, 70, 229, 0.15), rgba(79, 70, 229, 0.05));
           color: white;
           border-color: rgba(79, 70, 229, 0.2);
-          box-shadow: inset 0 0 20px rgba(79, 70, 229, 0.05), 0 0 15px rgba(79, 70, 229, 0.1);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
         .nav-label { 
-          display: flex; align-items: center; gap: 0.8rem; font-weight: 500; font-size: 0.95rem; 
+          display: flex; align-items: center; gap: 1rem; font-weight: 600; font-size: 0.9rem; 
           white-space: nowrap;
         }
         
-        .nav-item.collapsed .nav-label {
-          margin: 0;
-        }
-        
         .nav-icon {
-          color: var(--text-secondary);
-          transition: color 0.3s;
+          color: #64748b;
+          transition: all 0.3s;
         }
         
+        .nav-item:hover .nav-icon {
+          color: #a5b4fc;
+          filter: drop-shadow(0 0 5px rgba(165, 180, 252, 0.5));
+        }
+
         .nav-item.active .nav-icon {
-          color: var(--primary);
+          color: #818cf8;
+          filter: drop-shadow(0 0 8px rgba(129, 140, 248, 0.6));
         }
         
         .active-indicator {
-          position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-          width: 4px; height: 18px;
-          background: var(--primary);
-          border-radius: 4px 0 0 4px;
-          box-shadow: -2px 0 10px rgba(79, 70, 229, 0.5);
+          position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+          width: 3px; height: 16px;
+          background: #818cf8;
+          border-radius: 0 4px 4px 0;
+          box-shadow: 2px 0 10px rgba(129, 140, 248, 0.8);
         }
 
         .submenu-container {

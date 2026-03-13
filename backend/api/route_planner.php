@@ -1,404 +1,419 @@
 <?php
-require_once '../config/db.php';
+declare(strict_types=1);
 
-// Enable error reporting
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/lib/api_bootstrap.php';
 
-header('Content-Type: application/json');
+api_bootstrap(['GET', 'POST']);
+$currentUser = api_require_auth($conn, ['admin', 'warehouse']);
 
-$action = $_GET['action'] ?? '';
+$action = trim((string)($_GET['action'] ?? ''));
+$method = $_SERVER['REQUEST_METHOD'];
 
-switch ($action) {
-    case 'get_areas':
-        getAreas($conn);
-        break;
-    case 'get_clients':
-        getClients($conn);
-        break;
-    case 'get_client_bills':
-        getClientBills($conn);
-        break;
-    case 'save_route':
-        saveRoute($conn);
-        break;
-    case 'get_routes':
-        getRoutes($conn);
-        break;
-    case 'update_route':
-        updateRoute($conn);
-        break;
-    case 'get_route_details':
-        getRouteDetails($conn);
-        break;
-    case 'save_route_pdf':
-        saveRoutePdf($conn);
-        break;
-    case 'send_whatsapp':
-        sendWhatsapp($conn);
-        break;
-    case 'delete_route':
-        deleteRoute($conn);
-        break;
-    default:
-        echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
+if ($action === '') {
+    api_send_json(400, ['success' => false, 'message' => 'Action is required']);
 }
 
-function getAreas($conn) {
-    try {
-        $stmt = $conn->query("SELECT DISTINCT area FROM clients WHERE area IS NOT NULL AND area != '' ORDER BY area ASC");
-        $areas = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        echo json_encode(['status' => 'success', 'data' => $areas]);
-    } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+try {
+    switch ($action) {
+        case 'get_areas':
+            assertMethod($method, 'GET');
+            getAreas($conn);
+            break;
+        case 'get_clients':
+            assertMethod($method, 'GET');
+            getClients($conn);
+            break;
+        case 'get_client_bills':
+            assertMethod($method, 'GET');
+            getClientBills($conn);
+            break;
+        case 'get_routes':
+            assertMethod($method, 'GET');
+            getRoutes($conn);
+            break;
+        case 'get_route_details':
+            assertMethod($method, 'GET');
+            getRouteDetails($conn);
+            break;
+        case 'save_route':
+            assertMethod($method, 'POST');
+            saveRoute($conn, $currentUser);
+            break;
+        case 'update_route':
+            assertMethod($method, 'POST');
+            updateRoute($conn);
+            break;
+        case 'delete_route':
+            assertMethod($method, 'POST');
+            deleteRoute($conn);
+            break;
+        case 'save_route_pdf':
+            assertMethod($method, 'POST');
+            saveRoutePdf($conn);
+            break;
+        case 'send_whatsapp':
+            assertMethod($method, 'POST');
+            sendWhatsapp($conn);
+            break;
+        default:
+            api_send_json(400, ['success' => false, 'message' => 'Invalid action']);
+    }
+} catch (Throwable $exception) {
+    api_handle_exception($exception, 'Route planner request failed', 500, ['action' => $action]);
+}
+
+function assertMethod(string $actualMethod, string $expectedMethod): void
+{
+    if (strtoupper($actualMethod) !== strtoupper($expectedMethod)) {
+        api_send_json(405, ['success' => false, 'message' => 'Method not allowed for this action']);
     }
 }
 
-function getClients($conn) {
-    try {
-        $areas = $_GET['areas'] ?? '';
-        if (empty($areas)) {
-            echo json_encode(['status' => 'success', 'data' => []]);
-            return;
-        }
-
-        $areaArray = explode(',', $areas);
-        $placeholders = implode(',', array_fill(0, count($areaArray), '?'));
-
-        $sql = "SELECT id as client_id, name as client_name, area as area_name, phone as mobile_number, address, outstanding_balance as outstanding_amount 
-                FROM clients 
-                WHERE area IN ($placeholders) 
-                ORDER BY area_name ASC, client_name ASC";
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->execute($areaArray);
-        $clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Enhance with pending bills
-        $clientIds = array_column($clients, 'client_id');
-        $billsByClient = [];
-        
-        if (count($clientIds) > 0) {
-            $idPlaceholders = implode(',', array_fill(0, count($clientIds), '?'));
-            $billSql = "SELECT client_id, bill_number, bill_date, total_amount, paid_amount, (total_amount - COALESCE(paid_amount, 0)) as pending_amount 
-                        FROM bills 
-                        WHERE client_id IN ($idPlaceholders) AND (total_amount - COALESCE(paid_amount, 0)) > 0 AND LOWER(payment_method) = 'credit'";
-            $billStmt = $conn->prepare($billSql);
-            $billStmt->execute($clientIds);
-            
-            while ($row = $billStmt->fetch(PDO::FETCH_ASSOC)) {
-                $cId = $row['client_id'];
-                if (!isset($billsByClient[$cId])) {
-                    $billsByClient[$cId] = [];
-                }
-                $billsByClient[$cId][] = $row;
-            }
-        }
-
-        foreach ($clients as &$c) {
-            $cId = $c['client_id'];
-            $c['pending_bills_list'] = $billsByClient[$cId] ?? [];
-            $c['pending_bills_count'] = count($c['pending_bills_list']);
-        }
-
-        echo json_encode(['status' => 'success', 'data' => $clients]);
-    } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    }
+function getAreas(PDO $conn): void
+{
+    $stmt = $conn->query("SELECT DISTINCT area FROM clients WHERE area IS NOT NULL AND TRIM(area) <> '' ORDER BY area ASC");
+    api_send_json(200, ['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_COLUMN)]);
 }
 
-function saveRoute($conn) {
-    $data = json_decode(file_get_contents("php://input"), true);
-    
-    if (empty($data['salesman_id']) || empty($data['route_date']) || empty($data['clients'])) {
-        echo json_encode(['status' => 'error', 'message' => 'Missing required fields']);
-        return;
+function getClients(PDO $conn): void
+{
+    $areas = trim((string)($_GET['areas'] ?? ''));
+    if ($areas === '') {
+        api_send_json(200, ['success' => true, 'data' => []]);
     }
 
+    $areaArray = array_values(array_filter(array_map('trim', explode(',', $areas))));
+    if (empty($areaArray)) {
+        api_send_json(200, ['success' => true, 'data' => []]);
+    }
+
+    $placeholders = implode(',', array_fill(0, count($areaArray), '?'));
+    $sql = "SELECT id AS client_id, name AS client_name, area AS area_name, phone AS mobile_number, address, outstanding_balance AS outstanding_amount
+            FROM clients
+            WHERE area IN ($placeholders)
+            ORDER BY area_name ASC, client_name ASC";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($areaArray);
+    $clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    enrichClientsWithPendingBills($conn, $clients);
+    api_send_json(200, ['success' => true, 'data' => $clients]);
+}
+
+function getClientBills(PDO $conn): void
+{
+    $clientId = isset($_GET['client_id']) ? (int)$_GET['client_id'] : 0;
+    if ($clientId <= 0) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid client_id']);
+    }
+
+    $stmt = $conn->prepare(
+        "SELECT client_id, bill_number, bill_date, total_amount, paid_amount, (total_amount - COALESCE(paid_amount, 0)) AS pending_amount
+         FROM bills
+         WHERE client_id = ? AND (total_amount - COALESCE(paid_amount, 0)) > 0
+         ORDER BY bill_date DESC"
+    );
+    $stmt->execute([$clientId]);
+
+    api_send_json(200, ['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+}
+
+function saveRoute(PDO $conn, array $currentUser): void
+{
+    $data = api_get_json_input();
+    $missing = api_require_fields($data, ['salesman_id', 'route_date', 'clients']);
+    if (!empty($missing)) {
+        api_send_json(400, ['success' => false, 'message' => 'Missing required fields', 'fields' => $missing]);
+    }
+
+    $salesmanId = (int)$data['salesman_id'];
+    $routeDate = trim((string)$data['route_date']);
+    $clients = is_array($data['clients']) ? $data['clients'] : [];
+
+    if ($salesmanId <= 0 || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $routeDate) || empty($clients)) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid route payload']);
+    }
+
+    $conn->beginTransaction();
     try {
-        $conn->beginTransaction();
-
-        // Check for existing route
-        $checkSql = "SELECT route_id FROM route_plans WHERE salesman_id = ? AND route_date = ?";
-        $checkStmt = $conn->prepare($checkSql);
-        $checkStmt->execute([$data['salesman_id'], $data['route_date']]);
-        $existing = $checkStmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($existing) {
-            throw new Exception("A route already exists for this salesman on this date.");
+        $checkStmt = $conn->prepare("SELECT route_id FROM route_plans WHERE salesman_id = ? AND route_date = ? LIMIT 1");
+        $checkStmt->execute([$salesmanId, $routeDate]);
+        if ($checkStmt->fetch(PDO::FETCH_ASSOC)) {
+            api_send_json(409, ['success' => false, 'message' => 'A route already exists for this salesman on this date']);
         }
 
-        // Insert Route Plan
         $insertPlan = $conn->prepare("INSERT INTO route_plans (salesman_id, route_date, created_by) VALUES (?, ?, ?)");
-        $insertPlan->execute([$data['salesman_id'], $data['route_date'], 1]);
-        $routeId = $conn->lastInsertId('route_plans_route_id_seq');
+        $insertPlan->execute([$salesmanId, $routeDate, (int)$currentUser['id']]);
+        $routeId = (int)$conn->lastInsertId('route_plans_route_id_seq');
 
-        // Insert Clients
         $insertClient = $conn->prepare("INSERT INTO route_clients (route_id, client_id, area_name, outstanding_amount) VALUES (?, ?, ?, ?)");
-        
-        foreach ($data['clients'] as $c) {
+        foreach ($clients as $client) {
             $insertClient->execute([
                 $routeId,
-                $c['client_id'],
-                $c['area_name'] ?? '',
-                $c['outstanding_amount'] ?? 0
+                (int)($client['client_id'] ?? 0),
+                trim((string)($client['area_name'] ?? '')),
+                (float)($client['outstanding_amount'] ?? 0),
             ]);
         }
 
         $conn->commit();
-        echo json_encode(['status' => 'success', 'message' => 'Route plan saved successfully', 'route_id' => $routeId]);
-
-    } catch (Exception $e) {
-        $conn->rollBack();
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        api_send_json(201, ['success' => true, 'message' => 'Route plan saved successfully', 'route_id' => $routeId]);
+    } catch (Throwable $exception) {
+        if ($conn->inTransaction()) {
+            $conn->rollBack();
+        }
+        throw $exception;
     }
 }
 
-function updateRoute($conn) {
-    $data = json_decode(file_get_contents("php://input"), true);
-    
-    if (empty($data['route_id']) || empty($data['salesman_id']) || empty($data['route_date']) || empty($data['clients'])) {
-        echo json_encode(['status' => 'error', 'message' => 'Missing required fields']);
-        return;
+function updateRoute(PDO $conn): void
+{
+    $data = api_get_json_input();
+    $missing = api_require_fields($data, ['route_id', 'salesman_id', 'route_date', 'clients']);
+    if (!empty($missing)) {
+        api_send_json(400, ['success' => false, 'message' => 'Missing required fields', 'fields' => $missing]);
     }
 
-    try {
-        $conn->beginTransaction();
+    $routeId = (int)$data['route_id'];
+    $salesmanId = (int)$data['salesman_id'];
+    $routeDate = trim((string)$data['route_date']);
+    $clients = is_array($data['clients']) ? $data['clients'] : [];
 
-        // Update Route Plan
+    if ($routeId <= 0 || $salesmanId <= 0 || empty($clients) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $routeDate)) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid route payload']);
+    }
+
+    $conn->beginTransaction();
+    try {
         $updatePlan = $conn->prepare("UPDATE route_plans SET salesman_id = ?, route_date = ? WHERE route_id = ?");
-        $updatePlan->execute([$data['salesman_id'], $data['route_date'], $data['route_id']]);
+        $updatePlan->execute([$salesmanId, $routeDate, $routeId]);
 
-        // Delete old clients
         $deleteClients = $conn->prepare("DELETE FROM route_clients WHERE route_id = ?");
-        $deleteClients->execute([$data['route_id']]);
+        $deleteClients->execute([$routeId]);
 
-        // Insert New Clients
         $insertClient = $conn->prepare("INSERT INTO route_clients (route_id, client_id, area_name, outstanding_amount) VALUES (?, ?, ?, ?)");
-        
-        foreach ($data['clients'] as $c) {
+        foreach ($clients as $client) {
             $insertClient->execute([
-                $data['route_id'],
-                $c['client_id'],
-                $c['area_name'] ?? '',
-                $c['outstanding_amount'] ?? 0
+                $routeId,
+                (int)($client['client_id'] ?? 0),
+                trim((string)($client['area_name'] ?? '')),
+                (float)($client['outstanding_amount'] ?? 0),
             ]);
         }
 
         $conn->commit();
-        echo json_encode(['status' => 'success', 'message' => 'Route plan updated successfully', 'route_id' => $data['route_id']]);
-
-    } catch (Exception $e) {
-        $conn->rollBack();
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    }
-}
-
-function getRoutes($conn) {
-    try {
-        $search = $_GET['search'] ?? '';
-
-        $sql = "SELECT r.route_id, r.salesman_id, u.name as salesman_name, u.mobile_number as salesman_phone, r.route_date, r.created_at,
-                (SELECT COUNT(*) FROM route_clients rc WHERE rc.route_id = r.route_id) as client_count,
-                (SELECT COUNT(*) FROM route_clients rc WHERE rc.route_id = r.route_id AND rc.visit_status = 'visited') as visited_count,
-                (SELECT COUNT(*) FROM route_clients rc WHERE rc.route_id = r.route_id AND rc.visit_status = 'skipped') as skipped_count,
-                r.whatsapp_status
-                FROM route_plans r
-                JOIN users u ON r.salesman_id = u.id
-                WHERE 1=1";
-        
-        $params = [];
-        if (!empty($search)) {
-            $sql .= " AND (u.name ILIKE ? OR CAST(r.route_date AS TEXT) ILIKE ?)";
-            $params[] = "%$search%";
-            $params[] = "%$search%";
+        api_send_json(200, ['success' => true, 'message' => 'Route plan updated successfully', 'route_id' => $routeId]);
+    } catch (Throwable $exception) {
+        if ($conn->inTransaction()) {
+            $conn->rollBack();
         }
-
-        $sql .= " ORDER BY r.route_date DESC, r.created_at DESC";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute($params);
-        $routes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode(['status' => 'success', 'data' => $routes]);
-
-    } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        throw $exception;
     }
 }
 
-function deleteRoute($conn) {
-    $data = json_decode(file_get_contents("php://input"), true);
-    if (empty($data['route_id'])) {
-        echo json_encode(['status' => 'error', 'message' => 'Missing route_id']);
+function getRoutes(PDO $conn): void
+{
+    $search = trim((string)($_GET['search'] ?? ''));
+    $sql = "SELECT r.route_id, r.salesman_id, u.name AS salesman_name, u.mobile_number AS salesman_phone, r.route_date, r.created_at,
+            (SELECT COUNT(*) FROM route_clients rc WHERE rc.route_id = r.route_id) AS client_count,
+            (SELECT COUNT(*) FROM route_clients rc WHERE rc.route_id = r.route_id AND rc.visit_status = 'visited') AS visited_count,
+            (SELECT COUNT(*) FROM route_clients rc WHERE rc.route_id = r.route_id AND rc.visit_status = 'skipped') AS skipped_count,
+            COALESCE(r.whatsapp_status, 'Pending') AS whatsapp_status
+            FROM route_plans r
+            JOIN users u ON r.salesman_id = u.id
+            WHERE 1=1";
+    $params = [];
+
+    if ($search !== '') {
+        $sql .= " AND (u.name ILIKE ? OR CAST(r.route_date AS TEXT) ILIKE ?)";
+        $searchParam = '%' . $search . '%';
+        $params[] = $searchParam;
+        $params[] = $searchParam;
+    }
+
+    $sql .= " ORDER BY r.route_date DESC, r.created_at DESC";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($params);
+
+    api_send_json(200, ['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+}
+
+function deleteRoute(PDO $conn): void
+{
+    $data = api_get_json_input();
+    $routeId = isset($data['route_id']) ? (int)$data['route_id'] : 0;
+    if ($routeId <= 0) {
+        api_send_json(400, ['success' => false, 'message' => 'Missing route_id']);
+    }
+
+    $stmt = $conn->prepare("DELETE FROM route_plans WHERE route_id = ?");
+    $stmt->execute([$routeId]);
+    api_send_json(200, ['success' => true, 'message' => 'Route deleted successfully']);
+}
+
+function getRouteDetails(PDO $conn): void
+{
+    $routeId = isset($_GET['route_id']) ? (int)$_GET['route_id'] : 0;
+    if ($routeId <= 0) {
+        api_send_json(400, ['success' => false, 'message' => 'Missing route_id']);
+    }
+
+    $planStmt = $conn->prepare(
+        "SELECT r.route_id, r.route_date, r.salesman_id, u.name AS salesman_name, u.mobile_number
+         FROM route_plans r
+         JOIN users u ON r.salesman_id = u.id
+         WHERE r.route_id = ?"
+    );
+    $planStmt->execute([$routeId]);
+    $plan = $planStmt->fetch(PDO::FETCH_ASSOC);
+    if (!$plan) {
+        api_send_json(404, ['success' => false, 'message' => 'Route not found']);
+    }
+
+    $clientStmt = $conn->prepare(
+        "SELECT rc.client_id, rc.area_name, c.name AS client_name, c.phone AS mobile_number, c.address, c.outstanding_balance AS outstanding_amount
+         FROM route_clients rc
+         JOIN clients c ON rc.client_id = c.id
+         WHERE rc.route_id = ?
+         ORDER BY rc.area_name ASC, c.name ASC"
+    );
+    $clientStmt->execute([$routeId]);
+    $clients = $clientStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    enrichClientsWithPendingBills($conn, $clients);
+    api_send_json(200, ['success' => true, 'data' => ['plan' => $plan, 'clients' => $clients]]);
+}
+
+function saveRoutePdf(PDO $conn): void
+{
+    $data = api_get_json_input();
+    $missing = api_require_fields($data, ['route_id', 'pdf_base64']);
+    if (!empty($missing)) {
+        api_send_json(400, ['success' => false, 'message' => 'Missing required fields', 'fields' => $missing]);
+    }
+
+    $routeId = (int)$data['route_id'];
+    $pdfBase64 = trim((string)$data['pdf_base64']);
+    $salesmanName = trim((string)($data['salesman_name'] ?? 'Salesman'));
+    $routeDate = trim((string)($data['route_date'] ?? date('Y-m-d')));
+
+    if ($routeId <= 0 || $pdfBase64 === '') {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid PDF payload']);
+    }
+
+    if (preg_match('/^data:application\/pdf;.*base64,/', $pdfBase64, $matches)) {
+        $pdfBase64 = substr($pdfBase64, strlen($matches[0]));
+    }
+    $pdfBase64 = str_replace(' ', '+', $pdfBase64);
+    $pdfDecoded = base64_decode($pdfBase64, true);
+    if ($pdfDecoded === false) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid PDF data']);
+    }
+
+    $uploadDir = dirname(__DIR__) . '/uploads/routes/';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0775, true);
+    }
+
+    $safeName = preg_replace('/[^A-Za-z0-9_-]/', '_', $salesmanName);
+    $safeDate = preg_replace('/[^0-9-]/', '', $routeDate);
+    $fileName = "RoutePlan_{$safeName}_{$safeDate}_{$routeId}.pdf";
+    $filePath = $uploadDir . $fileName;
+
+    if (file_put_contents($filePath, $pdfDecoded) === false) {
+        api_send_json(500, ['success' => false, 'message' => 'Failed to save PDF file']);
+    }
+
+    $dbPath = 'uploads/routes/' . $fileName;
+    ensureRoutePlannerColumns($conn);
+
+    $stmt = $conn->prepare("UPDATE route_plans SET pdf_path = ? WHERE route_id = ?");
+    $stmt->execute([$dbPath, $routeId]);
+
+    api_send_json(200, ['success' => true, 'message' => 'PDF saved successfully', 'pdf_url' => $dbPath]);
+}
+
+function sendWhatsapp(PDO $conn): void
+{
+    $data = api_get_json_input();
+    $routeId = isset($data['route_id']) ? (int)$data['route_id'] : 0;
+    if ($routeId <= 0) {
+        api_send_json(400, ['success' => false, 'message' => 'Missing route_id']);
+    }
+
+    $url = 'http://localhost:5000/send-route-whatsapp';
+    $payload = json_encode(['route_id' => $routeId], JSON_UNESCAPED_UNICODE);
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+
+    $response = curl_exec($ch);
+    $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
+    curl_close($ch);
+
+    if ($response === false || $httpCode === 0) {
+        api_send_json(502, ['success' => false, 'message' => 'WhatsApp automation service is unavailable', 'error' => $curlError]);
+    }
+
+    $responseData = json_decode((string)$response, true);
+    if ($httpCode === 200 && is_array($responseData) && !empty($responseData['success'])) {
+        ensureRoutePlannerColumns($conn);
+        $conn->prepare("UPDATE route_plans SET whatsapp_status = 'Sent' WHERE route_id = ?")->execute([$routeId]);
+        api_send_json(200, ['success' => true, 'message' => 'Route plan sent via WhatsApp successfully']);
+    }
+
+    $message = is_array($responseData) && !empty($responseData['message'])
+        ? (string)$responseData['message']
+        : 'Failed to send route on WhatsApp';
+    api_send_json(400, ['success' => false, 'message' => $message]);
+}
+
+function ensureRoutePlannerColumns(PDO $conn): void
+{
+    $conn->exec("ALTER TABLE route_plans ADD COLUMN IF NOT EXISTS pdf_path VARCHAR(255)");
+    $conn->exec("ALTER TABLE route_plans ADD COLUMN IF NOT EXISTS whatsapp_status VARCHAR(50) DEFAULT 'Pending'");
+}
+
+function enrichClientsWithPendingBills(PDO $conn, array &$clients): void
+{
+    if (empty($clients)) {
         return;
     }
-    
-    try {
-        $stmt = $conn->prepare("DELETE FROM route_plans WHERE route_id = ?");
-        $stmt->execute([$data['route_id']]);
-        echo json_encode(['status' => 'success', 'message' => 'Route deleted successfully']);
-    } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    }
-}
 
-function getRouteDetails($conn) {
-    try {
-        $routeId = $_GET['route_id'] ?? '';
-        if (empty($routeId)) {
-            echo json_encode(['status' => 'error', 'message' => 'Missing route_id']);
-            return;
-        }
-
-        // 1. Fetch Plan Details
-        $planSql = "SELECT r.route_id, r.route_date, r.salesman_id, u.name as salesman_name, u.mobile_number 
-                    FROM route_plans r 
-                    JOIN users u ON r.salesman_id = u.id 
-                    WHERE r.route_id = ?";
-        $planStmt = $conn->prepare($planSql);
-        $planStmt->execute([$routeId]);
-        $plan = $planStmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$plan) {
-            echo json_encode(['status' => 'error', 'message' => 'Route not found']);
-            return;
-        }
-
-        // 2. Fetch Clients & Pending Bills
-        $clientSql = "SELECT rc.client_id, rc.area_name, c.name as client_name, c.phone as mobile_number, c.address, c.outstanding_balance as outstanding_amount
-                      FROM route_clients rc
-                      JOIN clients c ON rc.client_id = c.id
-                      WHERE rc.route_id = ?
-                      ORDER BY rc.area_name ASC, c.name ASC";
-        $clientStmt = $conn->prepare($clientSql);
-        $clientStmt->execute([$routeId]);
-        $clients = $clientStmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $clientIds = array_column($clients, 'client_id');
-        $billsByClient = [];
-        
-        if (count($clientIds) > 0) {
-            $idPlaceholders = implode(',', array_fill(0, count($clientIds), '?'));
-            $billSql = "SELECT client_id, bill_number, bill_date, total_amount, paid_amount, (total_amount - COALESCE(paid_amount, 0)) as pending_amount 
-                        FROM bills 
-                        WHERE client_id IN ($idPlaceholders) AND (total_amount - COALESCE(paid_amount, 0)) > 0 AND LOWER(payment_method) = 'credit'";
-            $billStmt = $conn->prepare($billSql);
-            $billStmt->execute($clientIds);
-            
-            while ($row = $billStmt->fetch(PDO::FETCH_ASSOC)) {
-                $cId = $row['client_id'];
-                if (!isset($billsByClient[$cId])) {
-                    $billsByClient[$cId] = [];
-                }
-                $billsByClient[$cId][] = $row;
-            }
-        }
-
-        foreach ($clients as &$c) {
-            $cId = $c['client_id'];
-            $c['pending_bills_list'] = $billsByClient[$cId] ?? [];
-            $c['pending_bills_count'] = count($c['pending_bills_list']);
-        }
-
-        echo json_encode([
-            'status' => 'success',
-            'data' => [
-                'plan' => $plan,
-                'clients' => $clients
-            ]
-        ]);
-
-    } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    }
-}
-
-function saveRoutePdf($conn) {
-    $data = json_decode(file_get_contents("php://input"), true);
-    
-    if (empty($data['route_id']) || empty($data['pdf_base64'])) {
-        echo json_encode(['status' => 'error', 'message' => 'Missing parameters for saving PDF']);
+    $clientIds = array_values(array_filter(array_map(static fn ($row) => (int)($row['client_id'] ?? 0), $clients)));
+    if (empty($clientIds)) {
         return;
     }
 
-    $routeId = $data['route_id'];
-    $pdfBase64 = $data['pdf_base64'];
-    $salesmanName = $data['salesman_name'] ?? 'Salesman';
-    $routeDate = $data['route_date'] ?? date('Y-m-d');
+    $placeholders = implode(',', array_fill(0, count($clientIds), '?'));
+    $billStmt = $conn->prepare(
+        "SELECT client_id, bill_number, bill_date, total_amount, paid_amount, (total_amount - COALESCE(paid_amount, 0)) AS pending_amount
+         FROM bills
+         WHERE client_id IN ($placeholders)
+           AND (total_amount - COALESCE(paid_amount, 0)) > 0
+           AND LOWER(payment_method) = 'credit'"
+    );
+    $billStmt->execute($clientIds);
 
-    try {
-        $uploadDir = '../uploads/routes/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
+    $billsByClient = [];
+    while ($row = $billStmt->fetch(PDO::FETCH_ASSOC)) {
+        $clientId = (int)$row['client_id'];
+        if (!isset($billsByClient[$clientId])) {
+            $billsByClient[$clientId] = [];
         }
-
-        $pdfBase64 = str_replace('data:application/pdf;base64,', '', $pdfBase64);
-        $pdfBase64 = str_replace(' ', '+', $pdfBase64);
-        $pdfDecoded = base64_decode($pdfBase64);
-
-        $cleanName = preg_replace('/[^A-Za-z0-9\-]/', '_', $salesmanName);
-        $fileName = "RoutePlan_{$cleanName}_{$routeDate}_{$routeId}.pdf";
-        $filePath = $uploadDir . $fileName;
-
-        if (file_put_contents($filePath, $pdfDecoded)) {
-            $dbPath = "uploads/routes/" . $fileName;
-            
-            // Check if column pdf_path exists in route_plans, if not, create it
-            try {
-                $conn->exec("ALTER TABLE route_plans ADD COLUMN pdf_path VARCHAR(255)");
-                $conn->exec("ALTER TABLE route_plans ADD COLUMN whatsapp_status VARCHAR(50) DEFAULT 'Pending'");
-            } catch(PDOException $e) {}
-
-            $stmt = $conn->prepare("UPDATE route_plans SET pdf_path = :path WHERE route_id = :id");
-            $stmt->execute([':path' => $dbPath, ':id' => $routeId]);
-
-            echo json_encode(['status' => 'success', 'message' => 'PDF saved successfully', 'pdf_url' => $dbPath]);
-        } else {
-            throw new Exception("Failed to save PDF to disk.");
-        }
-    } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    }
-}
-
-function sendWhatsapp($conn) {
-    $data = json_decode(file_get_contents("php://input"), true);
-    if (empty($data['route_id'])) {
-        echo json_encode(['status' => 'error', 'message' => 'Missing route_id']);
-        return;
+        $billsByClient[$clientId][] = $row;
     }
 
-    $routeId = $data['route_id'];
-
-    try {
-        // We will call local automation service
-        $url = 'http://localhost:5000/send-route-whatsapp';
-        $payload = json_encode(['route_id' => $routeId]);
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        if ($httpCode === 200) {
-            $resData = json_decode($response, true);
-            if ($resData['success']) {
-                try {
-                    $conn->prepare("UPDATE route_plans SET whatsapp_status = 'Sent' WHERE route_id = ?")->execute([$routeId]);
-                } catch(PDOException $e){}
-                echo json_encode(['status' => 'success', 'message' => 'Route plan sent via WhatsApp successfully!']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => $resData['message'] ?? 'Failed to send WhatsApp via service']);
-            }
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'WhatsApp automation service is offline (Port 5000)']);
-        }
-    } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    foreach ($clients as &$client) {
+        $clientId = (int)($client['client_id'] ?? 0);
+        $client['pending_bills_list'] = $billsByClient[$clientId] ?? [];
+        $client['pending_bills_count'] = count($client['pending_bills_list']);
     }
 }
 ?>

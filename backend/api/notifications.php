@@ -1,20 +1,8 @@
 <?php
 require_once '../config/db.php';
+require_once __DIR__ . '/lib/api_bootstrap.php';
 
-// Enable error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST, GET, PUT, PATCH, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
+api_bootstrap(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -41,8 +29,7 @@ function getCurrentUser($conn) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user) return $user;
         
-        // Log if token provided but no user found
-        error_log("Notification System: Token provided but no user match in DB for token: " . substr($token, 0, 8) . "...");
+        api_log_error("Notification System token validation failed", ['token_prefix' => substr($token, 0, 8)]);
     }
     return null;
 }
@@ -95,8 +82,9 @@ function handleGet($conn, $currentUser) {
             $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode(["success" => true, "data" => $notifications]);
         } catch (PDOException $e) {
+            api_log_error('Notification list query failed', ['error' => $e->getMessage()]);
             http_response_code(500);
-            echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+            echo json_encode(["success" => false, "message" => "Unable to fetch notifications"]);
         }
     } elseif ($action === 'admin_list') {
         // List all notifications sent by admin (or all notifications if super admin)
@@ -120,8 +108,9 @@ function handleGet($conn, $currentUser) {
             $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode(["success" => true, "data" => $notifications]);
         } catch (PDOException $e) {
+            api_log_error('Notification admin list query failed', ['error' => $e->getMessage()]);
             http_response_code(500);
-            echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+            echo json_encode(["success" => false, "message" => "Unable to fetch notification summary"]);
         }
     } elseif ($action === 'recipient_history') {
         // Specific for tracking responses
@@ -160,8 +149,9 @@ function handleGet($conn, $currentUser) {
             $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode(["success" => true, "data" => $history]);
         } catch (PDOException $e) {
+            api_log_error('Notification recipient history query failed', ['error' => $e->getMessage()]);
             http_response_code(500);
-            echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+            echo json_encode(["success" => false, "message" => "Unable to fetch recipient history"]);
         }
     } elseif ($action === 'detail') {
         $id = $_GET['id'] ?? null;
@@ -195,8 +185,9 @@ function handleGet($conn, $currentUser) {
                 echo json_encode(["success" => false, "message" => "Notification not found"]);
             }
         } catch (PDOException $e) {
+            api_log_error('Notification detail query failed', ['error' => $e->getMessage()]);
             http_response_code(500);
-            echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+            echo json_encode(["success" => false, "message" => "Unable to fetch notification details"]);
         }
     }
 }
@@ -211,7 +202,7 @@ function handlePost($conn, $currentUser) {
     $role = trim(strtolower($currentUser['role'] ?? ''));
     if ($role !== 'admin') {
         http_response_code(403);
-        echo json_encode(["success" => false, "message" => "Only administrators can send notifications. Your current role is: " . $role]);
+        echo json_encode(["success" => false, "message" => "Only administrators can send notifications"]);
         return;
     }
 
@@ -244,7 +235,7 @@ function handlePost($conn, $currentUser) {
             $attachmentPath = 'backend/uploads/notifications/' . $fileName;
         } else {
              // Continue without attachment if upload fails, but log it
-             error_log("Failed to move uploaded file to " . $targetFilePath);
+             api_log_error("Notification attachment upload failed", ['target' => $targetFilePath]);
         }
     }
 
@@ -309,8 +300,9 @@ function handlePost($conn, $currentUser) {
         if ($conn->inTransaction()) {
             $conn->rollBack();
         }
+        api_log_error('Notification creation failed', ['error' => $e->getMessage()]);
         http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Server logic error: " . $e->getMessage()]);
+        echo json_encode(["success" => false, "message" => "Unable to create notification"]);
     }
 }
 
@@ -350,9 +342,9 @@ function handlePatch($conn, $currentUser) {
             echo json_encode(["success" => false, "message" => "Invalid action"]);
         }
     } catch (PDOException $e) {
-        error_log($e->getMessage(), 3, __DIR__ . "/error.log");
+        api_log_error('Notification patch operation failed', ['error' => $e->getMessage()]);
         http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+        echo json_encode(["success" => false, "message" => "Unable to update notification"]);
     }
 }
 
@@ -379,8 +371,9 @@ function handleDelete($conn, $currentUser) {
         $stmt->execute([$id]);
         echo json_encode(["success" => true, "message" => "Notification deleted"]);
     } catch (PDOException $e) {
+        api_log_error('Notification delete operation failed', ['error' => $e->getMessage()]);
         http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+        echo json_encode(["success" => false, "message" => "Unable to delete notification"]);
     }
 }
 ?>

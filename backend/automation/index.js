@@ -30,18 +30,34 @@ const client = new Client({
         dataPath: path.join(__dirname, '.wwebjs_auth')
     }),
     puppeteer: {
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        headless: true, // true or 'new' depending on version
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--disable-gpu'
+        ],
+        executablePath: process.env.CHROME_PATH || undefined // Allow custom path if needed
     }
 });
 
 client.on('qr', (qr) => {
-    console.log('QR RECEIVED', qr);
+    console.log('--- QR CODE RECEIVED ---');
+    console.log('Scan the QR code below to connect WhatsApp:');
     qrcode.generate(qr, { small: true });
+    console.log('------------------------');
 });
 
 client.on('ready', () => {
-    console.log('WhatsApp Client is ready!');
+    console.log('--- WHATSAPP READY ---');
+    console.log('WhatsApp Client is fully ready and authenticated!');
+});
+
+client.on('loading_screen', (percent, message) => {
+    console.log('WHATSAPP LOADING:', percent, '%', message);
 });
 
 client.on('message_ack', async (msg, ack) => {
@@ -252,6 +268,118 @@ async function generateOrderPDF(orderData, items, clientData) {
     fs.writeFileSync(filePath, Buffer.from(pdfOutput));
 
     return { fileName, filePath: `/uploads/invoices/${fileName}` };
+}
+
+// Transport PDF generation helper
+async function generateTransportPDF(transportData) {
+    const doc = new jsPDF();
+    const width = 210;
+    const marginLeft = 15;
+
+    // Header
+    doc.setFontSize(22);
+    doc.setTextColor(30, 41, 59);
+    doc.setFont(undefined, 'bold');
+    doc.text('HAB CREATION', marginLeft, 20);
+
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.setTextColor(100, 116, 139);
+    doc.text('123 Business Avenue, Tech District', marginLeft, 26);
+    doc.text(`Dispatch Date: ${new Date(transportData.dispatch_date).toLocaleDateString()}`, marginLeft, 31);
+
+    doc.setFontSize(20);
+    doc.setTextColor(15, 23, 42);
+    doc.text('TRANSPORT BUILTY', width - marginLeft, 20, { align: 'right' });
+    doc.setFontSize(12);
+    doc.text(`Builty #: ${transportData.builty_number}`, width - marginLeft, 28, { align: 'right' });
+
+    doc.setDrawColor(226, 232, 240);
+    doc.line(marginLeft, 40, width - marginLeft, 40);
+
+    // Transport Info Section
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'bold');
+    doc.text('TRANSPORT INFORMATION', marginLeft, 50);
+    
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Company: ${transportData.transport_name}`, marginLeft, 57);
+    doc.text(`Driver: ${transportData.driver_name}`, marginLeft, 63);
+    doc.text(`Vehicle #: ${transportData.vehicle_number}`, marginLeft, 69);
+    doc.text(`Mobile: ${transportData.driver_mobile}`, marginLeft, 75);
+    doc.text(`Type: ${transportData.transport_type}`, marginLeft, 81);
+
+    // Client Info Section
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'bold');
+    doc.text('CLIENT INFORMATION', 110, 50);
+    
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Name: ${transportData.client_name}`, 110, 57);
+    doc.text(`Address: ${transportData.client_address || 'N/A'}`, 110, 63, { maxWidth: 85 });
+    doc.text(`Contact: ${transportData.client_phone || 'N/A'}`, 110, 78);
+
+    doc.line(marginLeft, 90, width - marginLeft, 90);
+
+    // Shipment Details Section
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(79, 70, 229); // indigo
+    doc.text('SHIPMENT DETAILS', marginLeft, 100);
+
+    const tableData = [
+        ['Order ID', transportData.order_number || 'N/A'],
+        ['Dispatch Location', 'Warehouse Main'],
+        ['Destination City', transportData.destination_city],
+        ['Items Summary', transportData.items_summary || 'As per invoice']
+    ];
+
+    autoTable(doc, {
+        startY: 105,
+        body: tableData,
+        theme: 'grid',
+        styles: { fontSize: 10, cellPadding: 5 },
+        columnStyles: { 0: { fontStyle: 'bold', width: 60, fillColor: [248, 250, 252] } },
+        didParseCell: function(data) {
+            if (data.column.index === 0) {
+                data.cell.styles.textColor = [71, 85, 105];
+            }
+        }
+    });
+
+    // Add a simple design element at bottom
+    const currentY = doc.lastAutoTable.finalY + 10;
+    doc.setDrawColor(79, 70, 229);
+    doc.setLineWidth(1);
+    doc.line(marginLeft, currentY, width - marginLeft, currentY);
+
+    doc.setFontSize(9);
+    doc.setTextColor(30, 41, 59);
+    doc.setFont(undefined, 'bold');
+    doc.text('Terms & Conditions:', marginLeft, currentY + 10);
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(8);
+    doc.text('1. All shipments are subject to the carrier\'s terms.', marginLeft, currentY + 15);
+    doc.text('2. Please check goods for damage before accepting.', marginLeft, currentY + 19);
+
+    // Footer
+    doc.setFontSize(8);
+    doc.setTextColor(148, 163, 184);
+    doc.text('This is an electronically generated document. No signature required.', marginLeft, 285);
+
+    const fileName = `Builty_${transportData.builty_number}.pdf`;
+    const uploadsDir = path.join(__dirname, '..', 'uploads', 'transport_builty');
+    if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    const filePath = path.join(uploadsDir, fileName);
+
+    const pdfOutput = doc.output('arraybuffer');
+    fs.writeFileSync(filePath, Buffer.from(pdfOutput));
+
+    return { fileName, filePath: `/uploads/transport_builty/${fileName}` };
 }
 
 // Endpoint to generate PDF
@@ -506,6 +634,68 @@ app.post('/send-route-whatsapp', async (req, res) => {
     } catch (error) {
         console.error('Error sending Route WhatsApp:', error);
         res.status(500).json({ success: false, message: 'Failed to send WhatsApp message', error: error.message });
+    }
+});
+
+// Endpoint to send Transport Builty WhatsApp
+app.post('/send-transport-whatsapp', async (req, res) => {
+    const { builty_id } = req.body;
+
+    if (!builty_id) {
+        return res.status(400).json({ success: false, message: 'Builty ID is required' });
+    }
+
+    try {
+        // Fetch All info
+        const query = `
+            SELECT tb.id as builty_id, tb.builty_number, tb.builty_document_path,
+                   t.transport_name, t.driver_name, t.driver_mobile, t.vehicle_number, 
+                   t.transport_type, t.dispatch_date, t.destination_city,
+                   c.name as client_name, c.phone as client_phone, c.address as client_address,
+                   o.order_number,
+                   (SELECT string_agg(product_name || ' (x' || quantity || ')', ', ') FROM order_items WHERE order_id = tb.order_id) as items_summary
+            FROM transport_builty tb
+            JOIN transports t ON tb.transport_id = t.id
+            JOIN clients c ON tb.client_id = c.id
+            LEFT JOIN orders o ON tb.order_id = o.id
+            WHERE tb.id = $1
+        `;
+        const result = await pool.query(query, [builty_id]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Transport record not found' });
+        }
+        const data = result.rows[0];
+
+        // Generate PDF
+        const { fileName, filePath } = await generateTransportPDF(data);
+
+        // Update DB with path
+        await pool.query('UPDATE transport_builty SET builty_document_path = $1 WHERE id = $2', [filePath, builty_id]);
+
+        if (!data.client_phone) {
+            return res.status(200).json({ success: true, message: 'PDF generated but client phone missing. WhatsApp skipped.' });
+        }
+
+        // WhatsApp Setup
+        let mobile = data.client_phone.replace(/\D/g, '');
+        if (mobile.length === 10) mobile = '91' + mobile;
+        const chatId = `${mobile}@c.us`;
+
+        const fullPdfPath = path.join(__dirname, '..', filePath);
+        const media = MessageMedia.fromFilePath(fullPdfPath);
+
+        const message = `🚀 *Shipment Dispatched!* 🚀\n\nDear *${data.client_name}*,\n\nWe are pleased to inform you that your shipment has been successfully dispatched from our warehouse.\n\n📍 *Transport Details:*\n- *Transport:* ${data.transport_name}\n- *Vehicle:* ${data.vehicle_number}\n- *Driver:* ${data.driver_name}\n- *Contact:* ${data.driver_mobile}\n- *Destination:* ${data.destination_city}\n\n📦 *Order Info:*\n- *Order #:* ${data.order_number || 'N/A'}\n- *Items:* ${data.items_summary || 'Standard Shipment'}\n\nPlease find the attached *Transport Builty (${data.builty_number})* document for your reference.\n\nThank you for choosing *HAB CREATION*! 🙏`;
+
+        await client.sendMessage(chatId, message);
+        const sentMsg = await client.sendMessage(chatId, media, { caption: `Transport Builty - ${data.builty_number}` });
+
+        // Update DB status
+        await pool.query('UPDATE transport_builty SET whatsapp_status = $1, whatsapp_msg_id = $2 WHERE id = $3', ['Sent', sentMsg.id.id, builty_id]);
+
+        res.json({ success: true, message: 'Transport Builty PDF generated and sent via WhatsApp' });
+    } catch (error) {
+        console.error('Error sending Transport WhatsApp:', error);
+        res.status(500).json({ success: false, message: 'Failed to process transport builty', error: error.message });
     }
 });
 

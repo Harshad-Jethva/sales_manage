@@ -1,3 +1,2 @@
-2026/03/09-08:25:21.216 69cc Reusing MANIFEST E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Service Worker\Database/MANIFEST-000001
-2026/03/09-08:25:21.234 69cc Recovering log #3
-2026/03/09-08:25:21.234 69cc Reusing old log E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Service Worker\Database/000003.log 
+2026/03/12-10:22:04.737 55c4 Creating DB E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Service Worker\Database since it was missing.
+2026/03/12-10:22:04.743 55c4 Reusing MANIFEST E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Service Worker\Database/MANIFEST-000001

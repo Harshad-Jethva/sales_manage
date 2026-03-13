@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /warehouse/
+Disallow: /salesman/
+Disallow: /delivery/
+Disallow: /pos/
+
+Sitemap: https://habcreation.com/sitemap.xml

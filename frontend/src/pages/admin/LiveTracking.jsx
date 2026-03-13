@@ -572,7 +572,7 @@ const LiveTracking = () => {
                 </div>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 /* Hide native datepicker icon */
                 .custom-date-input::-webkit-calendar-picker-indicator {
                     background: transparent;

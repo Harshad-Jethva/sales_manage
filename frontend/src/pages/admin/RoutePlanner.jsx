@@ -71,7 +71,7 @@ const RoutePlanner = () => {
     const fetchAreas = async () => {
         try {
             const { data } = await axios.get('http://localhost/sales_manage/backend/api/route_planner.php?action=get_areas');
-            if (data.status === 'success') {
+            if (data.success) {
                 setAreas(data.data);
             }
         } catch (error) {
@@ -83,7 +83,7 @@ const RoutePlanner = () => {
         setLoading(true);
         try {
             const { data } = await axios.get(`http://localhost/sales_manage/backend/api/route_planner.php?action=get_route_details&route_id=${routeId}`);
-            if (data.status === 'success') {
+            if (data.success) {
                 const { plan, clients } = data.data;
                 setSelectedSalesman(plan.salesman_id.toString());
                 setRouteDate(plan.route_date);
@@ -101,7 +101,7 @@ const RoutePlanner = () => {
         setLoading(true);
         try {
             const { data } = await axios.get(`http://localhost/sales_manage/backend/api/route_planner.php?action=get_clients&areas=${encodeURIComponent(selectedArea)}`);
-            if (data.status === 'success') {
+            if (data.success) {
                 setClients(data.data);
             }
         } catch (error) {
@@ -162,70 +162,166 @@ const RoutePlanner = () => {
 
         const doc = new jsPDF();
         const pageWidth = doc.internal.pageSize.width;
+        const pageHeight = doc.internal.pageSize.height;
 
-        doc.setFontSize(20);
-        doc.setTextColor(30, 41, 59);
+        // --- 1. PREMIUM HEADER ---
+        // Header Background
+        doc.setFillColor(79, 70, 229); // Indigo-600
+        doc.rect(0, 0, pageWidth, 45, 'F');
+
+        // Header Text
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(24);
         doc.setFont(undefined, 'bold');
-        doc.text('ROUTE PLAN', pageWidth / 2, 20, { align: 'center' });
+        doc.text('ROUTE PLAN', pageWidth / 2, 22, { align: 'center' });
 
-        doc.setFontSize(11);
+        doc.setFontSize(10);
         doc.setFont(undefined, 'normal');
-        doc.text(`Salesman: ${selectedSalesmanObj.name}`, 14, 35);
-        doc.text(`Contact: ${selectedSalesmanObj.mobile_number || 'N/A'}`, 14, 42);
-        doc.text(`Route Date: ${new Date(routeDate).toLocaleDateString()}`, 14, 49);
-        doc.text(`Total Clients: ${clientsToInclude.length}`, pageWidth - 14, 35, { align: 'right' });
+        doc.text('ERP SYSTEM AUTO-GENERATED DISPATCH REPORT', pageWidth / 2, 30, { align: 'center' });
 
+        // --- 2. CONFIGURATION BOX ---
+        // Top Card Shadow/Outline Effect
+        doc.setDrawColor(241, 245, 249);
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(12, 38, pageWidth - 24, 30, 3, 3, 'FD');
+
+        doc.setTextColor(30, 41, 59); // Slate-800
+        doc.setFontSize(9);
+        doc.setFont(undefined, 'bold');
+        doc.text('SALESMAN DETAILS', 18, 47);
+        doc.text('ROUTE OVERVIEW', pageWidth / 2 + 5, 47);
+
+        doc.setDrawColor(226, 232, 240); // Slate-200
+        doc.line(18, 49, pageWidth / 2 - 10, 49);
+        doc.line(pageWidth / 2 + 5, 49, pageWidth - 18, 49);
+
+        doc.setFont(undefined, 'normal');
+        doc.setFontSize(10);
+        doc.text(`Name: ${selectedSalesmanObj.name}`, 18, 55);
+        doc.text(`Phone: ${selectedSalesmanObj.mobile_number || 'N/A'}`, 18, 61);
+
+        doc.text(`Target Date: ${new Date(routeDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`, pageWidth / 2 + 5, 55);
+        doc.text(`Total Stops: ${clientsToInclude.length} Clients`, pageWidth / 2 + 5, 61);
+
+        // --- 3. DATA PREPARATION ---
         const tableData = [];
+        let grandTotalOutstanding = 0;
+
         clientsToInclude.forEach((c, index) => {
-            const outstanding = parseFloat(c.outstanding_amount || 0).toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
+            const outstandingNum = parseFloat(c.outstanding_amount || 0);
+            grandTotalOutstanding += outstandingNum;
+
+            const outstandingStr = outstandingNum.toLocaleString('en-IN', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            // Primary Row
             tableData.push([
-                index + 1,
-                c.client_id,
-                `${c.client_name}\nArea: ${c.area_name}\nContact: ${c.mobile_number || 'N/A'}\nAddress: ${c.address ? c.address.substring(0, 80) + (c.address.length > 80 ? '...' : '') : 'N/A'}`,
-                outstanding,
-                c.pending_bills_count > 0 ? `${c.pending_bills_count} Bills\nPending` : 'No Bills'
+                { content: (index + 1).toString(), styles: { halign: 'center', fontStyle: 'bold' } },
+                { content: `ID: ${c.client_id}` },
+                {
+                    content: `${c.client_name}\nZone: ${c.area_name}\nAddr: ${c.address ? c.address.substring(0, 70) + (c.address.length > 70 ? '...' : '') : 'N/A'}`,
+                    styles: { cellPadding: { top: 4, bottom: 4, left: 4, right: 4 } }
+                },
+                { content: `Rs. ${outstandingStr}`, styles: { halign: 'right', fontStyle: 'bold', textColor: [225, 29, 72] } },
+                { content: c.pending_bills_count > 0 ? `${c.pending_bills_count} Active Bills` : 'Clear History', styles: { halign: 'center' } }
             ]);
 
+            // Nested Bill Details (if any)
             if (c.pending_bills_count > 0) {
-                let billHeader = "   DATE         |   BILL NO.      |   PENDING AMOUNT";
-                let billRows = c.pending_bills_list.map(b => {
-                    const bDate = new Date(b.bill_date).toLocaleDateString();
-                    const bNum = b.bill_number.padEnd(15);
-                    const bAmt = "Rs." + parseFloat(b.pending_amount).toLocaleString('en-IN');
-                    return `${bDate.padEnd(15)} | ${bNum} | ${bAmt}`;
-                }).join('\n');
+                const billHeader = ["BILL DATE", "BILL NUMBER", "PENDING AMOUNT"];
+                const billRows = c.pending_bills_list.map(b => [
+                    new Date(b.bill_date).toLocaleDateString('en-GB'),
+                    b.bill_number,
+                    `Rs.  ${parseFloat(b.pending_amount).toLocaleString('en-IN')}`
+                ]);
+
+                // Create a formatted string representation for the nested row
+                let nestedContent = "PENDING BILL BREAKDOWN:\n";
+                nestedContent += "------------------------------------------------------------------------------------------\n";
+                nestedContent += "DATE        | BILL NO         | AMOUNT\n";
+                nestedContent += "------------------------------------------------------------------------------------------\n";
+
+                c.pending_bills_list.forEach(b => {
+                    const date = new Date(b.bill_date).toLocaleDateString('en-GB').padEnd(12);
+                    const bnum = b.bill_number.padEnd(16);
+                    const bamt = "Rs." + parseFloat(b.pending_amount).toLocaleString('en-IN');
+                    nestedContent += `${date} | ${bnum} | ${bamt}\n`;
+                });
 
                 tableData.push([{
-                    content: `BILL DETAILS:\n${billHeader}\n------------------------------------------------------------\n${billRows}`,
+                    content: nestedContent,
                     colSpan: 5,
-                    styles: { fillColor: [240, 244, 250], textColor: [47, 55, 71], fontSize: 8, fontStyle: 'bold', font: 'courier' }
+                    styles: {
+                        fillColor: [248, 250, 252],
+                        textColor: [71, 85, 105],
+                        fontSize: 8,
+                        font: 'courier',
+                        cellPadding: 4,
+                        lineColor: [226, 232, 240],
+                        lineWidth: 0.1
+                    }
                 }]);
             }
         });
 
+        // --- 4. RENDER TABLE ---
         autoTable(doc, {
-            startY: 55,
-            head: [['Sr.', 'ID', 'Client Details (Name, Area, Contact, Address)', 'Total Outstanding', 'Status']],
+            startY: 75,
+            head: [['SR.NO', 'CODE', 'CLIENT & ZONE INFORMATION', 'OUTSTANDING', 'STATUS']],
             body: tableData,
             theme: 'grid',
-            headStyles: { fillColor: [79, 70, 229], fontSize: 10, halign: 'center' },
-            styles: { fontSize: 9, cellPadding: 4, valign: 'middle' },
-            columnStyles: {
-                0: { halign: 'center', cellWidth: 10 },
-                1: { halign: 'center', cellWidth: 15 },
-                2: { cellWidth: 90 },
-                3: { halign: 'right', cellWidth: 40, fontStyle: 'bold', textColor: [225, 29, 72] },
-                4: { halign: 'center', cellWidth: 35 }
+            headStyles: {
+                fillColor: [30, 41, 59], // Slate-800
+                textColor: [255, 255, 255],
+                fontSize: 9,
+                fontStyle: 'bold',
+                halign: 'center',
+                cellPadding: 4
             },
-            alternateRowStyles: { fillColor: [250, 250, 252] }
+            styles: {
+                fontSize: 9,
+                valign: 'middle',
+                lineColor: [226, 232, 240],
+                lineWidth: 0.1
+            },
+            columnStyles: {
+                0: { cellWidth: 20 },
+                1: { cellWidth: 20, halign: 'center' },
+                2: { cellWidth: 75 },
+                3: { cellWidth: 40 },
+                4: { cellWidth: 35 }
+            },
+            alternateRowStyles: { fillColor: [252, 252, 253] },
+            margin: { left: 12, right: 12 },
+            didDrawPage: (data) => {
+                // Footer per page
+                doc.setFontSize(8);
+                doc.setTextColor(148, 163, 184); // Slate-400
+                doc.text(`Page ${data.pageNumber}`, pageWidth - 20, pageHeight - 10);
+                doc.text('© HAB CREATION - SALES MANAGEMENT ERP', 12, pageHeight - 10);
+            }
         });
 
-        const docHeight = doc.internal.pageSize.height;
-        doc.setFontSize(8);
-        doc.setTextColor(150);
-        doc.text(`Generated on ${new Date().toLocaleString()}`, 14, docHeight - 10);
-        doc.text(`** Salesman Route Planner Report **`, pageWidth / 2, docHeight - 10, { align: 'center' });
+        // --- 5. SUMMARY SECTION ---
+        const finalY = doc.lastAutoTable.finalY + 10;
+        if (finalY < pageHeight - 40) {
+            doc.setFillColor(248, 250, 252);
+            doc.setDrawColor(226, 232, 240);
+            doc.roundedRect(pageWidth - 92, finalY, 80, 25, 2, 2, 'FD');
 
+            doc.setTextColor(71, 85, 105);
+            doc.setFontSize(9);
+            doc.setFont(undefined, 'bold');
+            doc.text('TOTAL COLLECTION TARGET', pageWidth - 86, finalY + 8);
+
+            doc.setTextColor(225, 29, 72); // Rose-600
+            doc.setFontSize(14);
+            doc.text(`Rs. ${grandTotalOutstanding.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`, pageWidth - 86, finalY + 18);
+        }
+
+        // --- 6. OUTPUT ---
         const cleanName = selectedSalesmanObj.name.replace(/[^A-Za-z0-9]/g, '_');
         const fileName = `RoutePlan_${cleanName}_${routeDate}.pdf`;
 
@@ -258,7 +354,7 @@ const RoutePlanner = () => {
             const res = await axios.post(`http://localhost/sales_manage/backend/api/route_planner.php?action=${action}`, payload);
             const data = res.data;
 
-            if (data.status === 'success') {
+            if (data.success) {
                 const routeId = editingRouteId || data.route_id;
                 toast.success(editingRouteId ? 'Route plan updated!' : 'Route plan saved!');
 
@@ -271,9 +367,9 @@ const RoutePlanner = () => {
                     };
                     try {
                         const pdfRes = await axios.post('http://localhost/sales_manage/backend/api/route_planner.php?action=save_route_pdf', pdfPayload);
-                        if (pdfRes.data.status === 'success') {
+                        if (pdfRes.data.success) {
                             const waRes = await axios.post('http://localhost/sales_manage/backend/api/route_planner.php?action=send_whatsapp', { route_id: routeId });
-                            if (waRes.data.status === 'success') {
+                            if (waRes.data.success) {
                                 toast.success('Route Plan sent via WhatsApp!');
                             }
                         }

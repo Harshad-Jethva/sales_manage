@@ -3,16 +3,18 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import SEO from '../components/common/SEO';
-import LoginBackground from '../components/LoginBackground';
+import LoginAnimation from '../components/LoginAnimation';
 import gsap from 'gsap';
 import './Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { login, user } = useAuth();
+    const { login, user, token } = useAuth();
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [animationStatus, setAnimationStatus] = useState('idle'); // 'idle', 'success', 'failure'
+    const [pendingLoginData, setPendingLoginData] = useState(null);
 
     const formRef = useRef(null);
     const logoRef = useRef(null);
@@ -21,15 +23,10 @@ const Login = () => {
     const inputRefs = useRef([]);
 
     useEffect(() => {
-        if (user) {
-            if (user.role === 'cashier') navigate('/pos', { replace: true });
-            else if (user.role === 'salesman') navigate('/salesman/dashboard', { replace: true });
-            else if (user.role === 'warehouse') navigate('/warehouse/dashboard', { replace: true });
-            else if (user.role === 'admin') navigate('/admin/dashboard', { replace: true });
-            else if (['client_panel', 'vendor_user', 'salesman_user'].includes(user.role)) navigate('/', { replace: true });
-            else navigate('/', { replace: true });
+        if (user && animationStatus !== 'success') {
+            handleRedirect(user);
         }
-    }, [user, navigate]);
+    }, [user]);
 
     useEffect(() => {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
@@ -42,33 +39,44 @@ const Login = () => {
             .fromTo('.signup-text', { opacity: 0 }, { opacity: 1 }, "-=0.4");
     }, []);
 
+    const handleRedirect = (userData) => {
+        if (userData.role === 'cashier') navigate('/pos', { replace: true });
+        else if (userData.role === 'salesman') navigate('/salesman/dashboard', { replace: true });
+        else if (userData.role === 'warehouse') navigate('/warehouse/dashboard', { replace: true });
+        else if (userData.role === 'admin') navigate('/admin/dashboard', { replace: true });
+        else if (userData.role === 'delivery') navigate('/delivery/dashboard', { replace: true });
+        else if (['client_panel', 'vendor_user', 'salesman_user'].includes(userData.role)) navigate('/', { replace: true });
+        else navigate('/', { replace: true });
+    };
+
+    const onAnimationComplete = () => {
+        if (animationStatus === 'success' && pendingLoginData) {
+            login(pendingLoginData.user, pendingLoginData.token);
+            handleRedirect(pendingLoginData.user);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
+        setAnimationStatus('idle');
 
         try {
             const res = await axios.post('http://localhost/sales_manage/backend/api/login.php', formData);
             if (res.data.success) {
-                login(res.data.user, res.data.token);
-                if (res.data.user.role === 'cashier') {
-                    navigate('/pos');
-                } else if (res.data.user.role === 'salesman') {
-                    navigate('/salesman/dashboard');
-                } else if (res.data.user.role === 'warehouse') {
-                    navigate('/warehouse/dashboard');
-                } else if (res.data.user.role === 'admin') {
-                    navigate('/admin/dashboard');
-                } else if (['client_panel', 'vendor_user', 'salesman_user'].includes(res.data.user.role)) {
-                    navigate('/');
-                } else {
-                    navigate('/');
-                }
+                setPendingLoginData({ user: res.data.user, token: res.data.token });
+                setAnimationStatus('success');
+                // No immediate redirect, wait for animation
             } else {
                 setError(res.data.message || 'Login failed.');
+                setAnimationStatus('failure');
+                setTimeout(() => setAnimationStatus('idle'), 3000);
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+            setAnimationStatus('failure');
+            setTimeout(() => setAnimationStatus('idle'), 3000);
         } finally {
             setLoading(false);
         }
@@ -116,7 +124,7 @@ const Login = () => {
                     </div>
 
                     <button type="submit" className="login-btn" disabled={loading}>
-                        {loading ? 'LOGGING IN...' : 'LOGIN'}
+                        {loading ? 'CHECKING...' : 'LOGIN'}
                     </button>
                 </form>
 
@@ -124,19 +132,18 @@ const Login = () => {
                     Dont have an account? <Link to="#" className="signup-link">Sign up</Link>
                 </p>
 
-                {/* Vertical Wavy Divider */}
-                {/* Vertical Wavy Divider */}
                 <svg className="wavy-divider" viewBox="0 0 100 1000" preserveAspectRatio="none">
                     <path d="M0 0 L 0 1000 L 20 1000 Q 80 750 20 500 T 20 0 Z" />
                 </svg>
             </div>
 
             <div className="login-animation-side">
-                <LoginBackground />
+                <LoginAnimation status={animationStatus} onAnimationComplete={onAnimationComplete} />
             </div>
         </div>
     );
 };
+
 
 export default Login;
 

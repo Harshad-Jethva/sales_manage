@@ -264,10 +264,10 @@ const POS = () => {
             </div>
 
             {/* 2. Info Panels (Customer, Shipping, Meta) */}
-            <div className="h-auto min-h-[12rem] shrink-0 grid grid-cols-12 gap-1 p-1 bg-gray-900 border-b border-gray-700 pos-anim-el">
+            <div className="h-auto shrink-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-1 p-1 bg-gray-900 border-b border-gray-700 pos-anim-el overflow-y-auto max-h-[40vh] md:max-h-none">
 
                 {/* Customer - Left / Center Left */}
-                <div className="col-span-4 h-full">
+                <div className="col-span-1 md:col-span-1 lg:col-span-4 h-full">
                     <CustomerDetailsPanel
                         client={selectedClient}
                         onClientSelect={(c) => {
@@ -279,12 +279,12 @@ const POS = () => {
                 </div>
 
                 {/* Shipping - Center */}
-                <div className="col-span-4 h-full">
+                <div className="col-span-1 md:col-span-1 lg:col-span-4 h-full">
                     <ShippingDetailsPanel shipping={shippingDetails} onChange={setShippingDetails} />
                 </div>
 
                 {/* Bill Meta - Right */}
-                <div className="col-span-4 h-full bg-gray-800/60 border border-gray-700/50 rounded-lg p-3">
+                <div className="col-span-1 md:col-span-2 lg:col-span-4 h-full bg-gray-800/60 border border-gray-700/50 rounded-lg p-3">
                     <div className="text-right space-y-2">
                         <div className="flex justify-between items-center bg-gray-900 p-2 rounded border border-gray-700">
                             <span className="text-xs text-gray-400 uppercase font-bold">Session</span>
@@ -303,9 +303,9 @@ const POS = () => {
             </div>
 
             {/* 3. Transaction Grid (Main) */}
-            <div className="flex-1 flex overflow-hidden p-2 gap-2 pos-anim-el">
+            <div className="flex-1 flex flex-col lg:flex-row overflow-hidden p-2 gap-2 pos-anim-el">
                 {/* Table takes 9 columns */}
-                <div className="flex-1 h-full flex flex-col">
+                <div className="flex-1 h-full flex flex-col min-h-[300px]">
                     <TransactionTable
                         cart={cart}
                         onUpdateQty={updateQty}
@@ -316,7 +316,7 @@ const POS = () => {
                 </div>
 
                 {/* Totals Sidebar takes 3 columns (fixed width) */}
-                <div className="w-64 h-full">
+                <div className="w-full lg:w-64 h-auto lg:h-full">
                     <FooterTotals
                         totals={totals}
                         lastTendered={lastTendered}

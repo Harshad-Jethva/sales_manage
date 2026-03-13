@@ -1,51 +1,34 @@
 <?php
-require_once '../config/db.php';
+declare(strict_types=1);
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/lib/api_bootstrap.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
+api_bootstrap(['GET', 'POST']);
 
-$rawInput = file_get_contents("php://input");
-$data = json_decode($rawInput);
-
+$input = $_SERVER['REQUEST_METHOD'] === 'POST' ? api_get_json_input() : [];
 $token = null;
-if (!empty($data->token)) {
-    $token = $data->token;
-} else if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-    $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
-    if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-        $token = $matches[1];
-    }
+
+if (!empty($input['token']) && is_string($input['token'])) {
+    $token = trim($input['token']);
 }
 
-if ($token) {
-    try {
-        $stmt = $conn->prepare("SELECT id, name, username, role FROM users WHERE session_token = ? LIMIT 1");
-        $stmt->execute([$token]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$token) {
+    $token = api_get_bearer_token();
+}
 
-        if ($user) {
-            echo json_encode([
-                "success" => true,
-                "message" => "Token is valid",
-                "user" => $user
-            ]);
-        } else {
-            http_response_code(401);
-            echo json_encode(["success" => false, "message" => "Invalid token"]);
-        }
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+if (!$token) {
+    api_send_json(400, ['success' => false, 'message' => 'Token not provided']);
+}
+
+try {
+    $user = api_get_authenticated_user($conn, $token);
+    if (!$user) {
+        api_send_json(401, ['success' => false, 'message' => 'Invalid token']);
     }
-} else {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Token not provided"]);
+
+    api_send_json(200, ['success' => true, 'message' => 'Token is valid', 'user' => $user]);
+} catch (Throwable $exception) {
+    api_handle_exception($exception, 'Unable to verify authentication');
 }
 ?>

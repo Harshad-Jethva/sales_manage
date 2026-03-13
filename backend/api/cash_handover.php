@@ -1,126 +1,118 @@
 <?php
-require_once '../config/db.php';
+declare(strict_types=1);
 
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/lib/api_bootstrap.php';
 
-// Helper to get authenticated user
-function getAuthenticatedUser($conn) {
-    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-        $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
-        if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-            $token = $matches[1];
-            $stmt = $conn->prepare("SELECT id, name, username, role FROM users WHERE session_token = ? LIMIT 1");
-            $stmt->execute([$token]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        }
-    }
-    return null;
-}
+api_bootstrap(['GET', 'POST']);
 
-$user = getAuthenticatedUser($conn);
-if (!$user) {
-    http_response_code(401);
-    echo json_encode(["success" => false, "message" => "Unauthorized"]);
-    exit;
-}
-
+$currentUser = api_require_auth($conn, ['admin', 'cashier', 'salesman', 'warehouse', 'accountant', 'delivery']);
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($method === 'POST') {
-    $rawInput = file_get_contents("php://input");
-    $data = json_decode($rawInput, true);
-    
-    if (!$data) {
-        echo json_encode(["success" => false, "message" => "Invalid input data"]);
-        exit;
+try {
+    if ($method === 'POST') {
+        handleCreate($conn, $currentUser);
     }
 
-    try {
-        $stmt = $conn->prepare("INSERT INTO cash_handovers 
-            (user_id, counter_name, handover_date, total_cash, opening_balance, petty_cash, expected_balance, difference, denomination_data, payment_data, notes)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        
-        $stmt->execute([
-            $user['id'],
-            $data['counter_name'],
-            $data['handover_date'] ?? date('Y-m-d'),
-            $data['total_cash'] ?? 0,
-            $data['opening_balance'] ?? 0,
-            $data['petty_cash'] ?? 0,
-            $data['expected_balance'] ?? 0,
-            $data['difference'] ?? 0,
-            json_encode($data['denomination_data'] ?? []),
-            json_encode($data['payment_data'] ?? []),
-            $data['notes'] ?? ''
-        ]);
+    handleRead($conn);
+} catch (Throwable $exception) {
+    api_handle_exception($exception, 'Unable to process cash handover');
+}
 
-        echo json_encode(["success" => true, "message" => "Cash handover recorded successfully"]);
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+function handleCreate(PDO $conn, array $currentUser): void
+{
+    $data = api_get_json_input();
+    if (empty($data)) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid input data']);
     }
-} elseif ($method === 'GET') {
+
+    $counterName = trim((string)($data['counter_name'] ?? ''));
+    if ($counterName === '') {
+        api_send_json(400, ['success' => false, 'message' => 'Counter name is required']);
+    }
+
+    $handoverDate = trim((string)($data['handover_date'] ?? date('Y-m-d')));
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $handoverDate)) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid handover date']);
+    }
+
+    $stmt = $conn->prepare(
+        "INSERT INTO cash_handovers
+         (user_id, counter_name, handover_date, total_cash, opening_balance, petty_cash, expected_balance, difference, denomination_data, payment_data, notes)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    );
+
+    $stmt->execute([
+        (int)$currentUser['id'],
+        $counterName,
+        $handoverDate,
+        (float)($data['total_cash'] ?? 0),
+        (float)($data['opening_balance'] ?? 0),
+        (float)($data['petty_cash'] ?? 0),
+        (float)($data['expected_balance'] ?? 0),
+        (float)($data['difference'] ?? 0),
+        json_encode($data['denomination_data'] ?? [], JSON_UNESCAPED_UNICODE),
+        json_encode($data['payment_data'] ?? [], JSON_UNESCAPED_UNICODE),
+        trim((string)($data['notes'] ?? '')),
+    ]);
+
+    api_send_json(201, ['success' => true, 'message' => 'Cash handover recorded successfully']);
+}
+
+function handleRead(PDO $conn): void
+{
     $action = $_GET['action'] ?? 'history';
 
     if ($action === 'get_expected') {
         $date = $_GET['date'] ?? date('Y-m-d');
-        // Simple calculation: sum of paid_amount for 'Cash' bills on that date
-        try {
-            $stmt = $conn->prepare("SELECT SUM(paid_amount) as expected_cash FROM bills 
-                                   WHERE bill_date = ? AND payment_method ILIKE '%cash%'");
-            $stmt->execute([$date]);
-            $result = $stmt->fetch();
-            echo json_encode(["success" => true, "expected_cash" => floatval($result['expected_cash'] ?? 0)]);
-        } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            api_send_json(400, ['success' => false, 'message' => 'Invalid date']);
         }
-        exit;
+
+        $stmt = $conn->prepare(
+            "SELECT COALESCE(SUM(paid_amount), 0) AS expected_cash
+             FROM bills
+             WHERE bill_date = ? AND payment_method ILIKE '%cash%'"
+        );
+        $stmt->execute([$date]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        api_send_json(200, ['success' => true, 'expected_cash' => (float)($result['expected_cash'] ?? 0)]);
     }
 
-    // Default: Get History
-    try {
-        $query = "SELECT ch.*, u.name as user_display_name FROM cash_handovers ch JOIN users u ON ch.user_id = u.id WHERE 1=1";
-        $params = [];
-        
-        if (!empty($_GET['date_from'])) {
-            $query .= " AND ch.handover_date >= ?";
-            $params[] = $_GET['date_from'];
-        }
-        if (!empty($_GET['date_to'])) {
-            $query .= " AND ch.handover_date <= ?";
-            $params[] = $_GET['date_to'];
-        }
-        if (!empty($_GET['counter'])) {
-            $query .= " AND ch.counter_name = ?";
-            $params[] = $_GET['counter'];
-        }
-        if (!empty($_GET['user_id'])) {
-            $query .= " AND ch.user_id = ?";
-            $params[] = $_GET['user_id'];
-        }
-        
-        $query .= " ORDER BY ch.created_at DESC";
-        $stmt = $conn->prepare($query);
-        $stmt->execute($params);
-        $results = $stmt->fetchAll();
-        
-        // Decode JSON data for frontend convenience
-        foreach ($results as &$row) {
-            $row['denomination_data'] = json_decode($row['denomination_data'], true);
-            $row['payment_data'] = json_decode($row['payment_data'], true);
-        }
-        
-        echo json_encode(["success" => true, "data" => $results]);
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+    $query = "SELECT ch.*, u.name AS user_display_name
+              FROM cash_handovers ch
+              JOIN users u ON ch.user_id = u.id
+              WHERE 1=1";
+    $params = [];
+
+    if (!empty($_GET['date_from'])) {
+        $query .= " AND ch.handover_date >= ?";
+        $params[] = $_GET['date_from'];
     }
-} else {
-    http_response_code(405);
-    echo json_encode(["success" => false, "message" => "Method not allowed"]);
+    if (!empty($_GET['date_to'])) {
+        $query .= " AND ch.handover_date <= ?";
+        $params[] = $_GET['date_to'];
+    }
+    if (!empty($_GET['counter'])) {
+        $query .= " AND ch.counter_name = ?";
+        $params[] = $_GET['counter'];
+    }
+    if (!empty($_GET['user_id'])) {
+        $query .= " AND ch.user_id = ?";
+        $params[] = (int)$_GET['user_id'];
+    }
+
+    $query .= " ORDER BY ch.created_at DESC";
+    $stmt = $conn->prepare($query);
+    $stmt->execute($params);
+
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($rows as &$row) {
+        $row['denomination_data'] = json_decode((string)$row['denomination_data'], true) ?: [];
+        $row['payment_data'] = json_decode((string)$row['payment_data'], true) ?: [];
+    }
+
+    api_send_json(200, ['success' => true, 'data' => $rows]);
 }
 ?>

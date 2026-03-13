@@ -1,164 +1,259 @@
 <?php
-require_once '../config/db.php';
+declare(strict_types=1);
 
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/lib/api_bootstrap.php';
 
+api_bootstrap(['GET', 'POST', 'PUT', 'DELETE']);
+
+$allowedRoles = [
+    'admin',
+    'cashier',
+    'manager',
+    'accountant',
+    'salesman',
+    'warehouse',
+    'delivery',
+    'client_panel',
+    'vendor_user',
+    'salesman_user',
+    'custom_role',
+];
+
+$currentUser = api_require_auth($conn);
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
     case 'GET':
-        handleGet($conn);
+        handleGet($conn, $currentUser);
         break;
     case 'POST':
-        handlePost($conn);
+        requireAdmin($currentUser);
+        handlePost($conn, $allowedRoles);
         break;
     case 'PUT':
-        handlePut($conn);
+        requireAdmin($currentUser);
+        handlePut($conn, $allowedRoles);
         break;
     case 'DELETE':
-        handleDelete($conn);
-        break;
-    default:
-        http_response_code(405);
-        echo json_encode(["success" => false, "message" => "Method not allowed"]);
+        requireAdmin($currentUser);
+        handleDelete($conn, $currentUser);
         break;
 }
 
-function handleGet($conn) {
-    $role = isset($_GET['role']) ? $_GET['role'] : null;
-    $id = isset($_GET['id']) ? $_GET['id'] : null;
-    
-    try {
-        if ($id) {
-            $stmt = $conn->prepare("SELECT id, name, username, role, mobile_number, email, account_status, created_at, updated_at FROM users WHERE id = ?");
-            $stmt->execute([$id]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            echo json_encode(["success" => true, "data" => $user]);
-        } else if ($role) {
-            $stmt = $conn->prepare("SELECT id, name, username, role, mobile_number, email, account_status, created_at, updated_at FROM users WHERE role = ? ORDER BY created_at DESC");
-            $stmt->execute([$role]);
-            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode(["success" => true, "data" => $users]);
-        } else {
-            $stmt = $conn->prepare("SELECT id, name, username, role, mobile_number, email, account_status, created_at, updated_at FROM users ORDER BY created_at DESC");
-            $stmt->execute();
-            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode(["success" => true, "data" => $users]);
+function requireAdmin(array $currentUser): void
+{
+    if (($currentUser['role'] ?? '') !== 'admin') {
+        api_send_json(403, ['success' => false, 'message' => 'Only admin users can perform this action']);
+    }
+}
+
+function handleGet(PDO $conn, array $currentUser): void
+{
+    $roleFilter = isset($_GET['role']) ? trim((string)$_GET['role']) : null;
+    $idFilter = isset($_GET['id']) ? (int)$_GET['id'] : null;
+    $isAdmin = ($currentUser['role'] ?? '') === 'admin';
+
+    if ($idFilter) {
+        if (!$isAdmin && (int)$currentUser['id'] !== $idFilter) {
+            api_send_json(403, ['success' => false, 'message' => 'Forbidden']);
         }
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+
+        $stmt = $conn->prepare(
+            "SELECT id, name, username, role, mobile_number, email, account_status, created_at, updated_at
+             FROM users
+             WHERE id = ?"
+        );
+        $stmt->execute([$idFilter]);
+        api_send_json(200, ['success' => true, 'data' => $stmt->fetch(PDO::FETCH_ASSOC) ?: null]);
     }
+
+    if ($roleFilter !== null && $roleFilter !== '') {
+        $allowedReaderRoles = ['admin', 'warehouse'];
+        if (!$isAdmin && !in_array($currentUser['role'] ?? '', $allowedReaderRoles, true)) {
+            api_send_json(403, ['success' => false, 'message' => 'Forbidden']);
+        }
+
+        $stmt = $conn->prepare(
+            "SELECT id, name, username, role, mobile_number, email, account_status, created_at, updated_at
+             FROM users
+             WHERE role = ?
+             ORDER BY created_at DESC"
+        );
+        $stmt->execute([$roleFilter]);
+        api_send_json(200, ['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+    }
+
+    if (!$isAdmin) {
+        api_send_json(403, ['success' => false, 'message' => 'Forbidden']);
+    }
+
+    $stmt = $conn->query(
+        "SELECT id, name, username, role, mobile_number, email, account_status, created_at, updated_at
+         FROM users
+         ORDER BY created_at DESC"
+    );
+    api_send_json(200, ['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 }
 
-function handlePost($conn) {
-    $data = json_decode(file_get_contents("php://input"));
-    
-    if (empty($data->name) || empty($data->username) || empty($data->password) || empty($data->role)) {
-        http_response_code(400);
-        echo json_encode(["success" => false, "message" => "Missing required fields"]);
-        return;
+function handlePost(PDO $conn, array $allowedRoles): void
+{
+    $data = api_get_json_input();
+    $missing = api_require_fields($data, ['name', 'username', 'password', 'role']);
+
+    if (!empty($missing)) {
+        api_send_json(400, ['success' => false, 'message' => 'Missing required fields', 'fields' => $missing]);
     }
-    
+
+    $name = trim((string)$data['name']);
+    $username = trim((string)$data['username']);
+    $password = (string)$data['password'];
+    $role = trim((string)$data['role']);
+    $mobile = isset($data['mobile_number']) ? trim((string)$data['mobile_number']) : null;
+    $email = isset($data['email']) ? trim((string)$data['email']) : null;
+    $status = isset($data['account_status']) ? strtolower(trim((string)$data['account_status'])) : 'active';
+
+    if (!preg_match('/^[A-Za-z0-9_.-]{3,50}$/', $username)) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid username format']);
+    }
+
+    if (strlen($password) < 6) {
+        api_send_json(400, ['success' => false, 'message' => 'Password must be at least 6 characters']);
+    }
+
+    if (!in_array($role, $allowedRoles, true)) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid role']);
+    }
+
+    if (!in_array($status, ['active', 'inactive'], true)) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid account status']);
+    }
+
+    if ($email !== null && $email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        api_send_json(400, ['success' => false, 'message' => 'Invalid email format']);
+    }
+
     try {
-        // Check if username exists
         $check = $conn->prepare("SELECT id FROM users WHERE username = ?");
-        $check->execute([$data->username]);
+        $check->execute([$username]);
         if ($check->fetch()) {
-            http_response_code(400);
-            echo json_encode(["success" => false, "message" => "Username already exists"]);
-            return;
+            api_send_json(409, ['success' => false, 'message' => 'Username already exists']);
         }
-        
-        $hashedPassword = password_hash($data->password, PASSWORD_DEFAULT);
-        $status = isset($data->account_status) ? $data->account_status : 'active';
-        
-        $stmt = $conn->prepare("INSERT INTO users (name, username, password, role, mobile_number, email, account_status) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $conn->prepare(
+            "INSERT INTO users (name, username, password, role, mobile_number, email, account_status, updated_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
+        );
         $stmt->execute([
-            $data->name,
-            $data->username,
+            $name,
+            $username,
             $hashedPassword,
-            $data->role,
-            $data->mobile_number ?? null,
-            $data->email ?? null,
-            $status
+            $role,
+            $mobile ?: null,
+            $email ?: null,
+            $status,
         ]);
-        
-        echo json_encode(["success" => true, "message" => "User created successfully"]);
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+
+        api_send_json(201, ['success' => true, 'message' => 'User created successfully']);
+    } catch (Throwable $exception) {
+        api_handle_exception($exception, 'Unable to create user');
     }
 }
 
-function handlePut($conn) {
-    $data = json_decode(file_get_contents("php://input"));
-    
-    if (empty($data->id)) {
-        http_response_code(400);
-        echo json_encode(["success" => false, "message" => "Missing user ID"]);
-        return;
+function handlePut(PDO $conn, array $allowedRoles): void
+{
+    $data = api_get_json_input();
+    $id = isset($data['id']) ? (int)$data['id'] : 0;
+
+    if ($id <= 0) {
+        api_send_json(400, ['success' => false, 'message' => 'Missing or invalid user ID']);
     }
-    
+
+    $fields = [];
+    $params = [];
+
+    if (array_key_exists('name', $data)) {
+        $fields[] = "name = ?";
+        $params[] = trim((string)$data['name']);
+    }
+    if (array_key_exists('role', $data)) {
+        $role = trim((string)$data['role']);
+        if (!in_array($role, $allowedRoles, true)) {
+            api_send_json(400, ['success' => false, 'message' => 'Invalid role']);
+        }
+        $fields[] = "role = ?";
+        $params[] = $role;
+    }
+    if (array_key_exists('mobile_number', $data)) {
+        $fields[] = "mobile_number = ?";
+        $params[] = trim((string)$data['mobile_number']) ?: null;
+    }
+    if (array_key_exists('email', $data)) {
+        $email = trim((string)$data['email']);
+        if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            api_send_json(400, ['success' => false, 'message' => 'Invalid email format']);
+        }
+        $fields[] = "email = ?";
+        $params[] = $email ?: null;
+    }
+    if (array_key_exists('account_status', $data)) {
+        $status = strtolower(trim((string)$data['account_status']));
+        if (!in_array($status, ['active', 'inactive'], true)) {
+            api_send_json(400, ['success' => false, 'message' => 'Invalid account status']);
+        }
+        $fields[] = "account_status = ?";
+        $params[] = $status;
+    }
+    if (!empty($data['password'])) {
+        $password = (string)$data['password'];
+        if (strlen($password) < 6) {
+            api_send_json(400, ['success' => false, 'message' => 'Password must be at least 6 characters']);
+        }
+        $fields[] = "password = ?";
+        $params[] = password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    if (empty($fields)) {
+        api_send_json(200, ['success' => true, 'message' => 'No changes made']);
+    }
+
+    $fields[] = "updated_at = CURRENT_TIMESTAMP";
+    $params[] = $id;
+
     try {
-        $fields = [];
-        $params = [];
-        
-        if (isset($data->name)) { $fields[] = "name = ?"; $params[] = $data->name; }
-        if (isset($data->role)) { $fields[] = "role = ?"; $params[] = $data->role; }
-        if (isset($data->mobile_number)) { $fields[] = "mobile_number = ?"; $params[] = $data->mobile_number; }
-        if (isset($data->email)) { $fields[] = "email = ?"; $params[] = $data->email; }
-        if (isset($data->account_status)) { $fields[] = "account_status = ?"; $params[] = $data->account_status; }
-        
-        if (isset($data->password) && !empty($data->password)) {
-            $fields[] = "password = ?";
-            $params[] = password_hash($data->password, PASSWORD_DEFAULT);
-        }
-        
-        $fields[] = "updated_at = CURRENT_TIMESTAMP";
-        
-        if (empty($fields)) {
-            echo json_encode(["success" => true, "message" => "No changes made"]);
-            return;
-        }
-        
-        $params[] = $data->id;
         $sql = "UPDATE users SET " . implode(", ", $fields) . " WHERE id = ?";
-        
         $stmt = $conn->prepare($sql);
         $stmt->execute($params);
-        
-        echo json_encode(["success" => true, "message" => "User updated successfully"]);
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+
+        api_send_json(200, ['success' => true, 'message' => 'User updated successfully']);
+    } catch (Throwable $exception) {
+        api_handle_exception($exception, 'Unable to update user');
     }
 }
 
-function handleDelete($conn) {
-    $id = isset($_GET['id']) ? $_GET['id'] : null;
-    
-    if (!$id) {
-        $data = json_decode(file_get_contents("php://input"));
-        $id = $data->id ?? null;
+function handleDelete(PDO $conn, array $currentUser): void
+{
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    if ($id <= 0) {
+        $data = api_get_json_input();
+        $id = isset($data['id']) ? (int)$data['id'] : 0;
     }
-    
-    if (!$id) {
-        http_response_code(400);
-        echo json_encode(["success" => false, "message" => "Missing user ID"]);
-        return;
+
+    if ($id <= 0) {
+        api_send_json(400, ['success' => false, 'message' => 'Missing or invalid user ID']);
     }
-    
+
+    if ((int)$currentUser['id'] === $id) {
+        api_send_json(400, ['success' => false, 'message' => 'You cannot delete your own account']);
+    }
+
     try {
         $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
         $stmt->execute([$id]);
-        echo json_encode(["success" => true, "message" => "User deleted successfully"]);
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+        api_send_json(200, ['success' => true, 'message' => 'User deleted successfully']);
+    } catch (Throwable $exception) {
+        api_handle_exception($exception, 'Unable to delete user');
     }
 }
 ?>

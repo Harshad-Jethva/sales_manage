@@ -54,11 +54,19 @@
   --glow-shadow: 0 0 20px rgba(79, 70, 229, 0.2);
 
   /* Layout */
-  --sidebar-width: 260px;
+  --sidebar-width: 280px;
   --sidebar-collapsed-width: 80px;
   --topbar-height: 72px;
+  --max-content-width: 1600px;
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Responsive Breakpoints */
+  --bp-sm: 640px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+  --bp-2xl: 1440px;
 }
 
 /* Light Mode Variations (Enterprise Light) */
@@ -109,11 +117,11 @@ h6 {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
 }
 
 h3 {
@@ -281,13 +289,33 @@ p {
   transform: translateY(0);
 }
 
-/* 4. Tables */
+/* 4. Tables with Responsive Horizontal Scroll */
 .erp-table-container {
   width: 100%;
   overflow-x: auto;
   background: var(--bg-surface);
   border-radius: 12px;
   border: var(--glass-border);
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  position: relative;
+}
+
+/* Scroller shadow indicator */
+.erp-table-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(to right, transparent, rgba(0,0,0,0.2));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.erp-table-container:hover::after {
+  opacity: 1;
 }
 
 .erp-table {
@@ -479,6 +507,26 @@ p {
 
 .erp-grid-cards {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .erp-grid-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Layout Helpers */
+.mobile-only { display: none !important; }
+.desktop-only { display: block !important; }
+
+@media (max-width: 768px) {
+  .mobile-only { display: block !important; }
+  .desktop-only { display: none !important; }
+  
+  .erp-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
 }
 
 /* --- Global Print Optimization --- */

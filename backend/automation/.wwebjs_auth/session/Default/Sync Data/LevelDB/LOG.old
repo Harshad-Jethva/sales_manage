@@ -1,3 +1,2 @@
-2026/03/09-08:25:21.197 59bc Reusing MANIFEST E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Sync Data\LevelDB/MANIFEST-000001
-2026/03/09-08:25:21.223 59bc Recovering log #3
-2026/03/09-08:25:21.225 59bc Reusing old log E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Sync Data\LevelDB/000003.log 
+2026/03/12-10:22:01.291 55c4 Creating DB E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Sync Data\LevelDB since it was missing.
+2026/03/12-10:22:01.297 55c4 Reusing MANIFEST E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Sync Data\LevelDB/MANIFEST-000001

@@ -42,7 +42,7 @@ const MainLayout = () => {
           min-height: 100vh;
           width: 100vw;
           position: relative;
-          background: transparent;
+          background: #0B0F19; /* Solid base back-up */
         }
 
         .erp-content-wrapper {
@@ -50,23 +50,26 @@ const MainLayout = () => {
           display: flex;
           flex-direction: column;
           margin-left: var(--sidebar-width);
-          min-width: 0; /* Important for flex child truncation */
-          transition: margin 0.3s ease;
+          min-width: 0;
+          transition: margin 0.4s cubic-bezier(0.19, 1, 0.22, 1);
           position: relative;
           z-index: 10;
         }
 
         .erp-main {
           flex: 1;
-          padding: 2rem;
+          padding: 2.5rem;
           overflow-x: hidden;
           overflow-y: auto;
+          max-width: var(--max-content-width);
+          width: 100%;
+          margin: 0 auto;
           /* Add subtle fade-in animation for route changes */
-          animation: routeFadeIn 0.3s ease-out forwards;
+          animation: routeFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         @keyframes routeFadeIn {
-          from { opacity: 0; transform: translateY(5px); }
+          from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
         }
 

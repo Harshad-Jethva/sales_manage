@@ -1,0 +1,6 @@
+2026/03/12-09:22:50.036 d88 Reusing MANIFEST E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2026/03/12-09:22:50.056 d88 Recovering log #23
+2026/03/12-09:22:50.058 d88 Reusing old log E:\xampp\htdocs\sales_manage\backend\automation\.wwebjs_auth\session\Default\Local Storage\leveldb/000023.log 
+2026/03/12-09:53:07.215 f68 Level-0 table #27: started
+2026/03/12-09:53:07.224 f68 Level-0 table #27: 15662 bytes OK
+2026/03/12-09:53:07.226 f68 Delete type=0 #23

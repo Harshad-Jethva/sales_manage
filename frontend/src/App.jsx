@@ -74,6 +74,22 @@ const RouteHistory = lazy(() => import('./pages/admin/RouteHistory'));
 const LiveTracking = lazy(() => import('./pages/admin/LiveTracking'));
 const TrackingReports = lazy(() => import('./pages/admin/TrackingReports'));
 
+// Delivery System Pages (Warehouse Panel additions)
+const DeliveryStaff = lazy(() => import('./pages/warehouse/delivery/DeliveryStaff'));
+const DeliveryOrders = lazy(() => import('./pages/warehouse/delivery/DeliveryOrders'));
+const DeliveryTracking = lazy(() => import('./pages/warehouse/delivery/DeliveryTracking'));
+const DeliveryDashboard = lazy(() => import('./pages/warehouse/delivery/DeliveryDashboard'));
+const DeliveryReports = lazy(() => import('./pages/warehouse/delivery/DeliveryReports'));
+
+// Transport & Builty Pages
+const TransportManagement = lazy(() => import('./pages/warehouse/TransportManagement'));
+const TransportRecords = lazy(() => import('./pages/warehouse/TransportRecords'));
+const TransportReports = lazy(() => import('./pages/warehouse/TransportReports'));
+
+// Delivery Personnel Panel Pages
+const DeliveryPanelDashboard = lazy(() => import('./pages/delivery/Dashboard'));
+const MyDeliveries = lazy(() => import('./pages/delivery/MyDeliveries'));
+
 
 // Notification System
 const NotificationCenter = lazy(() => import('./components/admin/notifications/NotificationCenter'));
@@ -131,8 +147,8 @@ function App() {
                         <Route element={<ProtectedRoute allowedRoles={['admin', 'cashier', 'warehouse']} />}>
                           <Route path="/pos" element={<POS />} />
                           <Route path="/pos/clients" element={<POSClientBills />} />
-                          <Route path="/pos/all-bills" element={<POSAllBills />} />
-                          <Route path="/pos/report" element={<POSReport />} />
+                          <Route path="/pos/bills" element={<POSAllBills />} />
+                          <Route path="/pos/analytics" element={<POSReport />} />
                           <Route path="/pos/client-profile" element={<ClientProfile />} />
                           <Route path="/pos/cash-handover" element={<CashHandover panelName="POS" />} />
                         </Route>
@@ -145,7 +161,7 @@ function App() {
                           <Route path="/clients/add" element={<AddClient />} />
                           <Route path="/clients/update" element={<UpdateClient />} />
                           <Route path="/clients/delete" element={<DeleteClient />} />
-                          <Route path="/bills" element={<Bills />} />
+                          <Route path="/inventory-management" element={<Bills />} />
                           <Route path="/stores" element={<Stores />} />
                           <Route path="/stores/add" element={<AddStore />} />
                           <Route path="/stores/update" element={<UpdateStore />} />
@@ -166,8 +182,8 @@ function App() {
                           <Route path="/salesman/place-order" element={<OrderPlacement />} />
                           <Route path="/salesman/order-history" element={<OrderHistory />} />
                           <Route path="/salesman/client-history" element={<ClientOrderHistory />} />
-                          <Route path="/salesman/products" element={<SalesmanProducts />} />
-                          <Route path="/salesman/products/:id" element={<SalesmanProductDetails />} />
+                          <Route path="/salesman/catalog" element={<SalesmanProducts />} />
+                          <Route path="/salesman/catalog/:id" element={<SalesmanProductDetails />} />
                           <Route path="/salesman/route-calendar" element={<RouteCalendar />} />
                           <Route path="/salesman/route-navigation" element={<RouteNavigation />} />
                           <Route path="/salesman/cash-handover" element={<CashHandover panelName="Salesman" />} />
@@ -177,12 +193,33 @@ function App() {
                         <Route element={<ProtectedRoute allowedRoles={['admin', 'warehouse']} />}>
                           <Route path="/warehouse/dashboard" element={<WarehouseDashboard />} />
                           <Route path="/warehouse/receive-order" element={<ReceiveOrder />} />
-                          <Route path="/warehouse/inventory" element={<StockDetails />} />
+                          <Route path="/warehouse/stock" element={<StockDetails />} />
                           <Route path="/warehouse/reports" element={<Reports />} />
                           <Route path="/warehouse/route-planner" element={<RoutePlanner />} />
+                          <Route path="/warehouse/route_planner" element={<RoutePlanner />} />
                           <Route path="/warehouse/route-history" element={<RouteHistory />} />
+                          <Route path="/warehouse/route_history" element={<RouteHistory />} />
                           <Route path="/warehouse/live-tracking" element={<LiveTracking />} />
                           <Route path="/warehouse/cash-handover" element={<CashHandover panelName="Warehouse" />} />
+
+                          {/* Delivery System Routes attached to Warehouse */}
+                          <Route path="/warehouse/delivery-staff" element={<DeliveryStaff />} />
+                          <Route path="/warehouse/delivery-orders" element={<DeliveryOrders />} />
+                          <Route path="/warehouse/delivery-tracking" element={<DeliveryTracking />} />
+                          <Route path="/warehouse/delivery-dashboard" element={<DeliveryDashboard />} />
+                          <Route path="/warehouse/delivery-reports" element={<DeliveryReports />} />
+
+                          {/* Transport & Builty Routes */}
+                          <Route path="/warehouse/transport-management" element={<TransportManagement />} />
+                          <Route path="/warehouse/transport-records" element={<TransportRecords />} />
+                          <Route path="/warehouse/transport-reports" element={<TransportReports />} />
+                        </Route>
+
+                        {/* Delivery Support Panel -- Accessible by Admin & Delivery Person */}
+                        <Route element={<ProtectedRoute allowedRoles={['admin', 'delivery']} />}>
+                          <Route path="/delivery/dashboard" element={<DeliveryPanelDashboard />} />
+                          <Route path="/delivery/my-deliveries" element={<MyDeliveries />} />
+                          <Route path="/delivery/my deliveries" element={<MyDeliveries />} />
                         </Route>
 
                         {/* Admin Appended Route */}
@@ -202,8 +239,10 @@ function App() {
                           <Route path="/admin/expiry-management" element={<ExpiryManagement />} />
                           <Route path="/admin/expiry-reports" element={<ExpiryReports />} />
                           <Route path="/admin/route-planner" element={<RoutePlanner />} />
+                          <Route path="/admin/route_planner" element={<RoutePlanner />} />
                           <Route path="/admin/route-history" element={<RouteHistory />} />
-                          <Route path="/admin/live-tracking" element={<LiveTracking />} />
+                          <Route path="/admin/route_history" element={<RouteHistory />} />
+                          <Route path="/salesman-tracking" element={<LiveTracking />} />
                           <Route path="/admin/tracking-reports" element={<TrackingReports />} />
                           <Route path="/admin/cash-handover" element={<CashHandover panelName="Admin" />} />
                           <Route path="/admin/cash-history" element={<CashHistory />} />
@@ -215,6 +254,13 @@ function App() {
                           <Route path="/admin/attendance/salary-settings" element={<SalarySettings />} />
                           <Route path="/admin/attendance/holidays" element={<HolidaySettings />} />
                           <Route path="/admin/attendance/salary-report" element={<SalaryReport />} />
+
+                          {/* Delivery System Routes mirrored in Admin Panel for full access */}
+                          <Route path="/admin/delivery-staff" element={<DeliveryStaff />} />
+                          <Route path="/admin/delivery-orders" element={<DeliveryOrders />} />
+                          <Route path="/admin/delivery-tracking" element={<DeliveryTracking />} />
+                          <Route path="/admin/delivery-dashboard" element={<DeliveryDashboard />} />
+                          <Route path="/admin/delivery-reports" element={<DeliveryReports />} />
                         </Route>
 
                       </Route>

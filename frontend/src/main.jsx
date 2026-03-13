@@ -14,6 +14,7 @@ console.log = (...args) => {
 
 console.warn = (...args) => {
   if (args[0] && typeof args[0] === 'string' && args[0].includes('THREE.Clock: This module has been deprecated')) return;
+  if (args[0] && typeof args[0] === 'string' && args[0].includes('THREE.WebGLRenderer: Context Lost')) return;
   originalWarn(...args);
 };
 // ------------------------------------------------
